@@ -98,7 +98,7 @@
     "token_env": "BEISPIEL_MALERBETRIEB_AGENT_TOKEN"
   },
   "telefon": {
-    "modell": "claude-opus-5",
+    "modell": "claude-sonnet-5",
     "stimme": {
       "provider": "azure",
       "voiceId": "de-DE-KatjaNeural"

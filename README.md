@@ -107,9 +107,10 @@ Bestätigung verschickt?
    nicht direkt bei Vapi: bei Twilio/Telnyx/Vonage kaufen und im Vapi-Dashboard importieren. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
    Antwort nach 20 s“ oder nach Feierabend).
 
-Hinweise: Stimme, Transkription und Modell sind Vorschläge. Prüfe im Vapi-Dashboard, welche
-Anthropic-Modelle und deutschen Stimmen verfügbar sind. Ein schnelleres Modell verkürzt die
-Antwortpausen am Telefon. Aufzeichnung und Transkription von Anrufen braucht einen Hinweis zu
+Hinweise: Stimme, Transkription und Modell sind Vorschläge. Vapi bietet nur ausgewählte
+Anthropic-Modelle an – `claude-opus-5` gehört nicht dazu, deshalb steht `telefon.modell` auf
+`claude-sonnet-5` (Liste: `AnthropicModel` in https://api.vapi.ai/api-json). Ein schnelleres Modell
+(z. B. `claude-haiku-4-5-20251001`) verkürzt die Antwortpausen am Telefon. Aufzeichnung und Transkription von Anrufen braucht einen Hinweis zu
 Beginn des Gesprächs und in der Datenschutzerklärung (siehe `compliance-pruefer`).
 
 ## Werkzeuge der Agenten

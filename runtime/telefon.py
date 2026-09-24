@@ -21,6 +21,10 @@ from .config import KundenKonfig
 from .engine import PLATTFORM_REGELN, Agent, _firma_block, _rechtsrahmen
 from .werkzeuge import SERVER_WERKZEUGE, TOOL_DEFINITIONEN
 
+# Vapi bietet nur ausgewählte Anthropic-Modelle an (claude-opus-5 z. B. nicht) – deshalb eigener Standard
+# statt konfig.modell. Liste: https://api.vapi.ai/api-json → AnthropicModel.model
+VAPI_MODELL = "claude-sonnet-5"
+
 TELEFON_REGELN = """\
 # Besonderheiten am Telefon
 - Du sprichst, du schreibst nicht: kurze Sätze, keine Aufzählungszeichen, keine Emojis, kein Markdown.
@@ -87,7 +91,7 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
         "endCallMessage": t.get("verabschiedung", "Vielen Dank für Ihren Anruf. Auf Wiederhören!"),
         "model": {
             "provider": "anthropic",
-            "model": t.get("modell", konfig.modell),
+            "model": t.get("modell", VAPI_MODELL),
             "messages": [{"role": "system", "content": "\n\n---\n\n".join(system_teile)}],
             "tools": tools,
         },
@@ -110,8 +114,12 @@ def _argumente(aufruf: dict) -> dict:
 
 
 def _auffuellen(name: str, args: dict) -> dict:
-    """Nicht übergebene optionale Felder als None ergänzen, unbekannte Felder verwerfen."""
+    """Nicht übergebene optionale Felder als None ergänzen, unbekannte Felder verwerfen.
+    Fehlende Pflichtfelder als klare Meldung an das Vapi-Modell zurückgeben (dort ist das Schema nicht strikt)."""
     props = TOOL_DEFINITIONEN[name]["input_schema"]["properties"]
+    fehlend = [f for f, p in props.items() if not isinstance(p.get("type"), list) and args.get(f) is None]
+    if fehlend:
+        raise ValueError(f"Pflichtfelder fehlen: {', '.join(fehlend)} – bitte mit allen Pflichtfeldern erneut aufrufen")
     return {feld: args.get(feld) for feld in props}
 
 
