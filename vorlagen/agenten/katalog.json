@@ -3,8 +3,18 @@
     "typ": "rezeption",
     "bezeichnung": "Digitale Rezeption",
     "prompt": "rezeption.md",
-    "kanaele": ["chat", "email", "webhook"],
-    "werkzeuge": ["kalender", "crm", "email", "team"],
+    "kanaele": [
+      "chat",
+      "email",
+      "webhook",
+      "telefon"
+    ],
+    "werkzeuge": [
+      "kalender",
+      "crm",
+      "email",
+      "team"
+    ],
     "freigabe_erforderlich": [],
     "effort": "low",
     "max_schritte": 15
@@ -13,11 +23,26 @@
     "typ": "lead-generierung",
     "bezeichnung": "Lead-Generierung (B2B-Recherche)",
     "prompt": "lead-generierung.md",
-    "kanaele": ["zeitplan"],
-    "werkzeuge": ["web", "crm", "email", "team"],
-    "freigabe_erforderlich": ["email_senden"],
+    "kanaele": [
+      "zeitplan"
+    ],
+    "werkzeuge": [
+      "web",
+      "crm",
+      "email",
+      "team"
+    ],
+    "freigabe_erforderlich": [
+      "email_senden"
+    ],
     "auftrag": "Finde 10 neue, gut passende Geschäftskunden gemäß Zielprofil, lege sie im CRM an und bereite für die besten eine Erstansprache vor.",
-    "zeitplan": {"tage": ["mo", "mi"], "uhrzeit": "07:00"},
+    "zeitplan": {
+      "tage": [
+        "mo",
+        "mi"
+      ],
+      "uhrzeit": "07:00"
+    },
     "effort": "high",
     "max_schritte": 60
   },
@@ -25,11 +50,31 @@
     "typ": "lead-nachfassen",
     "bezeichnung": "Lead-Nachfassen & Qualifizierung",
     "prompt": "lead-nachfassen.md",
-    "kanaele": ["zeitplan", "webhook", "email"],
-    "werkzeuge": ["crm", "kalender", "email", "team"],
-    "freigabe_erforderlich": ["email_senden"],
+    "kanaele": [
+      "zeitplan",
+      "webhook",
+      "email"
+    ],
+    "werkzeuge": [
+      "crm",
+      "kalender",
+      "email",
+      "team"
+    ],
+    "freigabe_erforderlich": [
+      "email_senden"
+    ],
     "auftrag": "Bearbeite alle heute fälligen Leads im CRM gemäß deiner Rolle.",
-    "zeitplan": {"tage": ["mo", "di", "mi", "do", "fr"], "uhrzeit": "08:00"},
+    "zeitplan": {
+      "tage": [
+        "mo",
+        "di",
+        "mi",
+        "do",
+        "fr"
+      ],
+      "uhrzeit": "08:00"
+    },
     "effort": "medium",
     "max_schritte": 40
   },
@@ -37,9 +82,18 @@
     "typ": "posteingang",
     "bezeichnung": "Posteingangs-Assistenz",
     "prompt": "posteingang.md",
-    "kanaele": ["email"],
-    "werkzeuge": ["crm", "kalender", "email", "team"],
-    "freigabe_erforderlich": ["email_senden"],
+    "kanaele": [
+      "email"
+    ],
+    "werkzeuge": [
+      "crm",
+      "kalender",
+      "email",
+      "team"
+    ],
+    "freigabe_erforderlich": [
+      "email_senden"
+    ],
     "effort": "medium",
     "max_schritte": 15
   },
@@ -47,9 +101,18 @@
     "typ": "angebots-assistent",
     "bezeichnung": "Angebots-Assistent",
     "prompt": "angebots-assistent.md",
-    "kanaele": ["webhook", "email"],
-    "werkzeuge": ["crm", "email", "team"],
-    "freigabe_erforderlich": ["email_senden"],
+    "kanaele": [
+      "webhook",
+      "email"
+    ],
+    "werkzeuge": [
+      "crm",
+      "email",
+      "team"
+    ],
+    "freigabe_erforderlich": [
+      "email_senden"
+    ],
     "effort": "high",
     "max_schritte": 15
   }

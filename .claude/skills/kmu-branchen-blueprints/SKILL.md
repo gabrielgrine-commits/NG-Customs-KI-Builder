@@ -23,7 +23,7 @@ und die allgemeinen Regeln unten.
 
 | Typ | Arbeitet autonom … | Typischer Nutzen |
 |---|---|---|
-| `rezeption` | beantwortet Fragen, bucht/verschiebt Termine, nimmt Anfragen auf – 24/7 über Chat, E-Mail, Formular | weniger Telefonunterbrechungen, keine verlorenen Anfragen nach Feierabend |
+| `rezeption` | beantwortet Fragen, bucht/verschiebt Termine, nimmt Anfragen auf – 24/7 über Chat, E-Mail, Formular und **Telefon** (Vapi) | weniger Telefonunterbrechungen, keine verlorenen Anfragen nach Feierabend |
 | `lead-nachfassen` | qualifiziert neue Anfragen sofort, fasst nach, bringt zum Termin, pflegt CRM | höhere Abschlussquote, keine vergessenen Angebote |
 | `lead-generierung` | recherchiert passende B2B-Firmen im Web, bewertet sie, legt CRM-Einträge an, schreibt Erstansprache (mit Freigabe) | planbarer Neukunden-Nachschub |
 | `posteingang` | sortiert und beantwortet E-Mails, leitet Sonderfälle weiter | 3–10 h/Woche weniger E-Mail-Arbeit |

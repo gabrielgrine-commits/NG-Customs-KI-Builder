@@ -127,7 +127,7 @@ class Agent:
                 raise AgentFehler("Keine Zugangsdaten: ANTHROPIC_API_KEY setzen.") from e
             raise
 
-    def _werkzeug_ausfuehren(self, name: str, eingabe: dict, kanal: str) -> tuple[str, bool, dict]:
+    def werkzeug_ausfuehren(self, name: str, eingabe: dict, kanal: str) -> tuple[str, bool, dict]:
         if name in self.freigabe:
             fid = neue_id("F")
             eintrag = {"id": fid, "agent": self.name, "werkzeug": name, "eingabe": eingabe,
@@ -176,7 +176,7 @@ class Agent:
             for block in antwort.content:
                 if block.type != "tool_use":
                     continue
-                inhalt, fehler, aktion = self._werkzeug_ausfuehren(block.name, block.input, kanal)
+                inhalt, fehler, aktion = self.werkzeug_ausfuehren(block.name, block.input, kanal)
                 aktionen.append(aktion)
                 ergebnisse.append({"type": "tool_result", "tool_use_id": block.id,
                                    "content": inhalt, "is_error": fehler})

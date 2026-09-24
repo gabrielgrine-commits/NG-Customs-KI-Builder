@@ -23,7 +23,7 @@
 | Anbindung Google-/Outlook-Kalender (Direktbuchung) | 590 € einmalig |
 | Anbindung CRM (HubSpot, Pipedrive …) | ab 790 € einmalig |
 | Webhook-Anbindung Kontaktformular / Make / Zapier | 190 € einmalig |
-| Telefon-Rezeption (Sprach-KI) | auf Anfrage |
+| Telefon-Kanal für die Rezeption (Vapi, Rufumleitung/eigene Nummer) | 690 € einmalig + 99 €/Monat zzgl. Gesprächsminuten (Vapi-Kosten + 30 %) |
 | Workshop Wissensbasis (2 h) | 290 € |
 | Änderungen an Wissensbasis/Prompts | 3 Stunden/Quartal inklusive, danach 95 €/h |
 

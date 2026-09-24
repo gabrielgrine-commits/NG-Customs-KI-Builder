@@ -20,7 +20,7 @@ WERKZEUG_GRUPPEN = {
     "web": ["web_suche", "web_abruf"],
 }
 ALLE_WERKZEUGE = {w for gruppe in WERKZEUG_GRUPPEN.values() for w in gruppe}
-KANAELE = {"chat", "email", "webhook", "zeitplan", "cli"}
+KANAELE = {"chat", "email", "webhook", "zeitplan", "cli", "telefon"}
 WOCHENTAGE = ["mo", "di", "mi", "do", "fr", "sa", "so"]
 EFFORTS = {"low", "medium", "high", "xhigh", "max"}
 

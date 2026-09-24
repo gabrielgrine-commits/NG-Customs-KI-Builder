@@ -17,7 +17,7 @@ Agententypen (Katalog: `vorlagen/agenten/katalog.json`, Prompts: `vorlagen/agent
 
 | Typ | Aufgabe |
 |---|---|
-| `rezeption` | Digitale Rezeption 24/7: Fragen, Terminbuchung/-absage, Anfragen aufnehmen, Weiterleitung |
+| `rezeption` | Digitale Rezeption 24/7 per Chat, E-Mail, Formular **und Telefon (Vapi)**: Fragen, Terminbuchung/-absage, Anfragen aufnehmen, Weiterleitung |
 | `lead-generierung` | Recherchiert B2B-Neukunden im Web, bewertet, legt im CRM an, bereitet Erstansprache vor |
 | `lead-nachfassen` | Qualifiziert Anfragen, fasst automatisch nach, bringt Interessenten zum Termin |
 | `posteingang` | Sortiert und beantwortet E-Mails, leitet Sonderfälle an Menschen weiter |
@@ -56,6 +56,11 @@ ausführen) · `freigaben` / `freigeben <id>` / `ablehnen <id>` · `leads` · `t
 `server` (Chat-Widget, Webhooks, Kalender-Feed) · `zeitplan` (Daueraufgaben nach Plan) ·
 `email <agent>` (Posteingang überwachen).
 
+**Telefon (Vapi):** Kanal `telefon` in config.json → `python scripts/vapi_assistent.py kunden/<slug> <agent>
+--server-url https://…` erzeugt `agent/vapi-assistent.json` → mit dem Vapi-MCP (`.mcp.json`, braucht
+`VAPI_TOKEN`) den Assistenten anlegen/aktualisieren und eine Nummer zuweisen. Vapi ruft für Werkzeuge
+`POST /vapi/<agent>` auf; nach jedem Anruf bearbeitet unser Agent das Transkript nach.
+
 Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmodell `claude-opus-5`.
 
 ## Regeln für die Arbeit in diesem Repo
@@ -70,4 +75,6 @@ Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmod
    erst nach bestandenen Tests und Testphase erhöht.
 6. Neue Werkzeuge/Integrationen gehören in `runtime/werkzeuge.py` + `runtime/config.py`
    (`WERKZEUG_GRUPPEN`) – dann stehen sie allen Kunden zur Verfügung.
-7. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).
+7. **Vapi-Konto:** Assistenten/Nummern über das Vapi-MCP nur nach ausdrücklicher Zustimmung des Nutzers
+   anlegen, ändern oder löschen – das kostet Geld und betrifft echte Telefonnummern.
+8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).

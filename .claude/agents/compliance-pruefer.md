@@ -32,7 +32,10 @@ Lies `kunden/<slug>/agent/*`, `02-architektur.md`, `runtime/engine.py` (Plattfor
 4. **Berufsrecht/Haftung** – keine Heilversprechen (HWG) bei Praxen/Beauty, keine Rechts-/
    Steuerberatung, Preisangaben (PAngV: Endpreise inkl. MwSt. gegenüber Verbrauchern), keine
    verbindlichen Zusagen ohne Freigabe.
-5. **Sicherheit** – Prompt-Injection über E-Mails/Formulare/Webseiten (Plattform-Regel vorhanden?
+5. **Telefon (Vapi)** – KI-Hinweis in der Begrüßung, Hinweis auf Aufzeichnung/Transkription (§201 StGB:
+   Aufnahme nur mit Einwilligung/Hinweis), Vapi als weiterer Auftragsverarbeiter (DPA, Drittland),
+   Speicherdauer von Aufnahmen/Transkripten bei Vapi.
+6. **Sicherheit** – Prompt-Injection über E-Mails/Formulare/Webseiten (Plattform-Regel vorhanden?
    Werkzeuge, die bei Injection Schaden anrichten könnten, auf Freigabe?), Zugangsdaten nur als
    Umgebungsvariablen, Webhook-Token gesetzt, CORS-Origins eingeschränkt.
 

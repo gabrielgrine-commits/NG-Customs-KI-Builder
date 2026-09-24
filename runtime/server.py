@@ -4,6 +4,8 @@ Endpunkte:
   GET  /widget.js                  Chat-Widget zum Einbinden auf der Kunden-Website
   POST /chat/<agent>               {"sitzung": "...", "nachricht": "..."} -> {"antwort": "..."}
   POST /webhook/<agent>            beliebiges JSON (z. B. Kontaktformular); Header X-Token erforderlich
+  POST /vapi/<agent>               Telefon-Kanal: Werkzeugaufrufe + Anrufberichte von Vapi
+                                   (Authorization: Bearer <Token> oder X-Vapi-Secret)
   GET  /kalender.ics?token=...     Termin-Feed zum Abonnieren in Google/Outlook
   GET  /gesundheit                 Healthcheck
 
@@ -25,6 +27,7 @@ from urllib.parse import parse_qs, urlparse
 
 from .config import KundenKonfig
 from .engine import Agent, AgentFehler
+from .telefon import vapi_nachricht
 from .store import JsonStore
 from .werkzeuge import Werkzeuge
 
@@ -140,10 +143,13 @@ def starten(konfig: KundenKonfig, port: int = 8080, host: str = "0.0.0.0") -> No
 
         def do_POST(self) -> None:
             teile = urlparse(self.path).path.strip("/").split("/")
-            if len(teile) != 2 or teile[0] not in ("chat", "webhook"):
+            if len(teile) != 2 or teile[0] not in ("chat", "webhook", "vapi"):
                 self._antwort(404, {"fehler": "nicht gefunden"})
                 return
             art, name = teile
+            if art == "vapi":
+                self._vapi(name)
+                return
             if self._limit_ueberschritten():
                 self._antwort(429, {"fehler": "Zu viele Anfragen – bitte kurz warten."})
                 return
@@ -191,6 +197,23 @@ def starten(konfig: KundenKonfig, port: int = 8080, host: str = "0.0.0.0") -> No
                     tel = konfig.firma.get("telefon", "")
                     self._antwort(200, {"antwort": "Entschuldigung, gerade gibt es eine technische Störung. "
                                                    + (f"Sie erreichen uns telefonisch unter {tel}." if tel else "")})
+
+        def _vapi(self, name: str) -> None:
+            auth = self.headers.get("Authorization", "").removeprefix("Bearer ").strip()
+            if not self._token_ok(auth or self.headers.get("X-Vapi-Secret", "")):
+                self._antwort(403, {"fehler": "Token ungültig"})
+                return
+            agent = agent_fuer(name, "telefon")
+            body = self._json_body()
+            if not agent or body is None:
+                self._antwort(404 if not agent else 400, {"fehler": "Agent nicht für Telefon freigeschaltet"
+                                                           if not agent else "Ungültiges JSON"})
+                return
+            try:
+                self._antwort(200, vapi_nachricht(agent, body))
+            except Exception as e:
+                print(f"FEHLER (vapi): {type(e).__name__}: {e}")
+                self._antwort(500, {"fehler": "interner Fehler"})
 
         def log_message(self, fmt: str, *args) -> None:  # knappe Logs ohne Nachrichteninhalte
             print(f"{self.address_string()} {fmt % args}")

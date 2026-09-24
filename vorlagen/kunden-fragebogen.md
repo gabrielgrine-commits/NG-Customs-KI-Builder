@@ -24,6 +24,7 @@
 
 ## 3. Wunsch-Agenten (ankreuzen)
 - [ ] Digitale Rezeption (Fragen, Termine, Anfragen 24/7 – Website-Chat, E-Mail, Formular)
+- [ ] Telefon-Rezeption (KI nimmt Anrufe an – eigene Nummer oder Rufumleitung bei besetzt/nach Feierabend)
 - [ ] Lead-Generierung (recherchiert neue B2B-Kunden, bereitet Erstansprache vor)
 - [ ] Lead-Nachfassen (qualifiziert Anfragen, fasst automatisch nach, bringt zum Termin)
 - [ ] Posteingangs-Assistenz (sortiert und beantwortet E-Mails)
@@ -39,6 +40,7 @@
 - E-Mail-Anbieter (IMAP/SMTP möglich? Eigene Adresse für den Agenten, z. B. anfrage@…):
 - Kalender:
 - CRM / Branchensoftware:
+- Telefon: Anrufe/Tag, wann unerreichbar? Rufumleitung auf KI-Nummer möglich (Telefonanlage/Anbieter)?
 - Sonstige Tools (Make/Zapier, Telefonanlage, WhatsApp Business):
 
 ## 6. Inhalte für die Wissensbasis

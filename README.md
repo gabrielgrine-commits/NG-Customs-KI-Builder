@@ -69,13 +69,39 @@ python scripts/run_tests.py kunden/beispiel-malerbetrieb
    `python -m runtime email kunden/<slug> rezeption`.
 5. **Daueraufgaben** (Lead-Generierung, Nachfassen): `python -m runtime zeitplan kunden/<slug>`
    als Dienst laufen lassen, oder per Cron `python -m runtime auftrag kunden/<slug> <agent>`.
-6. **Kalender** im Google-/Outlook-Kalender des Kunden abonnieren:
+6. **Telefon (Vapi):** siehe Abschnitt unten.
+7. **Kalender** im Google-/Outlook-Kalender des Kunden abonnieren:
    `https://agent.kunde.de/kalender.ics?token=<TOKEN>`
-7. **Benachrichtigungen** ans Team per E-Mail (`benachrichtigung.email`) oder Webhook
+8. **Benachrichtigungen** ans Team per E-Mail (`benachrichtigung.email`) oder Webhook
    (`benachrichtigung.webhook_url`, z. B. Slack/Teams/Make → WhatsApp).
 
 Die Prozesse lassen sich z. B. als systemd-Dienste betreiben; alle teilen sich die Daten in
 `kunden/<slug>/daten/` (mit Dateisperre).
+
+## Telefon-Rezeption mit Vapi
+
+Vapi übernimmt Telefonnummer, Spracherkennung und Sprachausgabe. Die Werkzeuge (Kalender, CRM,
+Team) laufen über unsere Plattform, mit denselben Freigaberegeln und demselben Protokoll. Nach
+jedem Anruf prüft unser Agent das Transkript nach: Lead angelegt? Rückruf ans Team gemeldet?
+Bestätigung verschickt?
+
+1. Vapi-Konto anlegen, API-Key (Private Key) als `VAPI_TOKEN` in der Umgebung setzen. Das Vapi-MCP ist
+   in `.mcp.json` eingetragen (`npx mcp-remote https://mcp.vapi.ai/mcp`, braucht Node.js), sodass
+   Claude Code Assistenten und Nummern direkt verwalten kann. **Den Key nie in `.mcp.json` schreiben.**
+2. In `config.json` beim Agenten den Kanal `telefon` eintragen und den Abschnitt `telefon` pflegen
+   (Begrüßung mit KI-Hinweis, Stimme, Transkription, Modell).
+3. Server öffentlich per HTTPS erreichbar machen (`python -m runtime server …`) und den Token setzen
+   (Umgebungsvariable aus `server.token_env`, z. B. `openssl rand -hex 24`).
+4. `python scripts/vapi_assistent.py kunden/<slug> rezeption --server-url https://agent.kunde.de`
+   schreibt `agent/vapi-assistent.json` (in .gitignore, da sie den Token enthält).
+5. In Claude Code (bzw. `/agent-bauen`): Assistent über das Vapi-MCP anlegen, Telefonnummer
+   zuweisen. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
+   Antwort nach 20 s“ oder nach Feierabend).
+
+Hinweise: Stimme, Transkription und Modell sind Vorschläge. Prüfe im Vapi-Dashboard, welche
+Anthropic-Modelle und deutschen Stimmen verfügbar sind. Ein schnelleres Modell verkürzt die
+Antwortpausen am Telefon. Aufzeichnung und Transkription von Anrufen braucht einen Hinweis zu
+Beginn des Gesprächs und in der Datenschutzerklärung (siehe `compliance-pruefer`).
 
 ## Werkzeuge der Agenten
 
@@ -90,7 +116,7 @@ Die Prozesse lassen sich z. B. als systemd-Dienste betreiben; alle teilen sich d
 Jedes Werkzeug kann pro Agent in `freigabe_erforderlich` stehen: Dann bereitet der Agent die
 Aktion vor, und ein Mensch gibt sie frei.
 
-**Erweiterungen** (Google Calendar API, HubSpot/Pipedrive, WhatsApp, Telefon-KI) werden in
+**Erweiterungen** (Google Calendar API, HubSpot/Pipedrive, WhatsApp) werden in
 `runtime/werkzeuge.py` ergänzt. Die Tool-Definition bleibt gleich, nur die Methode ruft dann
 die externe API auf.
 

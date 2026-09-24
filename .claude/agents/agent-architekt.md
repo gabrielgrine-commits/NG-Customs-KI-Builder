@@ -13,7 +13,8 @@ was dem Kunden schadet.
 
 Lies `runtime/config.py` und `runtime/werkzeuge.py`, um den aktuellen Stand zu kennen. Kurzfassung:
 
-- **Kanäle/Auslöser:** `chat` (Website-Widget), `email` (IMAP-Posteingang wird überwacht),
+- **Kanäle/Auslöser:** `chat` (Website-Widget), `telefon` (Telefon-KI über Vapi: Vapi spricht, unsere
+  Werkzeuge buchen/speichern, danach Nachbearbeitung des Transkripts), `email` (IMAP-Posteingang wird überwacht),
   `webhook` (Kontaktformular, Make/Zapier, Telefonie-Transkript), `zeitplan` (Daueraufgabe zu
   festen Zeiten, z. B. täglich 08:00).
 - **Werkzeuggruppen:** `kalender` (freie Termine, buchen, suchen, stornieren; ICS-Feed für

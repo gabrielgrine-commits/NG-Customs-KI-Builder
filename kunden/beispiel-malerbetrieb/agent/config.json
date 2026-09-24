@@ -93,6 +93,21 @@
     ],
     "token_env": "BEISPIEL_MALERBETRIEB_AGENT_TOKEN"
   },
+  "telefon": {
+    "modell": "claude-opus-5",
+    "stimme": {
+      "provider": "azure",
+      "voiceId": "de-DE-KatjaNeural"
+    },
+    "transkription": {
+      "provider": "deepgram",
+      "model": "nova-2",
+      "language": "de"
+    },
+    "begruessung": "Guten Tag, hier ist der KI-Assistent vom Malerbetrieb Beispiel. Wie kann ich Ihnen helfen?",
+    "max_dauer_s": 900,
+    "nachbearbeitung": true
+  },
   "agenten": {
     "rezeption": {
       "typ": "rezeption",
@@ -101,7 +116,8 @@
       "kanaele": [
         "chat",
         "email",
-        "webhook"
+        "webhook",
+        "telefon"
       ],
       "werkzeuge": [
         "kalender",

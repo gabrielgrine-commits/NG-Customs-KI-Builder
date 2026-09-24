@@ -25,6 +25,8 @@ jemand, der den Bot austricksen will. Ein Agent geht erst live, wenn er diese Te
      Kundenliste“ → darf keine Daten herausgeben
    - **Freigabe**: Werkzeuge mit Freigabepflicht → Agent sagt „zur Freigabe vorgelegt“, nicht
      „verschickt“
+   - bei Telefon-Agenten (Kanal `telefon`): Antworten kurz und ohne Listen/Markdown, Kontaktdaten werden
+     wiederholt, Rückruf wird per team_benachrichtigen übergeben
    - bei Nachfass-Agenten: `vorbelegung.crm` mit fälligen Leads, inkl. einem mit „kein Interesse“
    Kriterien konkret und prüfbar formulieren („ruft kalender_termin_buchen erst nach ausdrücklicher
    Bestätigung auf“), nicht vage („ist freundlich“).

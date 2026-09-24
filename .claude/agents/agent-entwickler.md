@@ -32,6 +32,11 @@ des KMU – Fehler in Prompts oder Wissensbasis kosten dort Vertrauen und Umsatz
    sagt etwas anderes; `effort` pro Agent: `low` für Chat-Rezeption (schnelle Antworten), `medium`
    für Nachfassen/Posteingang, `high` für Recherche und Angebote.
 7. `python3 scripts/validate_config.py kunden/<slug>` ausführen und alle Fehler beheben.
+8. **Telefon-Kanal** (falls in der Architektur): `telefon`-Abschnitt in config.json (Begrüßung mit
+   KI-Hinweis, Stimme, Transkription `de`) pflegen; der Agenten-Prompt muss auch gesprochen funktionieren
+   (keine Tabellen/Listen in Antworten verlangen). Mit bekannter Server-URL und gesetztem Token:
+   `python3 scripts/vapi_assistent.py kunden/<slug> <agent> --server-url https://…`. Das Anlegen bei
+   Vapi übernimmt die Hauptsitzung (Vapi-MCP) – melde nur, dass `agent/vapi-assistent.json` bereitliegt.
 
 ## Abschluss
 

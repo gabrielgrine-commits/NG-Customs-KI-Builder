@@ -7,7 +7,7 @@
 - Notdienst-Anfragen (Wasserrohrbruch, Heizungsausfall) mischen sich mit Routine.
 
 ## Empfohlene Agenten
-1. **rezeption** (Chat + E-Mail + Formular): qualifiziert Anfragen (Art der Arbeit, Ort/PLZ im
+1. **rezeption** (Chat + E-Mail + Formular + **Telefon** – Rufumleitung, wenn niemand abnimmt; stärkstes Argument im Handwerk): qualifiziert Anfragen (Art der Arbeit, Ort/PLZ im
    Einzugsgebiet?, Umfang: m²/Räume/Fotos, Wunschzeitraum, Budgetrahmen), bucht Besichtigungstermine.
 2. **lead-nachfassen**: fasst 3 und 10 Tage nach Angebotsversand nach, erinnert Team an offene Angebote.
 3. **angebots-assistent**: nur wenn Preisliste mit Einheitspreisen existiert (Maler: €/m², SHK: Pauschalen).

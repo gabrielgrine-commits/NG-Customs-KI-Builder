@@ -10,3 +10,6 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+
+# Vapi-Assistent enthält den Server-Token im Klartext
+kunden/*/agent/vapi-assistent.json

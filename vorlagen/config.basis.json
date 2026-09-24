@@ -12,7 +12,9 @@
   "modell": "claude-opus-5",
   "effort": "medium",
   "fallbacks": true,
-  "wissen": ["wissen.md"],
+  "wissen": [
+    "wissen.md"
+  ],
   "benachrichtigung": {
     "email": "",
     "webhook_url": ""
@@ -33,17 +35,73 @@
     "vorlauf_stunden": 12,
     "max_tage_voraus": 60,
     "arbeitszeiten": {
-      "mo": [["08:00", "12:00"], ["13:00", "17:00"]],
-      "di": [["08:00", "12:00"], ["13:00", "17:00"]],
-      "mi": [["08:00", "12:00"], ["13:00", "17:00"]],
-      "do": [["08:00", "12:00"], ["13:00", "17:00"]],
-      "fr": [["08:00", "13:00"]]
+      "mo": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "di": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "mi": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "do": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "fr": [
+        [
+          "08:00",
+          "13:00"
+        ]
+      ]
     },
     "gesperrte_tage": []
   },
   "server": {
     "erlaubte_origins": [],
     "token_env": "{{ENV}}_AGENT_TOKEN"
+  },
+  "telefon": {
+    "modell": "claude-opus-5",
+    "stimme": {
+      "provider": "azure",
+      "voiceId": "de-DE-KatjaNeural"
+    },
+    "transkription": {
+      "provider": "deepgram",
+      "model": "nova-2",
+      "language": "de"
+    },
+    "begruessung": "Guten Tag, hier ist der KI-Assistent von {{FIRMA}}. Wie kann ich Ihnen helfen?",
+    "max_dauer_s": 900,
+    "nachbearbeitung": true
   },
   "agenten": {}
 }
