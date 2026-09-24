@@ -4,7 +4,6 @@
     "name": "NG Customs",
     "branche": "Webdesign-Agentur – Webseiten und KI-Rezeptionistinnen für KMU in Österreich",
     "adresse": "Wien (persönliche Termine in Wien und Umgebung, sonst per Videocall)",
-    "telefon": "[OFFEN]",
     "email": "ng-customs@hotmail.com",
     "website": "https://ngcustoms.at",
     "datenschutz_url": "https://ngcustoms.at/datenschutz"
@@ -32,52 +31,6 @@
     "imap_port": 993,
     "benutzer_env": "NG_CUSTOMS_MAIL_USER",
     "passwort_env": "NG_CUSTOMS_MAIL_PASS"
-  },
-  "kalender": {
-    "termindauer_min": 30,
-    "raster_min": 30,
-    "puffer_min": 15,
-    "vorlauf_stunden": 12,
-    "max_tage_voraus": 60,
-    "arbeitszeiten": {
-      "mo": [
-        [
-          "17:30",
-          "20:00"
-        ]
-      ],
-      "di": [
-        [
-          "17:30",
-          "20:00"
-        ]
-      ],
-      "mi": [
-        [
-          "17:30",
-          "20:00"
-        ]
-      ],
-      "do": [
-        [
-          "17:30",
-          "20:00"
-        ]
-      ],
-      "fr": [
-        [
-          "16:00",
-          "19:00"
-        ]
-      ],
-      "sa": [
-        [
-          "09:00",
-          "13:00"
-        ]
-      ]
-    },
-    "gesperrte_tage": []
   },
   "server": {
     "erlaubte_origins": [
@@ -113,7 +66,6 @@
         "telefon"
       ],
       "werkzeuge": [
-        "kalender",
         "crm",
         "email",
         "team"
