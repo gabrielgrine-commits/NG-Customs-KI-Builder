@@ -1,0 +1,176 @@
+{
+  "firma": {
+    "name": "Malerbetrieb Beispiel GmbH",
+    "branche": "Handwerk – Maler und Lackierer",
+    "adresse": "Musterstraße 12, 50667 Köln",
+    "telefon": "0221 1234567",
+    "email": "info@malerbetrieb-beispiel.example",
+    "website": "https://malerbetrieb-beispiel.example",
+    "datenschutz_url": "https://malerbetrieb-beispiel.example/datenschutz"
+  },
+  "zeitzone": "Europe/Berlin",
+  "modell": "claude-opus-5",
+  "effort": "medium",
+  "fallbacks": true,
+  "wissen": [
+    "wissen.md"
+  ],
+  "benachrichtigung": {
+    "email": "inhaber@malerbetrieb-beispiel.example",
+    "webhook_url": ""
+  },
+  "email": {
+    "absender": "anfrage@malerbetrieb-beispiel.example",
+    "smtp_host": "smtp.example.net",
+    "smtp_port": 587,
+    "imap_host": "imap.example.net",
+    "imap_port": 993,
+    "benutzer_env": "BEISPIEL_MALERBETRIEB_MAIL_USER",
+    "passwort_env": "BEISPIEL_MALERBETRIEB_MAIL_PASS"
+  },
+  "kalender": {
+    "termindauer_min": 45,
+    "raster_min": 30,
+    "puffer_min": 15,
+    "vorlauf_stunden": 12,
+    "max_tage_voraus": 60,
+    "arbeitszeiten": {
+      "mo": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "di": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "mi": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "do": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "fr": [
+        [
+          "08:00",
+          "13:00"
+        ]
+      ]
+    },
+    "gesperrte_tage": [
+      "2026-12-24",
+      "2026-12-31"
+    ]
+  },
+  "server": {
+    "erlaubte_origins": [
+      "https://malerbetrieb-beispiel.example"
+    ],
+    "token_env": "BEISPIEL_MALERBETRIEB_AGENT_TOKEN"
+  },
+  "agenten": {
+    "rezeption": {
+      "typ": "rezeption",
+      "bezeichnung": "Digitale Rezeption",
+      "prompt": "rezeption.md",
+      "kanaele": [
+        "chat",
+        "email",
+        "webhook"
+      ],
+      "werkzeuge": [
+        "kalender",
+        "crm",
+        "email",
+        "team"
+      ],
+      "freigabe_erforderlich": [],
+      "effort": "low",
+      "max_schritte": 15
+    },
+    "lead-nachfassen": {
+      "typ": "lead-nachfassen",
+      "bezeichnung": "Lead-Nachfassen & Qualifizierung",
+      "prompt": "lead-nachfassen.md",
+      "kanaele": [
+        "zeitplan",
+        "webhook",
+        "email"
+      ],
+      "werkzeuge": [
+        "crm",
+        "kalender",
+        "email",
+        "team"
+      ],
+      "freigabe_erforderlich": [
+        "email_senden"
+      ],
+      "auftrag": "Bearbeite alle heute fälligen Leads im CRM gemäß deiner Rolle.",
+      "zeitplan": {
+        "tage": [
+          "mo",
+          "di",
+          "mi",
+          "do",
+          "fr"
+        ],
+        "uhrzeit": "08:00"
+      },
+      "effort": "medium",
+      "max_schritte": 40
+    },
+    "lead-generierung": {
+      "typ": "lead-generierung",
+      "bezeichnung": "Lead-Generierung (B2B-Recherche)",
+      "prompt": "lead-generierung.md",
+      "kanaele": [
+        "zeitplan"
+      ],
+      "werkzeuge": [
+        "web",
+        "crm",
+        "email",
+        "team"
+      ],
+      "freigabe_erforderlich": [
+        "email_senden"
+      ],
+      "auftrag": "Finde 8 neue Hausverwaltungen, Wohnungsbaugesellschaften oder Gewerbe-Immobilienverwalter im Raum Köln/Bonn (max. 40 km), die zum Zielprofil passen, lege sie im CRM an und bereite für die besten eine Erstansprache vor.",
+      "zeitplan": {
+        "tage": [
+          "mo",
+          "mi"
+        ],
+        "uhrzeit": "07:00"
+      },
+      "effort": "high",
+      "max_schritte": 60
+    }
+  }
+}

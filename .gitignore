@@ -1,0 +1,12 @@
+# Laufzeitdaten der Kunden-Agenten (personenbezogene Daten!)
+kunden/*/daten/
+
+# Zugangsdaten
+.env
+*.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

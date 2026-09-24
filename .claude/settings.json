@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/neuer_kunde.py:*)",
+      "Bash(python3 scripts/neuer_kunde.py:*)",
+      "Bash(python scripts/validate_config.py:*)",
+      "Bash(python3 scripts/validate_config.py:*)",
+      "Bash(python scripts/run_tests.py:*)",
+      "Bash(python3 scripts/run_tests.py:*)",
+      "Bash(python -m runtime pruefen:*)",
+      "Bash(python3 -m runtime pruefen:*)",
+      "WebSearch",
+      "WebFetch"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/config_pruefen.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
