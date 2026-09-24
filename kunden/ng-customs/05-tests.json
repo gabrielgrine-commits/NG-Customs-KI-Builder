@@ -15,7 +15,7 @@
     ]
   },
   {
-    "name": "Erstgespräch buchen",
+    "name": "Erstgespräch nach Vereinbarung",
     "agent": "rezeption",
     "kanal": "chat",
     "eingaben": [
@@ -24,9 +24,10 @@
       "Ja, bitte eintragen."
     ],
     "kriterien": [
-      "Ruft kalender_freie_termine auf, bevor Zeiten angeboten werden",
-      "Bucht erst nach der ausdrücklichen Bestätigung mit kalender_termin_buchen",
-      "Bestätigt die Buchung erst nach erfolgreichem Werkzeugergebnis"
+      "Fragt nach vor Ort oder Videocall und nach Wunschzeiten",
+      "Bucht keinen Termin selbst und behauptet nicht, der Termin sei fix",
+      "Speichert den Lead mit Wunschzeiten und benachrichtigt das Team mit Dringlichkeit hoch",
+      "Sagt, dass die Bestätigung innerhalb von 24 Stunden per E-Mail kommt"
     ]
   },
   {
@@ -75,6 +76,18 @@
     ],
     "kriterien": [
       "Erklärt, dass persönliche Termine nur in Wien und Umgebung möglich sind, und bietet einen Videocall an"
+    ]
+  },
+  {
+    "name": "Telefonnummer gefragt",
+    "agent": "rezeption",
+    "kanal": "chat",
+    "eingaben": [
+      "Kann ich Sie auch anrufen? Welche Nummer haben Sie?"
+    ],
+    "kriterien": [
+      "Nennt keine Telefonnummer und erfindet keine",
+      "Bietet einen Rückruf an und fragt nach der Nummer der Person"
     ]
   }
 ]

@@ -55,7 +55,7 @@ Zahlung: 30 % Anzahlung bei Auftrag, 70 % vor dem Go-Live.
 
 ## Häufige Fragen
 **Klingt die KI-Rezeptionistin wie ein Roboter?** Nein, natürliche Stimme, ruhig und freundlich. Im Erstgespräch
-hören Sie eine Probe. (Oder: einfach unsere eigene Nummer anrufen – hier spricht bereits eine.)
+hören Sie eine Probe.
 **Gibt es versteckte Kosten?** Nein. Festpreis; laufende Kosten (Hosting, KI-Rezeptionistin) stehen vorher im Angebot.
 **Was passiert nach dem Start?** Wir bleiben erreichbar. Business: 3 Monate Betreuung, Luxus: 12 Monate, danach
 auf Wunsch das Sorglos-Paket.
@@ -67,7 +67,9 @@ Auftragsverarbeitungsvertrag; Details im Erstgespräch.
 **Welche KI steckt dahinter?** Claude von Anthropic, die Telefonie läuft über Vapi.
 
 ## Kontakt
-E-Mail: ng-customs@hotmail.com · Website: ngcustoms.at · Telefon: [OFFEN]
+E-Mail: ng-customs@hotmail.com · Website: ngcustoms.at (in Vorbereitung)
+Telefon: noch keine eigene Nummer – auf Wunsch rufen wir zurück (Nummer hinterlassen).
+Termine: nur nach Vereinbarung – Wunschzeiten nennen, Bestätigung innerhalb von 24 Stunden per E-Mail.
 Rückmeldung innerhalb von 24 Stunden bzw. einem Werktag.
 
 ## Was der Assistent NICHT zusagt

@@ -8,9 +8,11 @@
 - **Gründer:**
   - **Gabriel Grine** – Vertrieb, Kundenbetreuung, Marketing, Angebote, Rechnungen
   - **Nicolas Richiuto Kunz** – Umsetzung, Technik, Design, Hosting, KI-Tools (spricht auch Spanisch)
-- **E-Mail:** ng-customs@hotmail.com (laut Website; geplant: office@ngcustoms.at)
+- **E-Mail:** ng-customs@hotmail.com (bestätigt)
 - **Website:** ngcustoms.at
-- **Telefon:** [OFFEN – auf Website und Visitenkarte noch Platzhalter]
+- **Telefon:** noch keine Firmennummer – Kontakt per E-Mail oder Rückruf (private Nummer bewusst nicht in Unterlagen)
+- **Termine:** nur nach Vereinbarung (nebenberuflich) – Agenten nehmen Wunschzeiten auf, Gabriel bestätigt
+- **Domain:** ngcustoms.at – beim Hoster angelegt, noch nicht öffentlich/bezahlt
 - **Umsatzsteuer:** Kleinunternehmer, umsatzsteuerbefreit gem. § 6 Abs. 1 Z 27 UStG – alle Preise sind Endpreise
 - **Gewerbe:** Dienstleistungen in der automatischen Datenverarbeitung und Informationstechnik (freies Gewerbe)
 - **Tools:** Google Workspace, WhatsApp Business
