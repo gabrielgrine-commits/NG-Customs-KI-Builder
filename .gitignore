@@ -13,3 +13,4 @@ venv/
 
 # Vapi-Assistent enthält den Server-Token im Klartext
 kunden/*/agent/vapi-assistent.json
+kunden/*/agent/synthflow.json

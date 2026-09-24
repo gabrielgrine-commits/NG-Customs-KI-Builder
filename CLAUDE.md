@@ -77,7 +77,17 @@ ausführen) · `freigaben` / `freigeben <id>` / `ablehnen <id>` · `leads` · `t
 `server` (Chat-Widget, Webhooks, Kalender-Feed) · `zeitplan` (Daueraufgaben nach Plan) ·
 `email <agent>` (Posteingang überwachen) · `zugang` (Links/Tokens).
 
-**Telefon (Vapi):** Kanal `telefon` in config.json → `python scripts/vapi_assistent.py kunden/<slug> <agent>
+**Telefon (Synthflow, bevorzugt):** Connector „Synthflow“ auf claude.ai verbinden (Login, kein Key; EU:
+`https://mcp.eu.synthflow.ai/mcp`, auch in `.mcp.json`). Ablauf, sobald die `mcp__synthflow__*`-Werkzeuge da sind:
+1. `python scripts/synthflow_vorlage.py kunden/<slug> <agent>` → `agent/synthflow.json` (Prompt, Begrüßung,
+   Custom Actions → `POST /k/<slug>/synthflow/<agent>/<werkzeug>`, Post-Call-Webhook → `…/nach-anruf`).
+   Ohne `NGC_BASIS_URL`/`NGC_GEHEIMNIS` nur `--vorschau`.
+2. **Nach Zustimmung des Nutzers** per Synthflow-MCP: Agent anlegen (Sprache Deutsch, Prompt + Begrüßung aus dem
+   Bauplan), je Werkzeug eine Custom Action, Post-Call-Webhook setzen. Agent-ID in config.json unter
+   `telefon.synthflow_agent_id` speichern (beim nächsten Mal aktualisieren statt neu anlegen).
+3. Nummer: AT/DE nicht direkt bei Synthflow kaufbar → Twilio-Nummer per SIP importieren.
+
+**Telefon (Vapi, Alternative):** Kanal `telefon` in config.json → `python scripts/vapi_assistent.py kunden/<slug> <agent>
 --server-url https://…` erzeugt `agent/vapi-assistent.json` → mit dem Vapi-MCP (`.mcp.json`, braucht
 `VAPI_TOKEN`) den Assistenten anlegen/aktualisieren und eine Nummer zuweisen. Vapi ruft für Werkzeuge
 `POST /vapi/<agent>` auf; nach jedem Anruf bearbeitet unser Agent das Transkript nach.
@@ -102,6 +112,7 @@ Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmod
    erst nach bestandenen Tests und Testphase erhöht.
 6. Neue Werkzeuge/Integrationen gehören in `runtime/werkzeuge.py` + `runtime/config.py`
    (`WERKZEUG_GRUPPEN`) – dann stehen sie allen Kunden zur Verfügung.
-7. **Vapi-Konto:** Assistenten/Nummern über das Vapi-MCP nur nach ausdrücklicher Zustimmung des Nutzers
+7. **Telefonie-Konten (Synthflow, Vapi):** Agenten/Nummern nur nach ausdrücklicher Zustimmung des Nutzers
    anlegen, ändern oder löschen – das kostet Geld und betrifft echte Telefonnummern.
+   **Pull Requests nie selbst mergen** – PR erstellen, der Nutzer merged nach Durchsicht.
 8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).

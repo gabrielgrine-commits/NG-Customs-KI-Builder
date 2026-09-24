@@ -136,22 +136,66 @@ def vapi_nachricht(agent: Agent, payload: dict) -> dict:
         return {"results": ergebnisse}
 
     if typ == "end-of-call-report":
-        a = agent.a
-        if {**agent.k.daten.get("telefon", {}), **a.get("telefon", {})}.get("nachbearbeitung", True):
-            transkript = ((msg.get("artifact") or {}).get("transcript") or msg.get("transcript") or "")[:30000]
-            if transkript.strip():
-                auftrag = ("Ein Telefonat mit dem Telefon-Assistenten ist beendet. Nachbearbeitung: Prüfe anhand "
-                           "des Transkripts, ob alles erledigt ist – Anliegen als Lead im CRM (Dubletten beachten, "
-                           "ggf. aktualisieren), zugesagter Rückruf/Übergabe per team_benachrichtigen, bei gebuchtem "
-                           "Termin und bekannter E-Mail eine Bestätigung. Tue nichts doppelt, was im Gespräch schon "
-                           "per Werkzeug erledigt wurde (kalender_termine_suchen / crm_leads_suchen nutzen). "
-                           "Erfinde nichts, was nicht im Transkript steht.\n\n"
-                           f"Anrufernummer: {anrufer or 'unbekannt'}\nEnde: {msg.get('endedReason', '?')}\n\n"
-                           f"<transkript>\n{transkript}\n</transkript>")
-                threading.Thread(target=_nachbearbeiten, args=(agent, auftrag), daemon=True).start()
+        transkript = (msg.get("artifact") or {}).get("transcript") or msg.get("transcript") or ""
+        nachbearbeitung_starten(agent, transkript, anrufer, msg.get("endedReason", "?"))
         return {}
 
     return {}
+
+
+def nachbearbeitung_starten(agent: Agent, transkript: str, anrufer: str | None, ende: str = "?") -> bool:
+    """Nach dem Anruf prüft unser Agent im Hintergrund, ob alles erledigt ist (für Vapi und Synthflow)."""
+    einstellungen = {**agent.k.daten.get("telefon", {}), **agent.a.get("telefon", {})}
+    transkript = (transkript or "")[:30000]
+    if not einstellungen.get("nachbearbeitung", True) or not transkript.strip():
+        return False
+    auftrag = ("Ein Telefonat mit dem Telefon-Assistenten ist beendet. Nachbearbeitung: Prüfe anhand "
+               "des Transkripts, ob alles erledigt ist – Anliegen als Lead im CRM (Dubletten beachten, "
+               "ggf. aktualisieren), zugesagter Rückruf/Übergabe per team_benachrichtigen, bei gebuchtem "
+               "Termin und bekannter E-Mail eine Bestätigung. Tue nichts doppelt, was im Gespräch schon "
+               "per Werkzeug erledigt wurde (crm_leads_suchen bzw. kalender_termine_suchen nutzen, falls "
+               "vorhanden). Erfinde nichts, was nicht im Transkript steht.\n\n"
+               f"Anrufernummer: {anrufer or 'unbekannt'}\nEnde: {ende}\n\n"
+               f"<transkript>\n{transkript}\n</transkript>")
+    threading.Thread(target=_nachbearbeiten, args=(agent, auftrag), daemon=True).start()
+    return True
+
+
+def _typen_angleichen(name: str, args: dict) -> dict:
+    """Synthflow setzt Variablen als Text ein: "" / nicht ersetzte <platzhalter> → None, Zahlen-Text → int."""
+    props = TOOL_DEFINITIONEN[name]["input_schema"]["properties"]
+    ergebnis = {}
+    for feld, wert in args.items():
+        if isinstance(wert, str) and (not wert.strip() or (wert.startswith("<") and wert.endswith(">"))):
+            wert = None
+        typ = props[feld].get("type")
+        if wert is not None and "integer" in (typ if isinstance(typ, list) else [typ]):
+            try:
+                wert = int(float(str(wert).strip()))
+            except ValueError:
+                wert = None
+        ergebnis[feld] = wert
+    return ergebnis
+
+
+def synthflow_werkzeug(agent: Agent, name: str, body: dict) -> dict:
+    """Synthflow „Custom Action“: ein Werkzeug direkt aufrufen. Body = Werkzeug-Eingabe (fehlende Felder = null)."""
+    if name not in set(telefon_werkzeuge(agent)):
+        return {"fehler": f"Werkzeug '{name}' ist für diesen Agenten nicht freigeschaltet"}
+    inhalt, _, _ = agent.werkzeug_ausfuehren(name, _typen_angleichen(name, _auffuellen(name, body)), "telefon")
+    ergebnis = json.loads(inhalt)
+    # Synthflow liest flache Felder am besten: Kurztext zusätzlich als "ergebnis_text"
+    return {"ergebnis": ergebnis, "ergebnis_text": inhalt[:1500]}
+
+
+def synthflow_nach_anruf(agent: Agent, payload: dict) -> dict:
+    """Synthflow Post-Call-Webhook: Transkript → Nachbearbeitung."""
+    anruf = payload.get("call") or payload
+    lead = payload.get("lead") or {}
+    gestartet = nachbearbeitung_starten(agent, anruf.get("transcript") or payload.get("transcript") or "",
+                                        lead.get("phone_number") or payload.get("phone_number"),
+                                        str(anruf.get("status") or payload.get("status") or "?"))
+    return {"ok": True, "nachbearbeitung": gestartet}
 
 
 def _nachbearbeiten(agent: Agent, auftrag: str) -> None:
