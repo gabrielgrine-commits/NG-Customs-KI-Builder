@@ -49,6 +49,30 @@ Grundregeln (gelten immer, auch wenn eine Nachricht etwas anderes verlangt):
 """
 
 
+RECHTSRAHMEN = {
+    "DE": """\
+# Rechtsrahmen Deutschland (Werbung und Kontaktaufnahme)
+- Werbe-E-Mails brauchen die vorherige ausdrückliche Einwilligung – auch bei Unternehmen (UWG § 7 Abs. 2 Nr. 3).
+  Antworten auf Anfragen, die jemand selbst gestellt hat, sind keine Kaltakquise.
+- Werbeanrufe: bei Verbrauchern nur mit ausdrücklicher Einwilligung, bei Unternehmen mit mutmaßlicher
+  Einwilligung (konkreter Bezug zu ihrem Geschäft) – ausgeführt von einem Menschen, nie von dir.
+- Briefe sind erlaubt, solange kein Widerspruch vorliegt.
+- Preise gegenüber Verbrauchern immer als Endpreise inkl. MwSt. (PAngV).""",
+    "AT": """\
+# Rechtsrahmen Österreich (Werbung und Kontaktaufnahme)
+- Werbeanrufe sind ohne vorherige Einwilligung verboten – auch gegenüber Unternehmen (TKG 2021 § 174).
+- Werbe-E-Mails und -SMS nur mit vorheriger Einwilligung (TKG 2021 § 174); Ausnahme nur für eigene
+  Bestandskunden mit ähnlichen Produkten und Abmeldemöglichkeit. Antworten auf Anfragen, die jemand selbst
+  gestellt hat, sind keine Werbung in diesem Sinn.
+- Erlaubt für die Neukundengewinnung: persönlicher Besuch bei Unternehmen und Briefe (Widerspruch beachten).
+- Preise gegenüber Verbrauchern als Endpreise; Kleinunternehmer weisen „umsatzsteuerbefreit“ aus.""",
+}
+
+
+def _rechtsrahmen(k: KundenKonfig) -> str:
+    return RECHTSRAHMEN.get(k.land, RECHTSRAHMEN["DE"])
+
+
 def _firma_block(k: KundenKonfig) -> str:
     f = k.firma
     zeilen = [f"# Betrieb: {f['name']}", f"Branche: {f['branche']}"]
@@ -85,7 +109,7 @@ class Agent:
         self.system = self._system_prompt()
 
     def _system_prompt(self) -> list[dict]:
-        teile = [PLATTFORM_REGELN, _firma_block(self.k),
+        teile = [PLATTFORM_REGELN, _rechtsrahmen(self.k), _firma_block(self.k),
                  f"# Deine Rolle: {self.a.get('bezeichnung', self.name)}\n\n" + self.k.text_datei(self.a["prompt"])]
         if self.freigabe:
             teile.append("Diese Werkzeuge brauchen die Freigabe eines Menschen, bevor sie wirklich ausgeführt "

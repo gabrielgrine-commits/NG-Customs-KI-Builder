@@ -57,6 +57,9 @@
 
 ## Notizen / Transkript
 
-> Eigene Agenten von NG Customs: Vertriebs-Chat auf der NG-Customs-Website (qualifiziert Interessenten,
-> bucht 15-Min-Erstgespräche, nimmt Demo-Wünsche auf) und Lead-Generierung (findet passende KMU,
-> bereitet Anruf-Leitfaden + Brief vor; keine Kalt-Mails). Offen: Firmendaten, Preise, Region, Postfach.
+> Eigene Agenten von NG Customs (Wien, Österreich). Quellen: Businessplan NG Customs (22.09.2026),
+> Website-Entwurf (23.09.2026), Visitenkarten. Gründer: Gabriel Grine (Vertrieb) und Nicolas Richiuto Kunz
+> (Technik), OG in Gründung, nebenberuflich, Kleinunternehmer. KI-Rezeptionistin für Website, E-Mail und
+> Telefon (bucht 30-Min-Erstgespräche, nimmt Demo-Wünsche auf) + Lead-Generierung (Besuchs- und Briefliste
+> für Nord-Wien/Klosterneuburg; keine Anrufe, keine Kalt-Mails wegen TKG 2021 § 174).
+> Annahme: Erstgespräch-Zeiten abends/Samstag, da nebenberuflich – bitte bestätigen.

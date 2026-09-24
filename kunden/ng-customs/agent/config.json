@@ -1,18 +1,19 @@
 {
+  "land": "AT",
   "firma": {
     "name": "NG Customs",
-    "branche": "Digitalagentur – Websites und KI-Agenten für KMU",
-    "adresse": "[OFFEN]",
+    "branche": "Webdesign-Agentur – Webseiten und KI-Rezeptionistinnen für KMU in Österreich",
+    "adresse": "Wien (persönliche Termine in Wien und Umgebung, sonst per Videocall)",
     "telefon": "[OFFEN]",
-    "email": "[OFFEN]",
-    "website": "[OFFEN]",
-    "datenschutz_url": "[OFFEN]"
+    "email": "ng-customs@hotmail.com",
+    "website": "https://ngcustoms.at",
+    "datenschutz_url": "https://ngcustoms.at/datenschutz"
   },
   "demo": true,
   "design": {
-    "farbe": "#111827"
+    "farbe": "#2F5BEA"
   },
-  "zeitzone": "Europe/Berlin",
+  "zeitzone": "Europe/Vienna",
   "modell": "claude-opus-5",
   "effort": "medium",
   "fallbacks": true,
@@ -20,11 +21,11 @@
     "wissen.md"
   ],
   "benachrichtigung": {
-    "email": "",
+    "email": "ng-customs@hotmail.com",
     "webhook_url": ""
   },
   "email": {
-    "absender": "[OFFEN: z. B. anfrage@ng-customs.de]",
+    "absender": "ng-customs@hotmail.com",
     "smtp_host": "",
     "smtp_port": 587,
     "imap_host": "",
@@ -33,55 +34,45 @@
     "passwort_env": "NG_CUSTOMS_MAIL_PASS"
   },
   "kalender": {
-    "termindauer_min": 15,
-    "raster_min": 15,
-    "puffer_min": 10,
-    "vorlauf_stunden": 4,
+    "termindauer_min": 30,
+    "raster_min": 30,
+    "puffer_min": 15,
+    "vorlauf_stunden": 12,
     "max_tage_voraus": 60,
     "arbeitszeiten": {
       "mo": [
         [
-          "08:00",
-          "12:00"
-        ],
-        [
-          "13:00",
-          "17:00"
+          "17:30",
+          "20:00"
         ]
       ],
       "di": [
         [
-          "08:00",
-          "12:00"
-        ],
-        [
-          "13:00",
-          "17:00"
+          "17:30",
+          "20:00"
         ]
       ],
       "mi": [
         [
-          "08:00",
-          "12:00"
-        ],
-        [
-          "13:00",
-          "17:00"
+          "17:30",
+          "20:00"
         ]
       ],
       "do": [
         [
-          "08:00",
-          "12:00"
-        ],
-        [
-          "13:00",
-          "17:00"
+          "17:30",
+          "20:00"
         ]
       ],
       "fr": [
         [
-          "08:00",
+          "16:00",
+          "19:00"
+        ]
+      ],
+      "sa": [
+        [
+          "09:00",
           "13:00"
         ]
       ]
@@ -89,7 +80,10 @@
     "gesperrte_tage": []
   },
   "server": {
-    "erlaubte_origins": [],
+    "erlaubte_origins": [
+      "https://ngcustoms.at",
+      "https://www.ngcustoms.at"
+    ],
     "token_env": "NG_CUSTOMS_AGENT_TOKEN"
   },
   "telefon": {
@@ -103,14 +97,14 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Guten Tag, hier ist der KI-Assistent von NG Customs. Übrigens: Genau so ein Assistent könnte auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
+    "begruessung": "Grüß Gott, hier ist die KI-Rezeptionistin von NG Customs. Übrigens: Genau so könnte ich auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
     "nachbearbeitung": true
   },
   "agenten": {
     "rezeption": {
       "typ": "rezeption",
-      "bezeichnung": "NG Customs Assistent",
+      "bezeichnung": "KI-Rezeptionistin von NG Customs",
       "prompt": "rezeption.md",
       "kanaele": [
         "chat",

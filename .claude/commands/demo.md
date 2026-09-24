@@ -9,7 +9,7 @@ Website ist nicht erreichbar und es gibt keine Notizen.
 
 1. Website lesen (WebFetch: Startseite, Leistungen/Preise, Kontakt/Impressum, Öffnungszeiten).
    Firmenname, Branche, Markenfarbe bestimmen.
-2. `python3 scripts/neuer_kunde.py "<Firma>" --branche "<Branche>" --agenten rezeption`
+2. `python3 scripts/neuer_kunde.py "<Firma>" --branche "<Branche>" --agenten rezeption --land <DE|AT>`
    (existiert der Ordner schon: nur aktualisieren).
 3. Selbst (ohne Subagenten, für Tempo) ausfüllen:
    - `agent/wissen.md` – nur Fakten von der Website, Rest `[OFFEN: …]`

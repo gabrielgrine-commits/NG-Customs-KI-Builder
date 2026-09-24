@@ -24,6 +24,7 @@ ALLE_WERKZEUGE = {w for gruppe in WERKZEUG_GRUPPEN.values() for w in gruppe}
 KANAELE = {"chat", "email", "webhook", "zeitplan", "cli", "telefon"}
 WOCHENTAGE = ["mo", "di", "mi", "do", "fr", "sa", "so"]
 EFFORTS = {"low", "medium", "high", "xhigh", "max"}
+LAENDER = {"DE", "AT"}
 
 
 class KonfigFehler(Exception):
@@ -48,8 +49,12 @@ class KundenKonfig:
         return self.daten["firma"]
 
     @property
+    def land(self) -> str:
+        return self.daten.get("land", "DE")
+
+    @property
     def zeitzone(self) -> str:
-        return self.daten.get("zeitzone", "Europe/Berlin")
+        return self.daten.get("zeitzone", "Europe/Vienna" if self.land == "AT" else "Europe/Berlin")
 
     @property
     def modell(self) -> str:
@@ -98,6 +103,9 @@ def pruefen(k: KundenKonfig) -> list[str]:
     for feld in ("name", "branche", "datenschutz_url"):
         if not firma.get(feld):
             fehler.append(f"firma.{feld} fehlt")
+
+    if d.get("land", "DE") not in LAENDER:
+        fehler.append(f"land muss eines von {sorted(LAENDER)} sein")
 
     farbe = (d.get("design") or {}).get("farbe")
     if farbe is not None and not re.fullmatch(r"#[0-9a-fA-F]{3,8}", str(farbe)):

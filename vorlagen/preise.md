@@ -1,43 +1,52 @@
-# Preisliste NG Customs – KI-Agenten & Websites
+# Preisliste NG Customs
 
-> ⚠️ **BEISPIELWERTE – bitte durch deine echten Preise ersetzen.** Der `angebots-schreiber`
-> rechnet ausschließlich mit dieser Datei. Alle Preise netto zzgl. MwSt.
+> Quelle: Website-Entwurf NG Customs (23.09.2026) und Businessplan (22.09.2026).
+> Kleinunternehmer: umsatzsteuerbefreit gem. § 6 Abs. 1 Z 27 UStG – **alle Preise sind Endpreise**.
+> Der `angebots-schreiber` rechnet ausschließlich mit dieser Datei.
 
-## KI-Agenten
+## Websites (Festpreise)
 
-| Agent | Einrichtung (einmalig) | Monatlich | Enthalten |
-|---|---|---|---|
-| Digitale Rezeption | 1.490 € | 149 € | Website-Chat + E-Mail + Formular, Terminbuchung, bis 1.500 Gespräche/Monat |
-| Lead-Nachfassen & Qualifizierung | 1.290 € | 129 € | tägliche Läufe, bis 500 Leads/Monat |
-| Lead-Generierung (B2B-Recherche) | 1.790 € | 249 € | 2 Läufe/Woche, bis 80 recherchierte Leads/Monat |
-| Posteingangs-Assistenz | 990 € | 99 € | bis 1.000 E-Mails/Monat |
-| Angebots-Assistent | 1.490 € | 149 € | bis 150 Angebote/Monat, Preisliste bis 100 Positionen |
+| Paket | Preis | Umfang |
+|---|---|---|
+| **Basis** | ab 890 € | bis 3 Seiten, mobiloptimiert, Kontaktformular, Impressum & Datenschutz, Google Maps, SEO-Grundeinrichtung |
+| **Business** (beliebt) | ab 1.490 € | bis 8 Unterseiten, eigenes Design, Online-Terminbuchung, Blog/News, erweiterte SEO, Google-Unternehmensprofil, 3 Monate Betreuung |
+| **Luxus** – Webseite mit Film | ab 3.890 € | Scroll-Film auf der Startseite, unbegrenzte Unterseiten, Premium-Design, Shop/Buchungssystem, mehrsprachig, Profi-Texte, Social-Media-Clips, 12 Monate Betreuung |
+| **Sorglos-Paket** | 39 €/Monat | Hosting, Domain, Updates, Backups, kleine Änderungen (ca. 30 Min./Monat) |
 
-- **Bündelrabatt:** ab 2 Agenten −15 % auf die Einrichtung, ab 3 Agenten zusätzlich −10 % monatlich.
-- **Fair Use:** Über dem enthaltenen Volumen wird nach tatsächlichem Verbrauch abgerechnet (API-Kosten + 30 %).
+## KI-Rezeptionistin (zu jedem Paket buchbar, auch ohne neue Website)
 
-## Integrationen & Zusatzleistungen
+| Tarif | Preis | Enthalten |
+|---|---|---|
+| Einrichtung | 490 € einmalig | Wissensbasis, Stimme, Kalender-Anbindung, Tests |
+| **Starter** | 199 €/Monat | bis 150 Anrufe/Monat, 1 Kalender |
+| **Pro** (empfohlen) | 349 €/Monat | bis 500 Anrufe/Monat, mehrere Kalender, SMS-Bestätigung |
+
+Monatlich kündbar. Die bestehende Nummer bleibt (Rufumleitung). Inklusive Website-Chat und E-Mail-Beantwortung
+durch denselben Assistenten.
+
+## Weitere KI-Agenten
+
+| Agent | Preis |
+|---|---|
+| Lead-Nachfassen & Qualifizierung | [OFFEN – noch kein Preis festgelegt; Richtwert Businessplan: Einrichtung ab 990 € + 49–99 €/Monat] |
+| Lead-Generierung (Recherche + Besuchs-/Briefliste) | [OFFEN] |
+| Posteingangs-Assistenz | [OFFEN] |
+| Angebots-Assistent | [OFFEN] |
+
+Solange hier `[OFFEN]` steht, nennt der Angebots-Schreiber für diese Agenten keinen Preis, sondern „Preis auf
+Anfrage“, und meldet das dem Nutzer.
+
+## Zusatzleistungen
 
 | Leistung | Preis |
 |---|---|
-| Anbindung Google-/Outlook-Kalender (Direktbuchung) | 590 € einmalig |
-| Anbindung CRM (HubSpot, Pipedrive …) | ab 790 € einmalig |
-| Webhook-Anbindung Kontaktformular / Make / Zapier | 190 € einmalig |
-| Telefon-Kanal für die Rezeption (Vapi, Rufumleitung/eigene Nummer) | 690 € einmalig + 99 €/Monat zzgl. Gesprächsminuten (Vapi-Kosten + 30 %) |
-| Workshop Wissensbasis (2 h) | 290 € |
-| Änderungen an Wissensbasis/Prompts | 3 Stunden/Quartal inklusive, danach 95 €/h |
-
-## Websites
-
-| Paket | Preis |
-|---|---|
-| Onepager | 1.490 € |
-| Business-Website (bis 8 Seiten) | 3.490 € |
-| Hosting & Wartung | 39 €/Monat |
-| Website + Rezeption-Agent im Bundle | −20 % auf die Agent-Einrichtung |
+| Google-Unternehmensprofil einrichten & optimieren | 149 € |
+| Zusätzliche Seite | 120 € |
+| Texterstellung pro Seite | 60 € |
+| Logo-Design (einfach) | 249 € |
 
 ## Konditionen
-
-- Mindestlaufzeit Agenten: 6 Monate, danach monatlich kündbar
-- Testphase: 2 Wochen mit Freigabe aller ausgehenden E-Mails
-- Monatlicher Leistungsbericht inklusive
+- 30 % Anzahlung bei Auftrag, 70 % vor Go-Live, Zahlungsziel 7 Tage
+- Max. 2 Korrekturschleifen, danach nach Aufwand
+- Angebote 30 Tage gültig
+- Empfehlungsprämie: 50 € Gutschrift pro vermitteltem Kunden

@@ -32,7 +32,8 @@ fertiger E-Mail an den Kunden.
 - Nur Firmenname angegeben → per WebSearch die offizielle Website finden. Mehrere Treffer, die passen
   könnten → **hier** einmal kurz nachfragen.
 - Website kurz lesen (WebFetch), um Firmenname und Branche zu bestimmen. Dann
-  `python3 scripts/neuer_kunde.py "<Firma>" --branche "<Branche>" --agenten rezeption`.
+  `python3 scripts/neuer_kunde.py "<Firma>" --branche "<Branche>" --agenten rezeption --land <DE|AT>`
+  (Land aus Adresse/Impressum/Domain `.at`; es bestimmt Rechtsrahmen und Zeitzone).
   Existiert der Ordner schon: weiterarbeiten statt neu anlegen (Schritte mit vorhandenen Dateien nur
   aktualisieren).
 - Notizen/Wünsche des Nutzers unten in `00-intake.md` unter „Notizen / Transkript“ eintragen.

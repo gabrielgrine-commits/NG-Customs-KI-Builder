@@ -33,6 +33,7 @@ def main() -> None:
     p.add_argument("--agenten", default="rezeption",
                    help=f"Kommagetrennt aus: {', '.join(katalog)}")
     p.add_argument("--slug")
+    p.add_argument("--land", choices=["DE", "AT"], default="DE", help="Rechtsrahmen und Zeitzone (Standard: DE)")
     args = p.parse_args()
 
     typen = [t.strip() for t in args.agenten.split(",") if t.strip()]
@@ -56,6 +57,9 @@ def main() -> None:
         return text
 
     konfig = json.loads(fuellen((VORLAGEN / "config.basis.json").read_text(encoding="utf-8")))
+    konfig = {"land": args.land, **konfig}
+    if args.land == "AT":
+        konfig["zeitzone"] = "Europe/Vienna"
     for typ in typen:
         konfig["agenten"][typ] = katalog[typ]
         prompt = fuellen((VORLAGEN / "agenten" / typ / "prompt.md").read_text(encoding="utf-8"))

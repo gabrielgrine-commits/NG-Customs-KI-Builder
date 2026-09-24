@@ -96,6 +96,8 @@ Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmod
 4. **Kaltakquise nur B2B und nie per E-Mail** (UWG § 7 Abs. 2 Nr. 3: E-Mail-Werbung braucht auch bei Firmen
    ausdrückliche Einwilligung). Erlaubt: Anruf bei Firmen mit konkretem Bezug (mutmaßliche Einwilligung)
    und Briefe – vorbereitet vom Agenten, ausgeführt von Menschen. Nie Privatpersonen kalt ansprechen.
+   **Österreich (`"land": "AT"`, TKG 2021 § 174): auch keine Werbeanrufe bei Firmen** – nur persönlicher
+   Besuch oder Brief. NG Customs selbst sitzt in Wien (`vorlagen/ng-customs.md`).
 5. **Freigabe zuerst:** Neue Agenten starten mit Freigabe für ausgehende E-Mails; Autonomie wird
    erst nach bestandenen Tests und Testphase erhöht.
 6. Neue Werkzeuge/Integrationen gehören in `runtime/werkzeuge.py` + `runtime/config.py`

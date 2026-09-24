@@ -18,7 +18,7 @@ import threading
 from typing import Any
 
 from .config import KundenKonfig
-from .engine import PLATTFORM_REGELN, Agent, _firma_block
+from .engine import PLATTFORM_REGELN, Agent, _firma_block, _rechtsrahmen
 from .werkzeuge import SERVER_WERKZEUGE, TOOL_DEFINITIONEN
 
 TELEFON_REGELN = """\
@@ -62,7 +62,7 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
     t = {**konfig.daten.get("telefon", {}), **a.get("telefon", {})}
     firma = konfig.firma["name"]
 
-    system_teile = [PLATTFORM_REGELN, _firma_block(konfig), TELEFON_REGELN,
+    system_teile = [PLATTFORM_REGELN, _rechtsrahmen(konfig), _firma_block(konfig), TELEFON_REGELN,
                     f"# Deine Rolle: {a.get('bezeichnung', agent_name)}\n\n" + konfig.text_datei(a["prompt"])]
     if agent.freigabe:
         system_teile.append("Diese Werkzeuge brauchen die Freigabe eines Menschen, bevor sie wirklich ausgeführt "
