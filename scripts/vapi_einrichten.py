@@ -34,14 +34,18 @@ API = "https://api.vapi.ai"
 
 
 def vapi(methode: str, pfad: str, daten: dict | None = None) -> dict | list:
-    schluessel = os.environ.get("VAPI_TOKEN", "")
+    # Beim Einfügen mitkopierte Leerzeichen, Anführungszeichen oder ein „Bearer “ entfernen
+    schluessel = os.environ.get("VAPI_TOKEN", "").strip().strip("\"'").strip()
+    schluessel = schluessel.removeprefix("Bearer ").strip()
     if not schluessel:
         sys.exit("❌ VAPI_TOKEN fehlt: Private Key aus dem Vapi-Dashboard als Umgebungsvariable setzen "
                  "(nicht in den Chat schreiben).")
     req = urllib.request.Request(
         API + pfad, method=methode,
         data=json.dumps(daten).encode() if daten is not None else None,
-        headers={"Authorization": f"Bearer {schluessel}", "Content-Type": "application/json"})
+        # Eigener User-Agent: Cloudflare vor api.vapi.ai sperrt den Python-Standard (HTTP 403, „error code: 1010“)
+        headers={"Authorization": f"Bearer {schluessel}", "Content-Type": "application/json",
+                 "User-Agent": "ng-customs-ki-builder/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=30) as antwort:
             return json.loads(antwort.read() or b"{}")
@@ -55,7 +59,7 @@ def vapi(methode: str, pfad: str, daten: dict | None = None) -> dict | list:
 def nummern_zeigen() -> list:
     liste = vapi("GET", "/phone-number")
     if not liste:
-        print("Keine Nummern im Vapi-Konto. Deutsche Nummer: bei Twilio/Telnyx/Vonage kaufen und im "
+        print("Keine Nummern im Vapi-Konto. Deutsche/österreichische Nummer: bei Twilio/Telnyx/Vonage kaufen und im "
               "Vapi-Dashboard importieren (Phone Numbers → Import).")
     for n in liste:
         print(f"{n.get('id')}  {n.get('number') or n.get('sipUri') or '?'}  "
