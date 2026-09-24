@@ -1,0 +1,150 @@
+{
+  "land": "AT",
+  "firma": {
+    "name": "NG Customs",
+    "branche": "Webdesign-Agentur – Webseiten und KI-Rezeptionistinnen für KMU in Österreich",
+    "adresse": "Wien (persönliche Termine in Wien und Umgebung, sonst per Videocall)",
+    "telefon": "[OFFEN]",
+    "email": "ng-customs@hotmail.com",
+    "website": "https://ngcustoms.at",
+    "datenschutz_url": "https://ngcustoms.at/datenschutz"
+  },
+  "demo": true,
+  "design": {
+    "farbe": "#2F5BEA"
+  },
+  "zeitzone": "Europe/Vienna",
+  "modell": "claude-opus-5",
+  "effort": "medium",
+  "fallbacks": true,
+  "wissen": [
+    "wissen.md"
+  ],
+  "benachrichtigung": {
+    "email": "ng-customs@hotmail.com",
+    "webhook_url": ""
+  },
+  "email": {
+    "absender": "ng-customs@hotmail.com",
+    "smtp_host": "",
+    "smtp_port": 587,
+    "imap_host": "",
+    "imap_port": 993,
+    "benutzer_env": "NG_CUSTOMS_MAIL_USER",
+    "passwort_env": "NG_CUSTOMS_MAIL_PASS"
+  },
+  "kalender": {
+    "termindauer_min": 30,
+    "raster_min": 30,
+    "puffer_min": 15,
+    "vorlauf_stunden": 12,
+    "max_tage_voraus": 60,
+    "arbeitszeiten": {
+      "mo": [
+        [
+          "17:30",
+          "20:00"
+        ]
+      ],
+      "di": [
+        [
+          "17:30",
+          "20:00"
+        ]
+      ],
+      "mi": [
+        [
+          "17:30",
+          "20:00"
+        ]
+      ],
+      "do": [
+        [
+          "17:30",
+          "20:00"
+        ]
+      ],
+      "fr": [
+        [
+          "16:00",
+          "19:00"
+        ]
+      ],
+      "sa": [
+        [
+          "09:00",
+          "13:00"
+        ]
+      ]
+    },
+    "gesperrte_tage": []
+  },
+  "server": {
+    "erlaubte_origins": [
+      "https://ngcustoms.at",
+      "https://www.ngcustoms.at"
+    ],
+    "token_env": "NG_CUSTOMS_AGENT_TOKEN"
+  },
+  "telefon": {
+    "modell": "claude-opus-5",
+    "stimme": {
+      "provider": "azure",
+      "voiceId": "de-DE-KatjaNeural"
+    },
+    "transkription": {
+      "provider": "deepgram",
+      "model": "nova-2",
+      "language": "de"
+    },
+    "begruessung": "Grüß Gott, hier ist die KI-Rezeptionistin von NG Customs. Übrigens: Genau so könnte ich auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
+    "max_dauer_s": 900,
+    "nachbearbeitung": true
+  },
+  "agenten": {
+    "rezeption": {
+      "typ": "rezeption",
+      "bezeichnung": "KI-Rezeptionistin von NG Customs",
+      "prompt": "rezeption.md",
+      "kanaele": [
+        "chat",
+        "email",
+        "webhook",
+        "telefon"
+      ],
+      "werkzeuge": [
+        "kalender",
+        "crm",
+        "email",
+        "team"
+      ],
+      "freigabe_erforderlich": [],
+      "effort": "low",
+      "max_schritte": 15
+    },
+    "lead-generierung": {
+      "typ": "lead-generierung",
+      "bezeichnung": "Lead-Generierung (B2B-Recherche)",
+      "prompt": "lead-generierung.md",
+      "kanaele": [
+        "zeitplan"
+      ],
+      "werkzeuge": [
+        "web",
+        "crm",
+        "team"
+      ],
+      "freigabe_erforderlich": [],
+      "auftrag": "Finde 10 KMU gemäß Zielprofil, bei denen ein KI-Agent oder eine neue Website klar erkennbaren Nutzen hätte, lege sie im CRM an und bereite für die besten Anruf-Leitfaden und Brief vor.",
+      "zeitplan": {
+        "tage": [
+          "mo",
+          "do"
+        ],
+        "uhrzeit": "07:00"
+      },
+      "effort": "high",
+      "max_schritte": 60
+    }
+  }
+}

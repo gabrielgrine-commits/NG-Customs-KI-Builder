@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Agenten-Cockpit</title>
+  <style>
+    :root {
+      --text: #1a1c20; --leise: #5d6470; --flaeche: #f4f5f7; --karte: #ffffff; --rand: #e2e4e8;
+      --akzent: #1f6feb; --gut: #1a7f37; --warn: #9a6700; --schlecht: #cf222e;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #e8eaed; --leise: #a0a6b0; --flaeche: #131518; --karte: #1c1f23; --rand: #2d3137;
+              --akzent: #4c8dff; --gut: #3fb950; --warn: #d29922; --schlecht: #f85149; }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text); background: var(--flaeche); }
+    header { background: var(--karte); border-bottom: 1px solid var(--rand); padding: 16px; }
+    header .innen, main { max-width: 1100px; margin: 0 auto; }
+    header h1 { margin: 0; font-size: 20px; }
+    header p { margin: 2px 0 0; color: var(--leise); font-size: 13px; }
+    main { padding: 16px; }
+    h2 { font-size: 16px; margin: 28px 0 10px; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-top: 8px; }
+    .kpi { background: var(--karte); border: 1px solid var(--rand); border-radius: 12px; padding: 14px 16px; }
+    .kpi b { display: block; font-size: 26px; font-variant-numeric: tabular-nums; }
+    .kpi span { color: var(--leise); font-size: 13px; }
+    .karte { background: var(--karte); border: 1px solid var(--rand); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+    .kopf { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: baseline; }
+    .kopf small, .leise { color: var(--leise); font-size: 13px; }
+    label { display: block; font-size: 12px; color: var(--leise); margin: 10px 0 3px; }
+    input, textarea, select { width: 100%; font: inherit; color: var(--text); background: var(--flaeche); border: 1px solid var(--rand); border-radius: 8px; padding: 8px 10px; }
+    textarea { min-height: 170px; resize: vertical; }
+    .knoepfe { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+    button { font: inherit; border-radius: 8px; padding: 8px 14px; cursor: pointer; border: 1px solid var(--rand); background: var(--karte); color: var(--text); }
+    button.ja { background: var(--gut); border-color: var(--gut); color: #fff; font-weight: 600; }
+    button.nein { color: var(--schlecht); }
+    button:disabled { opacity: .5; cursor: default; }
+    .tabelle { overflow-x: auto; background: var(--karte); border: 1px solid var(--rand); border-radius: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rand); vertical-align: top; }
+    th { font-size: 12px; color: var(--leise); font-weight: 600; }
+    tr:last-child td { border-bottom: 0; }
+    td select { min-width: 130px; padding: 4px 6px; }
+    .pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; border: 1px solid var(--rand); }
+    .hoch { color: var(--schlecht); border-color: var(--schlecht); }
+    .leer { color: var(--leise); padding: 12px 0; }
+    pre { white-space: pre-wrap; word-wrap: break-word; margin: 8px 0 0; font: inherit; color: var(--leise); }
+    code { font: 12px ui-monospace, monospace; word-break: break-all; }
+    #fehler { display: none; background: var(--karte); border: 1px solid var(--schlecht); color: var(--schlecht); border-radius: 12px; padding: 16px; margin-top: 16px; }
+    details summary { cursor: pointer; }
+    .meldung { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--text); color: var(--flaeche); padding: 10px 16px; border-radius: 10px; display: none; max-width: calc(100vw - 32px); }
+  </style>
+</head>
+<body>
+  <header><div class="innen"><h1 id="firma">Agenten-Cockpit</h1><p id="untertitel">Lädt …</p></div></header>
+  <main>
+    <div id="fehler"></div>
+    <div id="inhalt" hidden>
+      <div class="kpis" id="kpis"></div>
+
+      <h2>Wartet auf Ihre Freigabe</h2>
+      <div id="freigaben"></div>
+
+      <h2>Kommende Termine</h2>
+      <div class="tabelle"><table><thead><tr><th>Wann</th><th>Wer</th><th>Kontakt</th><th>Anliegen</th></tr></thead><tbody id="termine"></tbody></table></div>
+
+      <h2>Leads &amp; Anfragen</h2>
+      <div class="tabelle"><table><thead><tr><th>Kontakt</th><th>Anliegen</th><th>Bewertung</th><th>Status</th><th>Wiedervorlage</th></tr></thead><tbody id="leads"></tbody></table></div>
+
+      <h2>Berichte der Agenten</h2>
+      <div id="berichte"></div>
+
+      <h2>Benachrichtigungen</h2>
+      <div id="benachrichtigungen"></div>
+
+      <h2>Einstellungen &amp; Links</h2>
+      <div class="karte">
+        <details><summary>Einbau-Code, Kalender-Abo und Schnittstellen</summary><div id="links"></div></details>
+        <label for="sperre">Kontakt-Sperre: Diese E-Mail-Adresse nie wieder anschreiben</label>
+        <div class="knoepfe" style="margin-top:0"><input id="sperre" type="email" placeholder="name@firma.de" style="flex:1;min-width:200px"><button id="sperrknopf">Sperren</button></div>
+      </div>
+      <p class="leise" id="stand"></p>
+    </div>
+  </main>
+  <div class="meldung" id="meldung"></div>
+
+  <script>
+  (function () {
+    var token = "";
+    try {
+      var m = location.hash.match(/t=([0-9a-f]+)/);
+      if (m) { token = m[1]; sessionStorage.setItem("ngc-cockpit", token); }
+      else { token = sessionStorage.getItem("ngc-cockpit") || ""; }
+    } catch (e) { var m2 = location.hash.match(/t=([0-9a-f]+)/); token = m2 ? m2[1] : ""; }
+
+    var WERKZEUG = {
+      email_senden: "E-Mail senden", kalender_termin_buchen: "Termin buchen", kalender_termin_stornieren: "Termin absagen",
+      crm_lead_speichern: "Lead anlegen", crm_lead_aktualisieren: "Lead ändern", team_benachrichtigen: "Team benachrichtigen"
+    };
+    var EDITIERBAR = { betreff: 1, text: 1 };
+    var VERSTECKT = { lead_id: 1 };
+    var FELD = { an: "An", betreff: "Betreff", text: "Text", start: "Beginn", dauer_min: "Dauer (Min.)", name: "Name",
+                 kontakt: "Kontakt", anliegen: "Anliegen", grund: "Grund", termin_id: "Termin", nachricht: "Nachricht" };
+    var STATUS = [];
+
+    function el(tag, attrs, kinder) {
+      var e = document.createElement(tag);
+      Object.keys(attrs || {}).forEach(function (k) {
+        if (k === "text") e.textContent = attrs[k]; else if (k === "cls") e.className = attrs[k]; else e.setAttribute(k, attrs[k]);
+      });
+      (kinder || []).forEach(function (c) { if (c) e.appendChild(c); });
+      return e;
+    }
+    function leer(ziel, text) { ziel.replaceChildren(el("div", { cls: "leer", text: text })); }
+    function datum(iso) {
+      if (!iso) return "";
+      var d = new Date(iso);
+      if (isNaN(d)) return iso;
+      return d.toLocaleString("de-DE", { weekday: "short", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+    }
+    function meldung(text) {
+      var m = document.getElementById("meldung");
+      m.textContent = text; m.style.display = "block";
+      setTimeout(function () { m.style.display = "none"; }, 3500);
+    }
+    function api(pfad, daten) {
+      return fetch(pfad, {
+        method: daten ? "POST" : "GET",
+        headers: { "Content-Type": "application/json", "X-Cockpit-Token": token },
+        body: daten ? JSON.stringify(daten) : undefined
+      }).then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.fehler || r.status); return j; }); });
+    }
+
+    function kpis(k) {
+      var werte = [
+        [k.anfragen_gesamt, "Anfragen bearbeitet (" + k.zeitraum_tage + " Tage)"],
+        [k.termine_gebucht, "Termine gebucht"],
+        [k.leads_angelegt, "Neue Leads"],
+        [k.geschaetzte_stunden_gespart + " h", "Zeit gespart (geschätzt, " + k.annahme_minuten_pro_anfrage + " Min./Anfrage)"]
+      ];
+      document.getElementById("kpis").replaceChildren.apply(document.getElementById("kpis"),
+        werte.map(function (w) { return el("div", { cls: "kpi" }, [el("b", { text: String(w[0]) }), el("span", { text: w[1] })]); }));
+    }
+
+    function freigaben(liste) {
+      var ziel = document.getElementById("freigaben");
+      if (!liste.length) { leer(ziel, "Nichts offen – alles erledigt."); return; }
+      ziel.replaceChildren();
+      liste.forEach(function (f) {
+        var felder = {};
+        var inhalt = [];
+        Object.keys(f.eingabe).forEach(function (k) {
+          var v = f.eingabe[k];
+          if (v === null || v === "" || VERSTECKT[k]) return;
+          if (EDITIERBAR[k]) {
+            var feld = el(k === "text" ? "textarea" : "input", { id: f.id + "-" + k });
+            feld.value = v; felder[k] = feld;
+            inhalt.push(el("label", { "for": f.id + "-" + k, text: FELD[k] || k }), feld);
+          } else {
+            inhalt.push(el("label", { text: FELD[k] || k }), el("div", { text: String(v) }));
+          }
+        });
+        var ja = el("button", { cls: "ja", text: "Freigeben" });
+        var nein = el("button", { cls: "nein", text: "Ablehnen" });
+        function senden(aktion) {
+          ja.disabled = nein.disabled = true;
+          var eingabe = {};
+          Object.keys(felder).forEach(function (k) { eingabe[k] = felder[k].value; });
+          api("cockpit/freigabe", { id: f.id, aktion: aktion, eingabe: Object.keys(eingabe).length ? eingabe : null })
+            .then(function (r) {
+              if (r.fehler) throw new Error(r.fehler);
+              meldung(aktion === "freigeben" ? "Freigegeben und ausgeführt." : "Abgelehnt.");
+              laden();
+            })
+            .catch(function (e) { meldung("Fehler: " + e.message); ja.disabled = nein.disabled = false; });
+        }
+        ja.onclick = function () { senden("freigeben"); };
+        nein.onclick = function () { senden("ablehnen"); };
+        ziel.appendChild(el("div", { cls: "karte" }, [
+          el("div", { cls: "kopf" }, [el("strong", { text: WERKZEUG[f.werkzeug] || f.werkzeug }),
+                                      el("small", { text: f.agent + " · " + datum(f.erstellt_am) })])
+        ].concat(inhalt).concat([el("div", { cls: "knoepfe" }, [ja, nein])])));
+      });
+    }
+
+    function termine(liste) {
+      var ziel = document.getElementById("termine");
+      if (!liste.length) { ziel.replaceChildren(el("tr", {}, [el("td", { colspan: "4", cls: "leer", text: "Keine kommenden Termine." })])); return; }
+      ziel.replaceChildren.apply(ziel, liste.map(function (t) {
+        return el("tr", {}, [el("td", { text: datum(t.start) + " (" + t.dauer_min + " Min.)" }), el("td", { text: t.name }),
+                             el("td", { text: t.kontakt }), el("td", { text: t.anliegen })]);
+      }));
+    }
+
+    function leads(liste) {
+      var ziel = document.getElementById("leads");
+      if (!liste.length) { ziel.replaceChildren(el("tr", {}, [el("td", { colspan: "5", cls: "leer", text: "Noch keine Leads." })])); return; }
+      ziel.replaceChildren.apply(ziel, liste.map(function (l) {
+        var auswahl = el("select", { "aria-label": "Status" });
+        STATUS.forEach(function (s) { var o = el("option", { value: s, text: s.replace("_", " ") }); if (s === l.status) o.selected = true; auswahl.appendChild(o); });
+        auswahl.onchange = function () {
+          api("cockpit/lead", { id: l.id, status: auswahl.value }).then(function (r) {
+            meldung(r.fehler ? "Fehler: " + r.fehler : "Status gespeichert.");
+          }).catch(function (e) { meldung("Fehler: " + e.message); });
+        };
+        var kontakt = [l.firma, l.name].filter(Boolean).join(" – ");
+        var wege = [l.email, l.telefon, l.website].filter(Boolean).join(" · ");
+        return el("tr", {}, [
+          el("td", {}, [el("div", { text: kontakt || wege }), el("div", { cls: "leise", text: kontakt ? wege : "" })]),
+          el("td", { text: l.anliegen }),
+          el("td", {}, [el("span", { cls: "pill" + (l.bewertung >= 8 ? " hoch" : ""), text: l.bewertung + "/10" })]),
+          el("td", {}, [auswahl]),
+          el("td", { text: l.naechster_schritt_am || "" })
+        ]);
+      }));
+    }
+
+    function textKarten(zielId, liste, kopf, text, leerText) {
+      var ziel = document.getElementById(zielId);
+      if (!liste.length) { leer(ziel, leerText); return; }
+      ziel.replaceChildren.apply(ziel, liste.map(function (x) {
+        return el("div", { cls: "karte" }, [el("div", { cls: "kopf" }, [el("strong", { text: kopf(x) }), el("small", { text: datum(x.zeit) })]),
+                                            el("pre", { text: text(x) })]);
+      }));
+    }
+
+    function links(l) {
+      var ziel = document.getElementById("links");
+      var namen = { demo: "Demo-Seite", widget_snippet: "Einbau-Code für Ihre Website", kalender_abo: "Kalender abonnieren (Google/Outlook)" };
+      var zeilen = Object.keys(l).filter(function (k) { return l[k] && k !== "api_token" && k !== "kunden_url"; });
+      if (!zeilen.length) { leer(ziel, "Noch keine Links konfiguriert."); return; }
+      ziel.replaceChildren.apply(ziel, zeilen.map(function (k) {
+        return el("div", {}, [el("label", { text: namen[k] || k }), el("code", { text: l[k] })]);
+      }));
+    }
+
+    function laden() {
+      if (!token) { zeigeFehler("Kein Zugang. Bitte öffnen Sie den Link aus Ihrer E-Mail."); return; }
+      api("cockpit/daten").then(function (d) {
+        STATUS = d.lead_status;
+        document.title = "Cockpit – " + d.firma;
+        document.getElementById("firma").textContent = d.firma;
+        document.getElementById("untertitel").textContent = "KI-Agenten: " + d.agenten.map(function (a) { return a.bezeichnung; }).join(", ")
+          + (d.demo ? " · Demo-Modus" : "");
+        kpis(d.kennzahlen);
+        freigaben(d.freigaben_offen);
+        termine(d.termine);
+        leads(d.leads);
+        textKarten("berichte", d.berichte, function (b) { return b.agent + " (" + b.aktionen + " Aktionen)"; },
+                   function (b) { return b.bericht; }, "Noch keine Berichte.");
+        textKarten("benachrichtigungen", d.benachrichtigungen, function (b) { return (b.dringlichkeit === "hoch" ? "❗ " : "") + b.betreff; },
+                   function (b) { return b.nachricht; }, "Keine Benachrichtigungen.");
+        links(d.links);
+        document.getElementById("stand").textContent = "Stand: " + new Date().toLocaleString("de-DE") + " · aktualisiert sich jede Minute.";
+        document.getElementById("inhalt").hidden = false;
+      }).catch(function (e) { zeigeFehler(e.message); });
+    }
+    function zeigeFehler(text) {
+      var f = document.getElementById("fehler");
+      f.textContent = text; f.style.display = "block";
+      document.getElementById("untertitel").textContent = "";
+    }
+
+    document.getElementById("sperrknopf").onclick = function () {
+      var feld = document.getElementById("sperre");
+      api("cockpit/sperren", { email: feld.value }).then(function (r) {
+        meldung(r.fehler ? "Fehler: " + r.fehler : r.gesperrt + " wird nicht mehr kontaktiert.");
+        if (!r.fehler) feld.value = "";
+      }).catch(function (e) { meldung("Fehler: " + e.message); });
+    };
+
+    laden();
+    setInterval(function () { if (!document.querySelector("textarea:focus, input:focus")) laden(); }, 60000);
+  })();
+  </script>
+</body>
+</html>

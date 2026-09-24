@@ -1,0 +1,52 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/neuer_kunde.py:*)",
+      "Bash(python3 scripts/neuer_kunde.py:*)",
+      "Bash(python scripts/validate_config.py:*)",
+      "Bash(python3 scripts/validate_config.py:*)",
+      "Bash(python scripts/run_tests.py:*)",
+      "Bash(python3 scripts/run_tests.py:*)",
+      "Bash(python -m runtime pruefen:*)",
+      "Bash(python3 -m runtime pruefen:*)",
+      "WebSearch",
+      "WebFetch",
+      "Bash(python3 scripts/agent_hinzufuegen.py:*)",
+      "Bash(python scripts/agent_hinzufuegen.py:*)",
+      "Bash(python3 scripts/vapi_assistent.py:*)",
+      "Bash(python3 -m runtime zugang:*)",
+      "Bash(python -m runtime zugang:*)",
+      "Bash(python3 -m runtime nachricht:*)",
+      "Bash(python -m runtime nachricht:*)",
+      "Bash(git status:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(python3 scripts/vapi_einrichten.py:*)",
+      "Bash(python scripts/vapi_einrichten.py:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/config_pruefen.py\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

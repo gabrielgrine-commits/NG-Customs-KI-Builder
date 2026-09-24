@@ -1,0 +1,30 @@
+# Start (im Ordner deploy/):  docker compose up -d --build
+services:
+  plattform:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ..:/app            # Git-Checkout: Code, Kunden-Konfigurationen und kunden/*/daten/
+    expose:
+      - "8080"             # nur intern – öffentlich erreichbar ausschließlich über Caddy (HTTPS)
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_daten:/data
+      - caddy_config:/config
+    depends_on:
+      - plattform
+
+volumes:
+  caddy_daten:
+  caddy_config:

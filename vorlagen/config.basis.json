@@ -1,0 +1,107 @@
+{
+  "firma": {
+    "name": "{{FIRMA}}",
+    "branche": "{{BRANCHE}}",
+    "adresse": "[OFFEN]",
+    "telefon": "[OFFEN]",
+    "email": "[OFFEN]",
+    "website": "[OFFEN]",
+    "datenschutz_url": "[OFFEN]"
+  },
+  "zeitzone": "Europe/Berlin",
+  "modell": "claude-opus-5",
+  "effort": "medium",
+  "fallbacks": true,
+  "wissen": [
+    "wissen.md"
+  ],
+  "benachrichtigung": {
+    "email": "",
+    "webhook_url": ""
+  },
+  "email": {
+    "absender": "",
+    "smtp_host": "",
+    "smtp_port": 587,
+    "imap_host": "",
+    "imap_port": 993,
+    "benutzer_env": "{{ENV}}_MAIL_USER",
+    "passwort_env": "{{ENV}}_MAIL_PASS"
+  },
+  "kalender": {
+    "termindauer_min": 60,
+    "raster_min": 30,
+    "puffer_min": 15,
+    "vorlauf_stunden": 12,
+    "max_tage_voraus": 60,
+    "arbeitszeiten": {
+      "mo": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "di": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "mi": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "do": [
+        [
+          "08:00",
+          "12:00"
+        ],
+        [
+          "13:00",
+          "17:00"
+        ]
+      ],
+      "fr": [
+        [
+          "08:00",
+          "13:00"
+        ]
+      ]
+    },
+    "gesperrte_tage": []
+  },
+  "server": {
+    "erlaubte_origins": [],
+    "token_env": "{{ENV}}_AGENT_TOKEN"
+  },
+  "telefon": {
+    "modell": "claude-opus-5",
+    "stimme": {
+      "provider": "azure",
+      "voiceId": "de-DE-KatjaNeural"
+    },
+    "transkription": {
+      "provider": "deepgram",
+      "model": "nova-2",
+      "language": "de"
+    },
+    "begruessung": "Guten Tag, hier ist der KI-Assistent von {{FIRMA}}. Wie kann ich Ihnen helfen?",
+    "max_dauer_s": 900,
+    "nachbearbeitung": true
+  },
+  "agenten": {}
+}
