@@ -103,7 +103,7 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Guten Tag, hier ist der KI-Assistent von NG Customs. Wie kann ich Ihnen helfen?",
+    "begruessung": "Guten Tag, hier ist der KI-Assistent von NG Customs. Übrigens: Genau so ein Assistent könnte auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
     "nachbearbeitung": true
   },
@@ -115,7 +115,8 @@
       "kanaele": [
         "chat",
         "email",
-        "webhook"
+        "webhook",
+        "telefon"
       ],
       "werkzeuge": [
         "kalender",

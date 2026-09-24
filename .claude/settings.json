@@ -21,7 +21,9 @@
       "Bash(git status:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(python3 scripts/vapi_einrichten.py:*)",
+      "Bash(python scripts/vapi_einrichten.py:*)"
     ]
   },
   "hooks": {

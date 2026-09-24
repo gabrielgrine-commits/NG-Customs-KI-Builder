@@ -81,6 +81,9 @@ ausführen) · `freigaben` / `freigeben <id>` / `ablehnen <id>` · `leads` · `t
 --server-url https://…` erzeugt `agent/vapi-assistent.json` → mit dem Vapi-MCP (`.mcp.json`, braucht
 `VAPI_TOKEN`) den Assistenten anlegen/aktualisieren und eine Nummer zuweisen. Vapi ruft für Werkzeuge
 `POST /vapi/<agent>` auf; nach jedem Anruf bearbeitet unser Agent das Transkript nach.
+**Ohne MCP (bevorzugt):** `python scripts/vapi_einrichten.py kunden/<slug> <agent> [--nummer <id>]` legt den
+Assistenten direkt per Vapi-API an bzw. aktualisiert ihn (braucht `VAPI_TOKEN`, `NGC_BASIS_URL`, `NGC_GEHEIMNIS`).
+Deutsche Nummern gibt es nicht direkt bei Vapi → bei Twilio/Telnyx/Vonage kaufen und in Vapi importieren.
 
 Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmodell `claude-opus-5`.
 

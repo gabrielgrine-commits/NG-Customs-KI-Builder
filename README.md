@@ -102,8 +102,9 @@ Bestätigung verschickt?
 3. Plattform läuft (deploy/) und `NGC_GEHEIMNIS` + `NGC_BASIS_URL` sind gesetzt.
 4. `python scripts/vapi_assistent.py kunden/<slug> rezeption` schreibt `agent/vapi-assistent.json`
    (in .gitignore, da sie den Token enthält).
-5. In Claude Code (bzw. `/agent-bauen`): Assistent über das Vapi-MCP anlegen, Telefonnummer
-   zuweisen. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
+5. `python scripts/vapi_einrichten.py kunden/<slug> rezeption --nummer <ID>` legt den Assistenten direkt
+   über die Vapi-API an und verknüpft die Nummer (alternativ über das Vapi-MCP). Deutsche Nummern gibt es
+   nicht direkt bei Vapi: bei Twilio/Telnyx/Vonage kaufen und im Vapi-Dashboard importieren. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
    Antwort nach 20 s“ oder nach Feierabend).
 
 Hinweise: Stimme, Transkription und Modell sind Vorschläge. Prüfe im Vapi-Dashboard, welche
