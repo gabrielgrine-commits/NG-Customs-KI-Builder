@@ -154,8 +154,8 @@ class Werkzeuge:
     def __init__(self, konfig: KundenKonfig, store: JsonStore, trockenlauf: bool = False):
         self.k = konfig
         self.store = store
-        # trockenlauf: keine echten E-Mails/Webhooks (für Tests)
-        self.trockenlauf = trockenlauf
+        # trockenlauf: keine echten E-Mails/Webhooks (Tests und Demo-Kunden)
+        self.trockenlauf = trockenlauf or bool(konfig.daten.get("demo"))
         self.tz = ZoneInfo(konfig.zeitzone)
         self._fn: dict[str, Callable[..., Any]] = {
             "kalender_freie_termine": self.kalender_freie_termine,

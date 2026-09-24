@@ -8,6 +8,10 @@
     "website": "https://malerbetrieb-beispiel.example",
     "datenschutz_url": "https://malerbetrieb-beispiel.example/datenschutz"
   },
+  "demo": true,
+  "design": {
+    "farbe": "#1f6feb"
+  },
   "zeitzone": "Europe/Berlin",
   "modell": "claude-opus-5",
   "effort": "medium",

@@ -10,7 +10,18 @@
       "Bash(python -m runtime pruefen:*)",
       "Bash(python3 -m runtime pruefen:*)",
       "WebSearch",
-      "WebFetch"
+      "WebFetch",
+      "Bash(python3 scripts/agent_hinzufuegen.py:*)",
+      "Bash(python scripts/agent_hinzufuegen.py:*)",
+      "Bash(python3 scripts/vapi_assistent.py:*)",
+      "Bash(python3 -m runtime zugang:*)",
+      "Bash(python -m runtime zugang:*)",
+      "Bash(python3 -m runtime nachricht:*)",
+      "Bash(python -m runtime nachricht:*)",
+      "Bash(git status:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   },
   "hooks": {
@@ -21,6 +32,16 @@
           {
             "type": "command",
             "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/config_pruefen.py\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
           }
         ]
       }

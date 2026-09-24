@@ -1,0 +1,9 @@
+# Caddy holt automatisch ein HTTPS-Zertifikat für DOMAIN (aus .env).
+{$DOMAIN} {
+	encode gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+	reverse_proxy plattform:8080
+}

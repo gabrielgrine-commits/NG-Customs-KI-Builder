@@ -18,6 +18,7 @@ from zoneinfo import ZoneInfo
 import anthropic
 
 from .config import KundenKonfig
+from .geheimnisse import cockpit_link
 from .store import JsonStore, neue_id
 from .werkzeuge import Werkzeuge
 
@@ -152,6 +153,30 @@ class Agent:
 
         verlauf: bisherige messages (für Chats); wird erweitert zurückgegeben.
         """
+        # Nur Zähler für die Kennzahlen im Cockpit – keine Gesprächsinhalte im Protokoll.
+        self.store.protokollieren({"agent": self.name, "kanal": kanal, "ereignis": "anfrage"})
+        ergebnis, messages = self._schleife(eingabe, verlauf, kanal)
+        neue = [a for a in ergebnis.aktionen
+                if isinstance(a["ergebnis"], dict) and a["ergebnis"].get("zur_freigabe_vorgelegt")]
+        if neue:
+            self._freigaben_melden(neue)
+        return ergebnis, messages
+
+    def _freigaben_melden(self, neue: list[dict]) -> None:
+        """Eine Benachrichtigung pro Lauf, damit der Betrieb weiß, dass etwas auf ihn wartet."""
+        link = cockpit_link(self.k)
+        liste = "\n".join(f"- {a['werkzeug']}: " + ", ".join(f"{k}={str(v)[:60]}" for k, v in a["eingabe"].items()
+                                                              if v and k in ("an", "betreff", "name", "start"))
+                          for a in neue)
+        text = (f"Der KI-Agent '{self.a.get('bezeichnung', self.name)}' hat {len(neue)} Aktion(en) vorbereitet, "
+                f"die Ihre Freigabe brauchen:\n{liste}\n\n"
+                + (f"Prüfen und freigeben: {link}" if link else "Freigeben mit: python -m runtime freigaben <kunde>"))
+        try:
+            self.werkzeuge.team_benachrichtigen(f"{len(neue)} Aktion(en) warten auf Freigabe", text, "normal")
+        except Exception as e:  # Benachrichtigung darf den eigentlichen Lauf nie scheitern lassen
+            self.store.protokollieren({"agent": self.name, "fehler_benachrichtigung": str(e)})
+
+    def _schleife(self, eingabe: str, verlauf: list | None, kanal: str) -> tuple[Ergebnis, list]:
         messages = list(verlauf or [])
         messages.append({"role": "user", "content": f"{self._kontext(kanal)}\n\n{eingabe}"})
         aktionen: list[dict] = []

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -97,6 +98,10 @@ def pruefen(k: KundenKonfig) -> list[str]:
     for feld in ("name", "branche", "datenschutz_url"):
         if not firma.get(feld):
             fehler.append(f"firma.{feld} fehlt")
+
+    farbe = (d.get("design") or {}).get("farbe")
+    if farbe is not None and not re.fullmatch(r"#[0-9a-fA-F]{3,8}", str(farbe)):
+        fehler.append("design.farbe muss eine Hex-Farbe sein, z. B. #1f6feb")
 
     if d.get("effort") and d["effort"] not in EFFORTS:
         fehler.append(f"effort muss eines von {sorted(EFFORTS)} sein")

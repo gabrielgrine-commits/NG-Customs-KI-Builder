@@ -13,6 +13,8 @@
   python -m runtime server       kunden/<slug> [--port 8080]
   python -m runtime zeitplan     kunden/<slug>
   python -m runtime email        kunden/<slug> <agent> [--einmal]
+  python -m runtime zugang       kunden/<slug>            Demo-/Cockpit-Links, Einbau-Code, Tokens
+  python -m runtime plattform    kunden [--port 8080]     ALLE Kunden in einem Prozess (Produktion)
 """
 
 from __future__ import annotations
@@ -35,7 +37,10 @@ def _drucke_aktionen(aktionen: list[dict]) -> None:
 def main() -> None:
     p = argparse.ArgumentParser(prog="python -m runtime", description="NG Customs Agenten-Laufzeit")
     sub = p.add_subparsers(dest="befehl", required=True)
-    for name in ("pruefen", "freigaben", "leads", "termine", "berichte", "server", "zeitplan"):
+    s = sub.add_parser("plattform")
+    s.add_argument("kunden_ordner")
+    s.add_argument("--port", type=int, default=8080)
+    for name in ("pruefen", "freigaben", "leads", "termine", "berichte", "server", "zeitplan", "zugang"):
         s = sub.add_parser(name)
         s.add_argument("kunde")
         if name == "freigaben":
@@ -61,6 +66,14 @@ def main() -> None:
         s.add_argument("id")
     args = p.parse_args()
 
+    if args.befehl == "plattform":
+        from .plattform import starten as plattform_starten
+        try:
+            plattform_starten(args.kunden_ordner, port=args.port)
+        except KeyboardInterrupt:
+            print()
+        return
+
     try:
         k = config.laden(args.kunde)
     except config.KonfigFehler as e:
@@ -73,6 +86,18 @@ def main() -> None:
             for n, a in k.daten["agenten"].items():
                 print(f"  • {n} ({a.get('typ', '?')}): Kanäle {a.get('kanaele', [])}, "
                       f"Werkzeuge {a.get('werkzeuge', [])}, Freigabe für {a.get('freigabe_erforderlich', [])}")
+
+        elif args.befehl == "zugang":
+            from .geheimnisse import zugaenge
+            z = zugaenge(k)
+            if not z["kunden_url"] or not z["cockpit"]:
+                print("⚠️  NGC_BASIS_URL (z. B. https://agents.ng-customs.de) und NGC_GEHEIMNIS (mind. 16 Zeichen) "
+                      "setzen – dann sind alle Links und Tokens verfügbar.")
+            namen = {"kunden_url": "Adresse", "demo": "Demo-Seite", "cockpit": "Cockpit (für den Betrieb)",
+                     "widget_snippet": "Einbau-Code Website", "kalender_abo": "Kalender-Abo", "api_token": "API-Token"}
+            for schluessel, wert in z.items():
+                if wert:
+                    print(f"{namen.get(schluessel, schluessel)}:\n  {wert}")
 
         elif args.befehl == "chat":
             agent = Agent(k, args.agent)

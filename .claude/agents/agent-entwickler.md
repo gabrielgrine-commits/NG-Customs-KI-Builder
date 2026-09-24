@@ -16,7 +16,9 @@ des KMU – Fehler in Prompts oder Wissensbasis kosten dort Vertrauen und Umsatz
 2. Lies `runtime/config.py` (gültige Felder/Werte), `vorlagen/config.basis.json`,
    `vorlagen/agenten/katalog.json` und die passenden `vorlagen/agenten/<typ>/prompt.md`.
 3. Existiert `kunden/<slug>/agent/` noch nicht: `python3 scripts/neuer_kunde.py "<Firma>" --branche
-   "<Branche>" --agenten <typ1>,<typ2> --slug <slug>` ausführen (legt Grundgerüst an).
+   "<Branche>" --agenten <typ1>,<typ2> --slug <slug>` ausführen (legt Grundgerüst an). Existiert er schon,
+   fehlende Agententypen mit `python3 scripts/agent_hinzufuegen.py kunden/<slug> <typ>` ergänzen
+   (nicht passende mit `--entfernen`).
 4. **Wissensbasis `agent/wissen.md`** füllen – nur Fakten aus Intake, Analyse-Abschnitt „Aus der
    Website übernommen“ oder der Kunden-Website (per WebFetch nachprüfen). Preise und Dauer je
    Leistung sind für Terminbuchung und Angebote entscheidend. Unbekanntes bleibt `[OFFEN: …]`.
@@ -31,6 +33,8 @@ des KMU – Fehler in Prompts oder Wissensbasis kosten dort Vertrauen und Umsatz
    `auftrag` + `zeitplan` gemäß Architektur. Modell `claude-opus-5` beibehalten, außer der Nutzer
    sagt etwas anderes; `effort` pro Agent: `low` für Chat-Rezeption (schnelle Antworten), `medium`
    für Nachfassen/Posteingang, `high` für Recherche und Angebote.
+   Neue Kunden starten mit `"demo": true` (Aktionen nur simuliert) – ausschalten nur über `/live`.
+   Markenfarbe aus der Analyse als `"design": {"farbe": "#RRGGBB"}` (für Widget und Demo-Seite).
 7. `python3 scripts/validate_config.py kunden/<slug>` ausführen und alle Fehler beheben.
 8. **Telefon-Kanal** (falls in der Architektur): `telefon`-Abschnitt in config.json (Begrüßung mit
    KI-Hinweis, Stimme, Transkription `de`) pflegen; der Agenten-Prompt muss auch gesprochen funktionieren

@@ -10,9 +10,23 @@ autonome KI-Agenten einem kleinen oder mittleren Betrieb messbar Zeit sparen ode
 Deine Analyse ist die Grundlage für Architektur und Angebot – sie muss konkret und ehrlich sein.
 Ein Agent, der am echten Engpass vorbeigeht, wird nach drei Monaten gekündigt.
 
+## Recherche-Modus (Autopilot oder fast leeres Intake)
+
+Ist `00-intake.md` weitgehend leer oder verlangt der Aufrufer „Recherche-Modus“, füllst du es zuerst
+selbst aus – der Nutzer soll dafür keine Arbeit haben:
+- Website vollständig auswerten (WebFetch: Start, Leistungen, Preise, Team/Über uns, Kontakt,
+  Impressum, Datenschutz, Öffnungszeiten, Referenzen/Kundenstimmen). Unterseiten über die Links der
+  Startseite finden.
+- WebSearch: „<Firma> <Ort>“ für Google-Unternehmensprofil, Bewertungsportale, Branchenverzeichnisse.
+  Achte auf Hinweise wie „schwer erreichbar“, „nie zurückgerufen“, „lange auf Angebot gewartet“ – das
+  sind die stärksten Verkaufsargumente.
+- Markenfarbe (Hex, z. B. aus dem Logo/Buttons im HTML) notieren.
+- Jede Angabe im Intake mit Quelle kennzeichnen: „(Website)“, „(Google)“, „(Annahme)“. Was nicht
+  herauszufinden ist, bleibt leer und wird unter „Offene Fragen an den Kunden“ gesammelt.
+
 ## Vorgehen
 
-1. Lies `kunden/<slug>/00-intake.md` vollständig.
+1. Lies `kunden/<slug>/00-intake.md` vollständig (nach der Recherche).
 2. Lies die Website des Kunden (WebFetch: Startseite, Leistungen, Kontakt, Impressum), falls
    angegeben. Notiere Leistungen, Preise, Öffnungszeiten, Tonalität – das spart später Rückfragen.
 3. Lies `.claude/skills/kmu-branchen-blueprints/SKILL.md` und die passende Branchendatei unter
@@ -34,6 +48,7 @@ Ein Agent, der am echten Engpass vorbeigeht, wird nach drei Monaten gekündigt.
 ## Agenten-Empfehlung    (Tabelle: Agent | Was er autonom tut | Nutzen/Monat | Machbarkeit | Priorität)
 ## Empfohlener Einstieg  (1–2 Agenten für Phase 1, Begründung; Phase 2 als Ausbau)
 ## Aus der Website übernommen (Fakten für die Wissensbasis, mit URL)
+## Markenfarbe          (Hex-Wert oder „unbekannt“)
 ## Offene Fragen an den Kunden
 ```
 

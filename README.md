@@ -1,29 +1,38 @@
 # NG Customs – KI-Agenten-Builder für KMUs
 
 Werkzeugkasten, mit dem NG Customs für kleine und mittlere Unternehmen **autonome KI-Agenten**
-plant, baut, testet, anbietet und betreibt: digitale Rezeption, Lead-Generierung,
-Lead-Nachfassen, Posteingangs-Assistenz und Angebots-Assistent.
+baut, verkauft und betreibt: digitale Rezeption (Chat, E-Mail, Telefon), Lead-Generierung,
+Lead-Nachfassen, Posteingangs-Assistenz, Angebots-Assistent.
 
-Das Repo besteht aus zwei Teilen:
+## So einfach läuft ein Kunde (in Claude Code)
 
-1. **Builder (Claude Code):** Subagenten und Befehle, die aus einem Erstgespräch einen fertigen
-   Kunden-Agenten machen: Analyse → Architektur → Bau → Compliance → Tests → Angebot.
-2. **Laufzeit (`runtime/`):** Die Plattform, auf der die Kunden-Agenten laufen. Sie kann mit
-   Kalender, CRM, E-Mail, Web-Recherche und Team-Benachrichtigung arbeiten, hat eine
-   Freigabe-Warteschlange und ein Audit-Protokoll. Ausgelöst wird ein Agent per Website-Chat,
-   E-Mail-Posteingang, Webhook oder Zeitplan.
+| Schritt | Du tippst | Das passiert automatisch |
+|---|---|---|
+| 1. Interessent gefunden | `/demo https://www.betrieb.de` | Website wird gelesen, Assistent gebaut, **Demo-Link** + kurze Mail an den Betrieb |
+| 2. Er ist interessiert | `/autopilot betrieb` (+ Notizen aus dem Gespräch) | Recherche, Analyse, passende Agenten, Tests, Rechts-Check, **Angebot** und **Kunden-Mail mit Fragen** |
+| 3. Er sagt zu | `/live betrieb` (+ seine Antworten) | Checkliste, Demo-Modus aus, **Übergabe-Mail mit Cockpit-Link** |
+| Danach | – | Der Betrieb gibt E-Mails im **Cockpit** selbst frei und sieht Leads, Termine und Kennzahlen |
 
-```
-Erstgespräch ─► /neuer-kunde ─► /agent-bauen ─► kunden/<slug>/agent/ ─► python -m runtime …
-                                   │                                     ├─ server   (Chat-Widget, Formulare)
-                 kmu-analyst ──────┤                                     ├─ email    (Posteingang)
-                 agent-architekt ──┤  ◄── du gibst die Architektur frei  ├─ zeitplan (Daueraufgaben)
-                 agent-entwickler ─┤                                     └─ freigaben (Mensch prüft)
-                 compliance-pruefer┤
-                 qa-tester ────────┘ ─► /angebot ─► 06-angebot.md
-```
+Neue Kunden gehen automatisch online: Der Autopilot committet, der Server holt die Änderungen alle
+5 Minuten (einmalige Einrichtung: [`deploy/README.md`](deploy/README.md)).
 
-## Schnellstart
+**Einmalig einrichten:**
+1. `vorlagen/ng-customs.md` (deine Firmendaten) und `vorlagen/preise.md` (deine Preise) ausfüllen.
+2. Server einrichten mit `deploy/einrichten.sh` (ca. 20 Min., fragt alles ab).
+3. In der Claude-Code-Umgebung als Umgebungsvariablen setzen: `ANTHROPIC_API_KEY`,
+   `NGC_GEHEIMNIS` (zeigt das Einrichtungsskript an), `NGC_BASIS_URL`, optional `VAPI_TOKEN`.
+
+## Aufbau
+
+1. **Builder (Claude Code):** `/autopilot`, `/demo`, `/live` sowie die Einzelschritte `/neuer-kunde`,
+   `/agent-bauen`, `/agent-testen` und `/angebot`. Dahinter arbeiten sechs Subagenten (Analyse,
+   Architektur, Entwicklung, Compliance, QA, Angebot).
+2. **Plattform (`runtime/`):** betreibt alle Kunden in einem Prozess (`python -m runtime plattform
+   kunden`). Jeder Kunde liegt unter `/k/<slug>/` mit Demo-Seite, Chat-Widget, Cockpit, Webhooks,
+   Telefon (Vapi) und Kalender-Feed. Zeitgesteuerte Agenten und E-Mail-Postfächer laufen im
+   Hintergrund. Tokens und Links werden aus **einem** Geheimnis (`NGC_GEHEIMNIS`) abgeleitet.
+
+## Lokal ausprobieren
 
 ```bash
 pip install -r requirements.txt
@@ -41,7 +50,7 @@ python -m runtime freigeben kunden/beispiel-malerbetrieb F-1234abcd
 python scripts/run_tests.py kunden/beispiel-malerbetrieb
 ```
 
-## Neuen Kunden bauen (in Claude Code)
+## Einzelschritte statt Autopilot (wenn du jeden Schritt selbst steuern willst)
 
 ```
 /neuer-kunde "Dachdeckerei Muster GmbH" Handwerk <Notizen aus dem Erstgespräch>
@@ -51,7 +60,7 @@ python scripts/run_tests.py kunden/beispiel-malerbetrieb
 
 `/agent-bauen` hält nach der Architektur an und wartet auf deine Freigabe, bevor gebaut wird.
 
-## Kunden-Agent live schalten
+## Einzelserver pro Kunde (Alternative zur Plattform)
 
 1. **Server** (kleiner VPS, hinter HTTPS-Reverse-Proxy wie Caddy):
    `python -m runtime server kunden/<slug> --port 8080`
@@ -90,10 +99,9 @@ Bestätigung verschickt?
    Claude Code Assistenten und Nummern direkt verwalten kann. **Den Key nie in `.mcp.json` schreiben.**
 2. In `config.json` beim Agenten den Kanal `telefon` eintragen und den Abschnitt `telefon` pflegen
    (Begrüßung mit KI-Hinweis, Stimme, Transkription, Modell).
-3. Server öffentlich per HTTPS erreichbar machen (`python -m runtime server …`) und den Token setzen
-   (Umgebungsvariable aus `server.token_env`, z. B. `openssl rand -hex 24`).
-4. `python scripts/vapi_assistent.py kunden/<slug> rezeption --server-url https://agent.kunde.de`
-   schreibt `agent/vapi-assistent.json` (in .gitignore, da sie den Token enthält).
+3. Plattform läuft (deploy/) und `NGC_GEHEIMNIS` + `NGC_BASIS_URL` sind gesetzt.
+4. `python scripts/vapi_assistent.py kunden/<slug> rezeption` schreibt `agent/vapi-assistent.json`
+   (in .gitignore, da sie den Token enthält).
 5. In Claude Code (bzw. `/agent-bauen`): Assistent über das Vapi-MCP anlegen, Telefonnummer
    zuweisen. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
    Antwort nach 20 s“ oder nach Feierabend).
@@ -124,11 +132,12 @@ die externe API auf.
 
 ```
 .claude/agents/       Subagenten des Builders
-.claude/commands/     /neuer-kunde, /agent-bauen, /agent-testen, /angebot
+.claude/commands/     /autopilot, /demo, /live, /neuer-kunde, /agent-bauen, /agent-testen, /angebot
 .claude/skills/       kmu-branchen-blueprints (Branchenwissen)
 .claude/hooks/        Validierung der Kunden-Konfiguration
-runtime/              Agenten-Plattform (engine, werkzeuge, server, worker, widget)
-scripts/              neuer_kunde.py, validate_config.py, run_tests.py
+runtime/              Agenten-Plattform (engine, werkzeuge, server, plattform, cockpit, telefon, worker, static/)
+deploy/               Docker + Caddy (HTTPS) + einrichten.sh + Auto-Update
+scripts/              neuer_kunde.py, agent_hinzufuegen.py, validate_config.py, run_tests.py, vapi_assistent.py
 vorlagen/             Agenten-Katalog, Prompts, config-Basis, Fragebogen, Wissensbasis, Preise
 kunden/               ein Ordner pro Kunde (Beispiel: beispiel-malerbetrieb, fiktiv)
 ```

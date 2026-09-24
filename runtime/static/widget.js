@@ -1,12 +1,13 @@
 /*
  * NG Customs Chat-Widget
  * Einbinden auf der Kunden-Website:
- *   <script src="https://agent.kunde.de/widget.js" data-agent="rezeption"
+ *   <script src="https://agents.ng-customs.de/k/<kunde>/widget.js" data-agent="rezeption"
  *           data-titel="Digitale Rezeption" data-farbe="#1f6feb" defer></script>
  */
 (function () {
   var skript = document.currentScript;
-  var basis = new URL(skript.src).origin;
+  // Verzeichnis von widget.js – funktioniert unter / (Einzelbetrieb) und /k/<kunde>/ (Plattform)
+  var basis = new URL(".", skript.src).href;
   var agent = skript.dataset.agent || "rezeption";
   var titel = skript.dataset.titel || "Digitale Rezeption";
   var farbe = skript.dataset.farbe || "#1f6feb";
@@ -101,7 +102,7 @@
     nachricht(text, true);
     var warte = nachricht("…", false);
     feld.disabled = true;
-    fetch(basis + "/chat/" + encodeURIComponent(agent), {
+    fetch(basis + "chat/" + encodeURIComponent(agent), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sitzung: sitzung, nachricht: text }),

@@ -33,14 +33,23 @@ kunden/<slug>/
 ├── 04-compliance.md    # compliance-pruefer
 ├── 05-tests.json       # qa-tester: Szenarien  → 05-testergebnis.md
 ├── 06-angebot.md       # angebots-schreiber
+├── 07-kundenmail.md    # angebots-schreiber: Mail an den Betrieb (Demo-Link, Fragen)
+├── 08-uebergabe.md     # /live: Übergabe-Mail (Cockpit-Link, Einbau-Code)
 ├── agent/              # agent-entwickler: config.json, <typ>.md (Prompts), wissen.md
 └── daten/              # Laufzeitdaten (CRM, Termine, Freigaben, Protokoll) – NIE committen
 ```
 
 ## Pipeline in Claude Code
 
+Der Nutzer will möglichst wenig Arbeit: **Standardweg ist `/autopilot`** (bzw. `/demo` für eine
+schnelle Vorführung, `/live` nach Zusage). Entscheidungen mit sicheren Standards selbst treffen,
+Fragen gesammelt am Ende stellen.
+
 | Befehl | Zweck |
 |---|---|
+| `/demo <Website>` | Schnelle Vorführ-Version mit Demo-Link + kurze Mail an den Betrieb |
+| `/autopilot <Website/Firma> [Notizen]` | Alles automatisch: Recherche → Agenten → Tests → Recht → Angebot → Kunden-Mail |
+| `/live <slug> [Antworten des Kunden]` | Checkliste, Demo-Modus aus, Übergabe-Mail mit Cockpit-Link |
 | `/neuer-kunde <Firma> [Branche] [Notizen]` | Kundenordner anlegen, Erstgespräch auswerten |
 | `/agent-bauen <slug>` | Analyse → Architektur → **Freigabe durch dich** → Bau → Compliance + Tests |
 | `/agent-testen <slug>` | Testszenarien erzeugen, gegen den echten Agenten laufen lassen, Fehler beheben |
@@ -49,12 +58,24 @@ kunden/<slug>/
 Subagenten: `.claude/agents/`. Branchenwissen: Skill `kmu-branchen-blueprints`.
 Ein Hook prüft jede Änderung an `kunden/*/agent/` automatisch (`scripts/validate_config.py`).
 
-## Laufzeit (runtime/) – `python -m runtime <befehl> kunden/<slug> …`
+## Plattform & Betrieb
+
+- **Produktion:** `python -m runtime plattform kunden` – alle Kunden unter `/k/<slug>/` (demo, cockpit,
+  widget.js, chat/, webhook/, vapi/, kalender.ics). Lädt geänderte Kunden automatisch neu.
+  Deployment: `deploy/` (Docker + Caddy, `einrichten.sh`, Auto-Update per `git pull`).
+- **Tokens/Links:** aus `NGC_GEHEIMNIS` + `NGC_BASIS_URL` abgeleitet (`runtime/geheimnisse.py`);
+  `python -m runtime zugang kunden/<slug>` zeigt alle Links.
+- **`"demo": true`** in config.json: Aktionen nur simuliert, keine Zeitpläne/Postfächer. Neue Kunden
+  starten so; `/live` schaltet ab.
+- **Cockpit:** Der Betrieb gibt Freigaben selbst frei (nur Betreff/Text editierbar), sieht Leads,
+  Termine, Berichte, Kennzahlen. Neue Freigaben → Benachrichtigung mit Cockpit-Link.
+
+## Laufzeit-CLI – `python -m runtime <befehl> kunden/<slug> …`
 
 `pruefen` · `chat <agent>` · `nachricht <agent> "…"` · `auftrag <agent>` (Daueraufgabe jetzt
 ausführen) · `freigaben` / `freigeben <id>` / `ablehnen <id>` · `leads` · `termine` · `berichte` ·
 `server` (Chat-Widget, Webhooks, Kalender-Feed) · `zeitplan` (Daueraufgaben nach Plan) ·
-`email <agent>` (Posteingang überwachen).
+`email <agent>` (Posteingang überwachen) · `zugang` (Links/Tokens).
 
 **Telefon (Vapi):** Kanal `telefon` in config.json → `python scripts/vapi_assistent.py kunden/<slug> <agent>
 --server-url https://…` erzeugt `agent/vapi-assistent.json` → mit dem Vapi-MCP (`.mcp.json`, braucht
