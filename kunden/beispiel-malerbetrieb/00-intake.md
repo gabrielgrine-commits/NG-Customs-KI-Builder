@@ -24,7 +24,7 @@
 
 ## 3. Wunsch-Agenten (ankreuzen)
 - [ ] Digitale Rezeption (Fragen, Termine, Anfragen 24/7 – Website-Chat, E-Mail, Formular)
-- [ ] Lead-Generierung (recherchiert neue B2B-Kunden, bereitet Erstansprache vor)
+- [ ] Lead-Generierung (recherchiert neue B2B-Kunden, bereitet Anrufe und Briefe vor)
 - [ ] Lead-Nachfassen (qualifiziert Anfragen, fasst automatisch nach, bringt zum Termin)
 - [ ] Posteingangs-Assistenz (sortiert und beantwortet E-Mails)
 - [ ] Angebots-Assistent (Angebotsentwurf aus Anfrage + Preisliste)

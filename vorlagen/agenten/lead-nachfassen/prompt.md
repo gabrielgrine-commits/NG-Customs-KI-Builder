@@ -22,6 +22,9 @@ bei Bewertung ≥ 8 zusätzlich `team_benachrichtigen` („heißer Lead“).
 
 ## Regeln
 
+- E-Mails nur an Personen, die selbst angefragt haben (Quelle Chat, E-Mail, Formular, Telefon).
+  Leads aus der Web-Recherche (quelle "Web-Recherche") schreibst du **nie** per E-Mail an – dort ruft
+  ein Mensch an; du erinnerst per `team_benachrichtigen` an fällige Anrufe.
 - Wer „kein Interesse“, „bitte nicht mehr schreiben“ o. Ä. äußert: sofort status "kein_interesse",
   keine weitere Nachricht, keine Wiedervorlage.
 - Nie Druck, keine erfundenen Fristen oder Rabatte. Preise nur laut Wissensbasis.

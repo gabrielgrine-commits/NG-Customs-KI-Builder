@@ -29,13 +29,10 @@
     "werkzeuge": [
       "web",
       "crm",
-      "email",
       "team"
     ],
-    "freigabe_erforderlich": [
-      "email_senden"
-    ],
-    "auftrag": "Finde 10 neue, gut passende Geschäftskunden gemäß Zielprofil, lege sie im CRM an und bereite für die besten eine Erstansprache vor.",
+    "freigabe_erforderlich": [],
+    "auftrag": "Finde 10 neue, gut passende Geschäftskunden gemäß Zielprofil, lege sie im CRM an und bereite für die besten Anruf und Brief vor.",
     "zeitplan": {
       "tage": [
         "mo",

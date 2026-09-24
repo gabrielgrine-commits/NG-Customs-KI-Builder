@@ -25,7 +25,7 @@ und die allgemeinen Regeln unten.
 |---|---|---|
 | `rezeption` | beantwortet Fragen, bucht/verschiebt Termine, nimmt Anfragen auf – 24/7 über Chat, E-Mail, Formular und **Telefon** (Vapi) | weniger Telefonunterbrechungen, keine verlorenen Anfragen nach Feierabend |
 | `lead-nachfassen` | qualifiziert neue Anfragen sofort, fasst nach, bringt zum Termin, pflegt CRM | höhere Abschlussquote, keine vergessenen Angebote |
-| `lead-generierung` | recherchiert passende B2B-Firmen im Web, bewertet sie, legt CRM-Einträge an, schreibt Erstansprache (mit Freigabe) | planbarer Neukunden-Nachschub |
+| `lead-generierung` | recherchiert passende B2B-Firmen im Web, bewertet sie, legt CRM-Einträge an, bereitet Anruf-Leitfaden und Brief vor (keine Kalt-Mails) | planbarer Neukunden-Nachschub |
 | `posteingang` | sortiert und beantwortet E-Mails, leitet Sonderfälle weiter | 3–10 h/Woche weniger E-Mail-Arbeit |
 | `angebots-assistent` | erstellt Angebotsentwurf aus Anfrage + Preisliste | Angebot in Minuten statt Tagen |
 
@@ -34,7 +34,7 @@ und die allgemeinen Regeln unten.
 - **Einstieg klein:** 1–2 Agenten, 2 Wochen Testphase mit Freigabe aller ausgehenden E-Mails.
 - **Speed-to-Lead:** Wer innerhalb von 5 Minuten antwortet, gewinnt deutlich häufiger den Auftrag
   als nach Stunden – das stärkste Verkaufsargument für Rezeption + Nachfassen.
-- **B2C-Kaltakquise ist in Deutschland verboten** (UWG §7). Lead-Generierung nur für Betriebe mit
+- **B2C-Kaltakquise ist in Deutschland verboten, Kalt-E-Mails auch an Firmen** (UWG § 7). Lead-Generierung nur für Betriebe mit
   Geschäftskunden.
 - **Gesundheitsdaten** (Praxen, Physio, teils Beauty/Fitness) sind besondere Kategorien (DSGVO Art. 9):
   Agent fragt keine Symptome/Diagnosen ab, nur Terminwunsch + Kontakt.

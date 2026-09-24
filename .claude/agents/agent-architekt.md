@@ -37,7 +37,7 @@ behaupte nicht, dass es schon geht.
    - Auslöser/Kanäle, bei Zeitplan: Tage + Uhrzeit, Daueraufgabe (`auftrag`)
    - Werkzeuggruppen (so wenig wie nötig)
    - **Autonomiestufe je Werkzeug:** autonom oder Freigabe. Faustregeln: Antworten auf eingehende
-     Anfragen dürfen autonom sein, sobald Tests bestanden sind; **Kaltakquise-E-Mails, Angebote und
+     Anfragen dürfen autonom sein, sobald Tests bestanden sind; **Kaltakquise nie per E-Mail (nur Anruf-/Brief-Vorbereitung); Angebote und
      alles mit Preisen immer mit Freigabe**; Terminbuchung autonom, wenn der Kunde das will.
    - Eskalationsregeln: wann `team_benachrichtigen`, mit welcher Dringlichkeit
    - Abläufe als nummerierte Schritte für die 3–5 wichtigsten Szenarien

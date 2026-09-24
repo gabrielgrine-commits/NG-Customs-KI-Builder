@@ -18,7 +18,7 @@ Agententypen (Katalog: `vorlagen/agenten/katalog.json`, Prompts: `vorlagen/agent
 | Typ | Aufgabe |
 |---|---|
 | `rezeption` | Digitale Rezeption 24/7 per Chat, E-Mail, Formular **und Telefon (Vapi)**: Fragen, Terminbuchung/-absage, Anfragen aufnehmen, Weiterleitung |
-| `lead-generierung` | Recherchiert B2B-Neukunden im Web, bewertet, legt im CRM an, bereitet Erstansprache vor |
+| `lead-generierung` | Recherchiert B2B-Neukunden im Web, bewertet, legt im CRM an, bereitet Anruf-Leitfaden + Brief vor |
 | `lead-nachfassen` | Qualifiziert Anfragen, fasst automatisch nach, bringt Interessenten zum Termin |
 | `posteingang` | Sortiert und beantwortet E-Mails, leitet Sonderfälle an Menschen weiter |
 | `angebots-assistent` | Erstellt Angebotsentwürfe aus Anfrage + Preisliste |
@@ -90,8 +90,9 @@ Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmod
    Kunden. Fehlendes als `[OFFEN: …]` markieren und melden.
 2. **Transparenz:** Agenten geben sich als KI zu erkennen (EU AI Act Art. 50).
 3. **Datensparsamkeit (DSGVO)**, keine Gesundheits-/Zahlungsdaten im Chat.
-4. **Kaltakquise nur B2B** mit konkretem Bezug, Widerspruchsmöglichkeit und menschlicher Freigabe
-   (UWG §7). Nie Privatpersonen kalt anschreiben.
+4. **Kaltakquise nur B2B und nie per E-Mail** (UWG § 7 Abs. 2 Nr. 3: E-Mail-Werbung braucht auch bei Firmen
+   ausdrückliche Einwilligung). Erlaubt: Anruf bei Firmen mit konkretem Bezug (mutmaßliche Einwilligung)
+   und Briefe – vorbereitet vom Agenten, ausgeführt von Menschen. Nie Privatpersonen kalt ansprechen.
 5. **Freigabe zuerst:** Neue Agenten starten mit Freigabe für ausgehende E-Mails; Autonomie wird
    erst nach bestandenen Tests und Testphase erhöht.
 6. Neue Werkzeuge/Integrationen gehören in `runtime/werkzeuge.py` + `runtime/config.py`

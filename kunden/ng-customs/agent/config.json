@@ -1,16 +1,16 @@
 {
   "firma": {
-    "name": "Malerbetrieb Beispiel GmbH",
-    "branche": "Handwerk – Maler und Lackierer",
-    "adresse": "Musterstraße 12, 50667 Köln",
-    "telefon": "0221 1234567",
-    "email": "info@malerbetrieb-beispiel.example",
-    "website": "https://malerbetrieb-beispiel.example",
-    "datenschutz_url": "https://malerbetrieb-beispiel.example/datenschutz"
+    "name": "NG Customs",
+    "branche": "Digitalagentur – Websites und KI-Agenten für KMU",
+    "adresse": "[OFFEN]",
+    "telefon": "[OFFEN]",
+    "email": "[OFFEN]",
+    "website": "[OFFEN]",
+    "datenschutz_url": "[OFFEN]"
   },
   "demo": true,
   "design": {
-    "farbe": "#1f6feb"
+    "farbe": "#111827"
   },
   "zeitzone": "Europe/Berlin",
   "modell": "claude-opus-5",
@@ -20,23 +20,23 @@
     "wissen.md"
   ],
   "benachrichtigung": {
-    "email": "inhaber@malerbetrieb-beispiel.example",
+    "email": "",
     "webhook_url": ""
   },
   "email": {
-    "absender": "anfrage@malerbetrieb-beispiel.example",
-    "smtp_host": "smtp.example.net",
+    "absender": "[OFFEN: z. B. anfrage@ng-customs.de]",
+    "smtp_host": "",
     "smtp_port": 587,
-    "imap_host": "imap.example.net",
+    "imap_host": "",
     "imap_port": 993,
-    "benutzer_env": "BEISPIEL_MALERBETRIEB_MAIL_USER",
-    "passwort_env": "BEISPIEL_MALERBETRIEB_MAIL_PASS"
+    "benutzer_env": "NG_CUSTOMS_MAIL_USER",
+    "passwort_env": "NG_CUSTOMS_MAIL_PASS"
   },
   "kalender": {
-    "termindauer_min": 45,
-    "raster_min": 30,
-    "puffer_min": 15,
-    "vorlauf_stunden": 12,
+    "termindauer_min": 15,
+    "raster_min": 15,
+    "puffer_min": 10,
+    "vorlauf_stunden": 4,
     "max_tage_voraus": 60,
     "arbeitszeiten": {
       "mo": [
@@ -86,16 +86,11 @@
         ]
       ]
     },
-    "gesperrte_tage": [
-      "2026-12-24",
-      "2026-12-31"
-    ]
+    "gesperrte_tage": []
   },
   "server": {
-    "erlaubte_origins": [
-      "https://malerbetrieb-beispiel.example"
-    ],
-    "token_env": "BEISPIEL_MALERBETRIEB_AGENT_TOKEN"
+    "erlaubte_origins": [],
+    "token_env": "NG_CUSTOMS_AGENT_TOKEN"
   },
   "telefon": {
     "modell": "claude-opus-5",
@@ -108,20 +103,19 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Guten Tag, hier ist der KI-Assistent vom Malerbetrieb Beispiel. Wie kann ich Ihnen helfen?",
+    "begruessung": "Guten Tag, hier ist der KI-Assistent von NG Customs. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
     "nachbearbeitung": true
   },
   "agenten": {
     "rezeption": {
       "typ": "rezeption",
-      "bezeichnung": "Digitale Rezeption",
+      "bezeichnung": "NG Customs Assistent",
       "prompt": "rezeption.md",
       "kanaele": [
         "chat",
         "email",
-        "webhook",
-        "telefon"
+        "webhook"
       ],
       "werkzeuge": [
         "kalender",
@@ -132,38 +126,6 @@
       "freigabe_erforderlich": [],
       "effort": "low",
       "max_schritte": 15
-    },
-    "lead-nachfassen": {
-      "typ": "lead-nachfassen",
-      "bezeichnung": "Lead-Nachfassen & Qualifizierung",
-      "prompt": "lead-nachfassen.md",
-      "kanaele": [
-        "zeitplan",
-        "webhook",
-        "email"
-      ],
-      "werkzeuge": [
-        "crm",
-        "kalender",
-        "email",
-        "team"
-      ],
-      "freigabe_erforderlich": [
-        "email_senden"
-      ],
-      "auftrag": "Bearbeite alle heute fälligen Leads im CRM gemäß deiner Rolle.",
-      "zeitplan": {
-        "tage": [
-          "mo",
-          "di",
-          "mi",
-          "do",
-          "fr"
-        ],
-        "uhrzeit": "08:00"
-      },
-      "effort": "medium",
-      "max_schritte": 40
     },
     "lead-generierung": {
       "typ": "lead-generierung",
@@ -178,11 +140,11 @@
         "team"
       ],
       "freigabe_erforderlich": [],
-      "auftrag": "Finde 8 neue Hausverwaltungen, Wohnungsbaugesellschaften oder Gewerbe-Immobilienverwalter im Raum Köln/Bonn (max. 40 km), die zum Zielprofil passen, lege sie im CRM an und bereite für die besten Anruf und Brief vor.",
+      "auftrag": "Finde 10 KMU gemäß Zielprofil, bei denen ein KI-Agent oder eine neue Website klar erkennbaren Nutzen hätte, lege sie im CRM an und bereite für die besten Anruf-Leitfaden und Brief vor.",
       "zeitplan": {
         "tage": [
           "mo",
-          "mi"
+          "do"
         ],
         "uhrzeit": "07:00"
       },

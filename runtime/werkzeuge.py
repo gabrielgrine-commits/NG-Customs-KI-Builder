@@ -406,6 +406,14 @@ class Werkzeuge:
         sperrliste = {a.lower() for a in self.store.lesen("sperrliste", [])}
         if an.lower() in sperrliste:
             return {"fehler": "Empfänger hat Werbung/Kontakt widersprochen (Sperrliste). Nicht anschreiben."}
+        # UWG § 7 Abs. 2 Nr. 3: Werbe-Mails auch an Firmen nur mit ausdrücklicher Einwilligung. Recherchierte
+        # Leads werden daher nie kalt angeschrieben – erst wenn sie nach Anruf/Brief Interesse zeigen
+        # (Status "qualifiziert" oder weiter), ist eine E-Mail erlaubt.
+        for lead in self.store.lesen("crm", []):
+            if (lead.get("email") or "").lower() == an.lower() and lead.get("quelle") == "Web-Recherche" \
+                    and lead.get("status") in ("neu", "kontaktiert"):
+                return {"fehler": "Kalt-E-Mails an recherchierte Leads sind nicht erlaubt (UWG § 7). Stattdessen "
+                                  "Anruf oder Brief durch das Team vorbereiten (team_benachrichtigen)."}
         ergebnis = self._smtp_senden(an, betreff, text)
         if lead_id:
             self.crm_lead_aktualisieren(lead_id, notiz=f"E-Mail '{betreff}' an {an}: {ergebnis}")

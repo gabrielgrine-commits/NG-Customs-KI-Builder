@@ -1,11 +1,11 @@
-# Erstgespräch / Intake – {{FIRMA}}
+# Erstgespräch / Intake – NG Customs
 
 > Im Gespräch mit dem Kunden ausfüllen (oder Notizen/Transkript unten einfügen).
 > Stichpunkte reichen. Die Subagenten werten das aus.
 
 ## 1. Betrieb
-- Firmenname, Rechtsform: {{FIRMA}}
-- Branche: {{BRANCHE}}
+- Firmenname, Rechtsform: NG Customs
+- Branche: Digitalagentur – Websites und KI-Agenten für KMU
 - Mitarbeitende:
 - Standort(e) / Einzugsgebiet:
 - Website (vorhanden? von uns gebaut?):
@@ -56,3 +56,7 @@
 - Gewünschter Starttermin:
 
 ## Notizen / Transkript
+
+> Eigene Agenten von NG Customs: Vertriebs-Chat auf der NG-Customs-Website (qualifiziert Interessenten,
+> bucht 15-Min-Erstgespräche, nimmt Demo-Wünsche auf) und Lead-Generierung (findet passende KMU,
+> bereitet Anruf-Leitfaden + Brief vor; keine Kalt-Mails). Offen: Firmendaten, Preise, Region, Postfach.

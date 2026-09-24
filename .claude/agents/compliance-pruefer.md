@@ -24,11 +24,12 @@ Lies `kunden/<slug>/agent/*`, `02-architektur.md`, `runtime/engine.py` (Plattfor
    Drittlandübermittlung/Standardvertragsklauseln nennen), AV-Vertrag Kunde ↔ NG Customs und
    Anthropic-DPA, besondere Kategorien (Art. 9 – Gesundheitsdaten bei Praxen!), keine
    ausschließlich automatisierten Entscheidungen mit Rechtswirkung (Art. 22).
-3. **UWG §7 / Kaltakquise** – B2C-Werbe-E-Mails ohne Einwilligung verboten; B2B nur bei
-   mutmaßlicher Einwilligung (konkreter Bezug zum Geschäft des Empfängers), Telefon-Kaltakquise
-   B2C verboten. Lead-Generierung: nur Unternehmen, nur geschäftliche Funktionsadressen, Freigabe
-   durch Menschen, Widerspruchsmöglichkeit + Sperrliste (`daten/sperrliste.json`), Impressum in
-   der Signatur.
+3. **UWG § 7 / Kaltakquise** – Werbe-E-Mails brauchen **immer** vorherige ausdrückliche Einwilligung,
+   auch gegenüber Firmen (§ 7 Abs. 2 Nr. 3; Ausnahme nur Bestandskunden nach § 7 Abs. 3). Telefon: B2C
+   nur mit ausdrücklicher Einwilligung, B2B mit mutmaßlicher Einwilligung (konkreter Bezug). Briefe
+   erlaubt, solange kein Widerspruch. Prüfe: Kein Agent verschickt Kalt-Mails (Lead-Generierung ohne
+   E-Mail-Werkzeug), Nachfass-Mails nur an Personen, die selbst angefragt haben; Widerspruch →
+   Sperrliste (`daten/sperrliste.json`), Impressum in jeder Signatur.
 4. **Berufsrecht/Haftung** – keine Heilversprechen (HWG) bei Praxen/Beauty, keine Rechts-/
    Steuerberatung, Preisangaben (PAngV: Endpreise inkl. MwSt. gegenüber Verbrauchern), keine
    verbindlichen Zusagen ohne Freigabe.
