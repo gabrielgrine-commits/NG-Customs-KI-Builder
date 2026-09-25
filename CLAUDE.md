@@ -56,6 +56,9 @@ Fragen gesammelt am Ende stellen.
 | `/angebot <slug>` | Angebot mit Paketen, Preisen (`vorlagen/preise.md`) und ROI |
 
 Subagenten: `.claude/agents/`. Branchenwissen: Skill `kmu-branchen-blueprints`.
+Marketing-Skills (Texte, SEO, CRO, Preise, Social …): 49 Skills aus `coreyhaines31/marketingskills` in
+`.claude/skills/` (Herkunft und Ausnahmen: `.claude/MARKETINGSKILLS.md`); Grundlagen zu NG Customs liest jeder
+davon aus `.agents/product-marketing.md`.
 Ein Hook prüft jede Änderung an `kunden/*/agent/` automatisch (`scripts/validate_config.py`).
 
 ## Plattform & Betrieb
@@ -108,3 +111,5 @@ stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardm
 7. **Vapi-Konto:** Assistenten/Nummern (MCP-Server `vapi` oder `vapi_einrichten.py`) nur nach ausdrücklicher Zustimmung des Nutzers
    anlegen, ändern oder löschen – das kostet Geld und betrifft echte Telefonnummern.
 8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).
+9. **Marketing-Skills sind für den US-Markt geschrieben** – bei Widersprüchen gelten diese Regeln: keine
+   Kalt-E-Mails/-SMS, DSGVO/UWG/TKG statt CAN-SPAM/TCPA, nichts erfinden, Kundentexte auf Deutsch per „Sie“.
