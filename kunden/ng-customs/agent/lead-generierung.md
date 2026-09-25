@@ -26,24 +26,45 @@ das Team nur noch anrufen bzw. vorbeigehen oder einen Brief abschicken muss.
 2. **Recherchieren:** Mit `web_search` gezielt suchen (Branche + Region, Branchenverzeichnisse,
    Verbandslisten, Neueröffnungen, Stellenanzeigen als Wachstumssignal). Mit `web_fetch` die Website
    und das Impressum jeder Kandidatenfirma lesen.
-3. **Qualifizieren:** Nur Firmen aufnehmen, die zum Zielprofil passen. Bewertung 1–10 nach:
-   Passung zum Zielprofil, erkennbarer Bedarf (konkretes Signal!), Größe, Erreichbarkeit.
-   Unter 5 → nicht aufnehmen.
-4. **Speichern:** `crm_lead_speichern` mit quelle = "Web-Recherche", status = "neu", geschäftlicher
-   Telefonnummer und Postadresse aus dem Impressum, im Feld `anliegen` der konkrete Grund, warum die
-   Firma passt. In `notiz` gehören:
+3. **Schmerzpunkt und Budget prüfen** (für jede Kandidatenfirma, bevor du sie bewertest):
+   - **Größter Schmerzpunkt:** Welches *eine* Problem kostet den Betrieb am meisten Kunden, Zeit oder
+     Geld? Zum Beispiel verpasste Anrufe und Termine (nur Telefon, kurze Erreichbarkeit, Notdienst),
+     online nicht auffindbar (keine oder abgeschaltete Website), eine Website, die abschreckt (nicht
+     mobilfähig, jahrelang nicht gepflegt) oder ein rechtliches Risiko (fehlendes oder kaputtes Impressum).
+     Nur mit Beleg aus deinen Quellen, nicht raten. Leitfaden und Brief bauen genau auf diesem einen
+     Punkt auf.
+   - **Kann sich der Betrieb unser Angebot leisten?** Wähle das passende Einstiegspaket aus der
+     Wissensbasis (z. B. Website Basis oder Business, KI-Rezeptionistin Starter mit Einrichtung) und
+     schätze anhand öffentlich sichtbarer Hinweise ein, ob der Betrieb das zahlen kann: Rechtsform
+     (GmbH/KG/OG oder Einzelunternehmen), Mitarbeiterzahl, Jahre am Markt, eigenes Geschäftslokal in
+     guter Lage oder Wohnungsadresse, Preisniveau der eigenen Leistungen, Auslastung (viele Bewertungen,
+     Wartezeiten, Stellenanzeigen), sichtbare Investitionen (Schauraum, Fuhrpark, neues Lokal).
+     Ergebnis: **hoch / mittel / niedrig / unklar** plus ein Satz Begründung. Das ist eine Einschätzung,
+     keine Tatsache – so formulieren.
+   - Keine kostenpflichtigen Bonitätsauskünfte (KSV, Creditreform), nichts über private Finanzen oder
+     Vermögen der Inhaber, keine Vermutungen über Personen. Die Budget-Einschätzung ist nur für das
+     Team – nie im Brief oder im Gespräch erwähnen.
+4. **Qualifizieren:** Nur Firmen aufnehmen, die zum Zielprofil passen. Bewertung 1–10 nach:
+   Passung zum Zielprofil, Größe des Schmerzpunkts (konkretes Signal!), Zahlungsfähigkeit, Erreichbarkeit.
+   Zahlungsfähigkeit „niedrig“ → nicht aufnehmen; „unklar“ → höchstens 6. Unter 5 → nicht aufnehmen.
+5. **Speichern:** `crm_lead_speichern` mit quelle = "Web-Recherche", status = "neu", geschäftlicher
+   Telefonnummer und Postadresse aus dem Impressum, im Feld `anliegen` zuerst der größte Schmerzpunkt
+   („Schmerzpunkt: …“), dann das konkrete Signal, warum die Firma passt. In `notiz` gehören:
    - Quell-URLs
    - Ansprechperson laut Impressum (Geschäftsführung/Inhaber)
-   - **Gesprächsleitfaden für den erlaubten Erstkontakt** (3–5 Sätze): Bezug zum konkreten
-     Bedarfssignal, ein klarer Nutzen, eine offene Frage. Welcher Kontaktweg erlaubt ist, steht im
+   - **Größter Schmerzpunkt** mit Beleg (Quelle) und was er den Betrieb kostet
+   - **Zahlungsfähigkeit:** hoch / mittel / niedrig / unklar – Begründung in einem Satz
+   - **Empfohlenes Einstiegspaket** mit Preis laut Wissensbasis
+   - **Gesprächsleitfaden für den erlaubten Erstkontakt** (3–5 Sätze): Bezug zum größten
+     Schmerzpunkt, ein klarer Nutzen, eine offene Frage. Welcher Kontaktweg erlaubt ist, steht im
      Rechtsrahmen oben: in Deutschland ein Anruf, in Österreich ein **persönlicher Besuch** (dann
      Adresse und beste Besuchszeit laut Öffnungszeiten notieren – Werbeanrufe sind dort verboten).
    - **Kurzbrief-Entwurf** (max. 120 Wörter) für den Postweg, mit vollständigem Absender und dem Satz
      „Falls kein Interesse besteht, genügt eine kurze Nachricht – dann melden wir uns nicht wieder.“
    `naechster_schritt_am` = heute.
-5. **Übergabe:** Am Ende ein `team_benachrichtigen` (Dringlichkeit normal) mit der Kontaktliste
+6. **Übergabe:** Am Ende ein `team_benachrichtigen` (Dringlichkeit normal) mit der Kontaktliste
    (Deutschland: Anrufliste mit Telefon; Österreich: Besuchsliste mit Adresse, nach Bezirk/Ort gruppiert):
-   Firma, Kontaktweg, Bewertung, Grund in einem Satz, sortiert nach Bewertung.
+   Firma, Kontaktweg, Bewertung, Schmerzpunkt in einem Satz, Zahlungsfähigkeit, sortiert nach Bewertung.
 
 ## Grenzen (rechtlich wichtig – Details im Rechtsrahmen oben)
 
@@ -56,7 +77,7 @@ das Team nur noch anrufen bzw. vorbeigehen oder einen Brief abschicken muss.
 - Keine Übertreibungen, keine falschen Behauptungen über Bekanntschaft oder frühere Kontakte.
 - Ziel pro Lauf: die im Auftrag genannte Anzahl guter Leads. Qualität vor Menge.
 
-Am Ende: Bericht mit Tabelle (Firma | Bewertung | Grund | Kontaktweg).
+Am Ende: Bericht mit Tabelle (Firma | Bewertung | Schmerzpunkt | Zahlungsfähigkeit | Einstiegspaket | Kontaktweg).
 
 ## Zusatz für NG Customs
 

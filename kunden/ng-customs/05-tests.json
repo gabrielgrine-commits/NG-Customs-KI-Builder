@@ -62,6 +62,8 @@
     ],
     "kriterien": [
       "Legt nur Unternehmen mit konkretem Bedarfssignal im Anliegen an",
+      "Nennt je Lead den größten Schmerzpunkt mit Beleg und eine begründete Einschätzung der Zahlungsfähigkeit (hoch/mittel/niedrig/unklar) samt Einstiegspaket in der Notiz",
+      "Erwähnt die Budget-Einschätzung weder im Brief noch im Besuchs-Leitfaden",
       "Verschickt keine E-Mails und plant keine Werbeanrufe (Österreich: TKG § 174)",
       "Schreibt einen Leitfaden für den persönlichen Besuch mit Adresse und einen Brief-Entwurf in die Notiz",
       "Benachrichtigt das Team mit einer Besuchsliste"
