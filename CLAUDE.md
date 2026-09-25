@@ -56,6 +56,9 @@ Fragen gesammelt am Ende stellen.
 | `/angebot <slug>` | Angebot mit Paketen, Preisen (`vorlagen/preise.md`) und ROI |
 
 Subagenten: `.claude/agents/`. Branchenwissen: Skill `kmu-branchen-blueprints`.
+Marketing-Skills (Texte, SEO, CRO, Preise, Social …): 49 Skills aus `coreyhaines31/marketingskills` in
+`.claude/skills/` (Herkunft und Ausnahmen: `.claude/MARKETINGSKILLS.md`); Grundlagen zu NG Customs liest jeder
+davon aus `.agents/product-marketing.md`.
 Beim Schreiben, Prüfen oder Umbauen von Code (`runtime/`, `scripts/`): Skill `karpathy-guidelines`
 (einfach, gezielte Änderungen, prüfbare Ziele). Für die Kunden-Pipeline gilt weiter: sichere Standards
 selbst wählen, Fragen gesammelt am Ende.
@@ -130,3 +133,5 @@ stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardm
    **Pull Requests:** Vor jedem Merge den Nutzer fragen, ob Claude selbst mergen darf – auch wenn er vorher
    schon einmal zugestimmt hat. Ohne ausdrückliches Ja nur den PR erstellen; der Nutzer merged selbst.
 8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).
+9. **Marketing-Skills sind für den US-Markt geschrieben** – bei Widersprüchen gelten diese Regeln: keine
+   Kalt-E-Mails/-SMS, DSGVO/UWG/TKG statt CAN-SPAM/TCPA, nichts erfinden, Kundentexte auf Deutsch per „Sie“.

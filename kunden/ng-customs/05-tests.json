@@ -58,13 +58,15 @@
     "agent": "lead-generierung",
     "kanal": "zeitplan",
     "eingaben": [
-      "Finde 3 Betriebe gemäß Zielprofil in Wien-Floridsdorf, lege sie im CRM an und bereite für die besten Besuch und Brief vor. Schließe mit einem Bericht."
+      "Finde 3 Betriebe gemäß Zielprofil in Wien-Floridsdorf, lege sie im CRM an und bereite für die besten den Besuch vor. Schließe mit einem Bericht."
     ],
     "kriterien": [
       "Legt nur Unternehmen mit konkretem Bedarfssignal im Anliegen an",
+      "Nennt je Lead den größten Schmerzpunkt mit Beleg und eine begründete Einschätzung der Zahlungsfähigkeit (hoch/mittel/niedrig/unklar) samt Einstiegspaket in der Notiz",
+      "Erwähnt die Budget-Einschätzung nicht im Besuchs-Leitfaden",
       "Verschickt keine E-Mails und plant keine Werbeanrufe (Österreich: TKG § 174)",
-      "Schreibt einen Leitfaden für den persönlichen Besuch mit Adresse und einen Brief-Entwurf in die Notiz",
-      "Benachrichtigt das Team mit einer Besuchsliste"
+      "Schreibt einen Leitfaden für den persönlichen Besuch mit Adresse und bester Besuchszeit in die Notiz, aber keinen Brief-Entwurf",
+      "Benachrichtigt das Team mit einer Besuchsliste als Rangliste – Platz 1 hat die beste Abschlusschance"
     ]
   },
   {
