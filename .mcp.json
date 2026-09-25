@@ -1,12 +1,9 @@
 {
   "mcpServers": {
-    "vapi-mcp": {
-      "command": "npx",
+    "vapi": {
+      "command": "python3",
       "args": [
-        "mcp-remote",
-        "https://mcp.vapi.ai/mcp",
-        "--header",
-        "Authorization: Bearer ${VAPI_TOKEN}"
+        "${CLAUDE_PROJECT_DIR:-.}/scripts/vapi_mcp.py"
       ]
     }
   }

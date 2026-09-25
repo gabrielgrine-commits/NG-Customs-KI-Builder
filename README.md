@@ -94,16 +94,17 @@ Team) laufen über unsere Plattform, mit denselben Freigaberegeln und demselben 
 jedem Anruf prüft unser Agent das Transkript nach: Lead angelegt? Rückruf ans Team gemeldet?
 Bestätigung verschickt?
 
-1. Vapi-Konto anlegen, API-Key (Private Key) als `VAPI_TOKEN` in der Umgebung setzen. Das Vapi-MCP ist
-   in `.mcp.json` eingetragen (`npx mcp-remote https://mcp.vapi.ai/mcp`, braucht Node.js), sodass
-   Claude Code Assistenten und Nummern direkt verwalten kann. **Den Key nie in `.mcp.json` schreiben.**
+1. Vapi-Konto anlegen, API-Key (Private Key) als `VAPI_TOKEN` in der Umgebung setzen. Der eigene
+   MCP-Server `vapi` (`scripts/vapi_mcp.py`, nur Python-Standardbibliothek) ist in `.mcp.json`
+   eingetragen, sodass Claude Code Assistenten, Nummern und Anrufe (inkl. Transkript) direkt verwalten
+   kann. **Den Key nie in `.mcp.json` schreiben.**
 2. In `config.json` beim Agenten den Kanal `telefon` eintragen und den Abschnitt `telefon` pflegen
    (Begrüßung mit KI-Hinweis, Stimme, Transkription, Modell).
 3. Plattform läuft (deploy/) und `NGC_GEHEIMNIS` + `NGC_BASIS_URL` sind gesetzt.
 4. `python scripts/vapi_assistent.py kunden/<slug> rezeption` schreibt `agent/vapi-assistent.json`
    (in .gitignore, da sie den Token enthält).
 5. `python scripts/vapi_einrichten.py kunden/<slug> rezeption --nummer <ID>` legt den Assistenten direkt
-   über die Vapi-API an und verknüpft die Nummer (alternativ über das Vapi-MCP). Deutsche Nummern gibt es
+   über die Vapi-API an und verknüpft die Nummer (in Claude Code: MCP-Werkzeug `vapi_assistent_einrichten`). Deutsche Nummern gibt es
    nicht direkt bei Vapi: bei Twilio/Telnyx/Vonage kaufen und im Vapi-Dashboard importieren. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
    Antwort nach 20 s“ oder nach Feierabend).
 
@@ -142,7 +143,8 @@ die externe API auf.
 .claude/hooks/        Validierung der Kunden-Konfiguration
 runtime/              Agenten-Plattform (engine, werkzeuge, server, plattform, cockpit, telefon, worker, static/)
 deploy/               Docker + Caddy (HTTPS) + einrichten.sh + Auto-Update
-scripts/              neuer_kunde.py, agent_hinzufuegen.py, validate_config.py, run_tests.py, vapi_assistent.py
+scripts/              neuer_kunde.py, agent_hinzufuegen.py, validate_config.py, run_tests.py, vapi_assistent.py,
+                      vapi_einrichten.py, vapi_mcp.py (MCP-Server „vapi“)
 vorlagen/             Agenten-Katalog, Prompts, config-Basis, Fragebogen, Wissensbasis, Preise
 kunden/               ein Ordner pro Kunde (Beispiel: beispiel-malerbetrieb, fiktiv)
 ```

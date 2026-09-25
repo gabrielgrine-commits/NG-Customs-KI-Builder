@@ -1,4 +1,7 @@
 {
+  "enabledMcpjsonServers": [
+    "vapi"
+  ],
   "permissions": {
     "allow": [
       "Bash(python scripts/neuer_kunde.py:*)",
@@ -23,7 +26,14 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(python3 scripts/vapi_einrichten.py:*)",
-      "Bash(python scripts/vapi_einrichten.py:*)"
+      "Bash(python scripts/vapi_einrichten.py:*)",
+      "mcp__vapi__vapi_status",
+      "mcp__vapi__vapi_nummern",
+      "mcp__vapi__vapi_assistenten",
+      "mcp__vapi__vapi_assistent",
+      "mcp__vapi__vapi_anrufe",
+      "mcp__vapi__vapi_anruf",
+      "mcp__vapi__vapi_vorschau"
     ]
   },
   "hooks": {

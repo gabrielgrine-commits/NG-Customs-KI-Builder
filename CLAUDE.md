@@ -77,12 +77,14 @@ ausführen) · `freigaben` / `freigeben <id>` / `ablehnen <id>` · `leads` · `t
 `server` (Chat-Widget, Webhooks, Kalender-Feed) · `zeitplan` (Daueraufgaben nach Plan) ·
 `email <agent>` (Posteingang überwachen) · `zugang` (Links/Tokens).
 
-**Telefon (Vapi):** Kanal `telefon` in config.json → `python scripts/vapi_assistent.py kunden/<slug> <agent>
---server-url https://…` erzeugt `agent/vapi-assistent.json` → mit dem Vapi-MCP (`.mcp.json`, braucht
-`VAPI_TOKEN`) den Assistenten anlegen/aktualisieren und eine Nummer zuweisen. Vapi ruft für Werkzeuge
-`POST /vapi/<agent>` auf; nach jedem Anruf bearbeitet unser Agent das Transkript nach.
-**Ohne MCP (bevorzugt):** `python scripts/vapi_einrichten.py kunden/<slug> <agent> [--nummer <id>]` legt den
-Assistenten direkt per Vapi-API an bzw. aktualisiert ihn (braucht `VAPI_TOKEN`, `NGC_BASIS_URL`, `NGC_GEHEIMNIS`).
+**Telefon (Vapi):** Kanal `telefon` in config.json → Assistent bei Vapi anlegen/aktualisieren und Nummer
+zuweisen. Vapi ruft für Werkzeuge `POST /vapi/<agent>` auf; nach jedem Anruf bearbeitet unser Agent das
+Transkript nach. Braucht `VAPI_TOKEN`, zum Anlegen außerdem `NGC_BASIS_URL` + `NGC_GEHEIMNIS`.
+- **Eigener MCP-Server `vapi`** (`scripts/vapi_mcp.py`, in `.mcp.json`, nur Standardbibliothek): lesend
+  `vapi_status`, `vapi_nummern`, `vapi_assistenten`, `vapi_assistent`, `vapi_anrufe`, `vapi_anruf` (Transkript),
+  `vapi_vorschau`; schreibend `vapi_assistent_einrichten`, `vapi_nummer_verknuepfen`, `vapi_assistent_loeschen`.
+- **Kommandozeile:** `python scripts/vapi_einrichten.py kunden/<slug> <agent> [--nummer <id>] [--trocken]`,
+  `--nummern` listet Nummern. Beide nutzen `runtime/vapi_api.py`.
 Deutsche Nummern gibt es nicht direkt bei Vapi → bei Twilio/Telnyx/Vonage kaufen und in Vapi importieren.
 
 Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmodell `claude-opus-5`.
@@ -102,6 +104,6 @@ Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmod
    erst nach bestandenen Tests und Testphase erhöht.
 6. Neue Werkzeuge/Integrationen gehören in `runtime/werkzeuge.py` + `runtime/config.py`
    (`WERKZEUG_GRUPPEN`) – dann stehen sie allen Kunden zur Verfügung.
-7. **Vapi-Konto:** Assistenten/Nummern über das Vapi-MCP nur nach ausdrücklicher Zustimmung des Nutzers
+7. **Vapi-Konto:** Assistenten/Nummern (MCP-Server `vapi` oder `vapi_einrichten.py`) nur nach ausdrücklicher Zustimmung des Nutzers
    anlegen, ändern oder löschen – das kostet Geld und betrifft echte Telefonnummern.
 8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).
