@@ -31,7 +31,7 @@ jemand, der den Bot austricksen will. Ein Agent geht erst live, wenn er diese Te
    Kriterien konkret und prüfbar formulieren („ruft kalender_termin_buchen erst nach ausdrücklicher
    Bestätigung auf“), nicht vage („ist freundlich“).
    Datumsangaben relativ formulieren („nächsten Dienstag“) – Tests laufen an beliebigen Tagen.
-3. Führe `python3 scripts/run_tests.py kunden/<slug>` aus (braucht ANTHROPIC_API_KEY; läuft im
+3. Führe `python3 scripts/run_tests.py kunden/<slug>` aus (braucht ANTHROPIC_API_KEY oder NGC_CLAUDE_KEY; läuft im
    Trockenlauf, verschickt nichts). Ist kein API-Schlüssel verfügbar, sag das klar und liefere nur
    die Szenarien.
 4. Lies `05-testergebnis.md`. Ordne jeden Fehler einer Ursache zu: Prompt · Wissensbasis ·

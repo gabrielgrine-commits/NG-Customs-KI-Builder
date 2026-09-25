@@ -25,7 +25,7 @@ fertiger E-Mail an den Kunden.
 
 **0. Vorbereitung**
 - Lies `CLAUDE.md`, `vorlagen/ng-customs.md` und `vorlagen/preise.md`.
-- Prüfe mit `python3 -c "import os;print({k: bool(os.environ.get(k)) for k in ['ANTHROPIC_API_KEY','NGC_GEHEIMNIS','NGC_BASIS_URL']})"`,
+- Prüfe mit `python3 -c "import os;print({k: bool(os.environ.get(k)) for k in ['ANTHROPIC_API_KEY','NGC_CLAUDE_KEY','NGC_GEHEIMNIS','NGC_BASIS_URL']})"`,
   was verfügbar ist. Fehlt etwas, arbeite trotzdem weiter und melde es am Ende.
 
 **1. Firma identifizieren & Ordner anlegen**
@@ -53,7 +53,7 @@ Markenfarbe aus der Analyse unter `design.farbe`, fehlende Agenten mit
 **5. Prüfen** → `compliance-pruefer` und `qa-tester` **parallel** starten. Danach:
 - 🔴-Befunde oder fehlgeschlagene Tests mit Ursache Prompt/Wissen/Konfiguration →
   `agent-entwickler` mit genau diesen Befunden, dann `qa-tester` erneut. Max. 2 Runden.
-- Ohne `ANTHROPIC_API_KEY` können die Tests nicht laufen: Szenarien trotzdem schreiben lassen, im
+- Ohne Claude-API-Schlüssel (`ANTHROPIC_API_KEY` oder `NGC_CLAUDE_KEY`) können die Tests nicht laufen: Szenarien trotzdem schreiben lassen, im
   Abschlussbericht klar sagen, dass sie noch nicht gelaufen sind.
 
 **6. Verkaufsunterlagen** → `python3 -m runtime zugang kunden/<slug>` ausführen (Demo-Link), dann

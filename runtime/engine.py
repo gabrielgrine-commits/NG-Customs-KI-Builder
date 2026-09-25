@@ -10,6 +10,7 @@ Ablauf pro Auftrag/Nachricht:
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any
@@ -21,6 +22,14 @@ from .config import KundenKonfig
 from .geheimnisse import cockpit_link
 from .store import JsonStore, neue_id
 from .werkzeuge import Werkzeuge
+
+
+def claude_client() -> anthropic.Anthropic:
+    """Claude-API-Client. In der Claude-Code-Cloud-Umgebung ist ANTHROPIC_API_KEY für Claude Code
+    selbst reserviert – dort den Schlüssel als NGC_CLAUDE_KEY setzen (hat Vorrang)."""
+    schluessel = os.environ.get("NGC_CLAUDE_KEY", "").strip().strip("\"'")
+    return anthropic.Anthropic(api_key=schluessel) if schluessel else anthropic.Anthropic()
+
 
 WOCHENTAG_NAMEN = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"]
 
@@ -103,7 +112,7 @@ class Agent:
         self.a = konfig.agent(agent_name)
         self.store = store or JsonStore(konfig.daten_dir)
         self.werkzeuge = Werkzeuge(konfig, self.store, trockenlauf=trockenlauf)
-        self.client = client or anthropic.Anthropic()
+        self.client = client or claude_client()
         self.tool_namen = konfig.werkzeuge_fuer(agent_name)
         self.tools = self.werkzeuge.definitionen(self.tool_namen)
         self.freigabe = set(self.a.get("freigabe_erforderlich", []))
@@ -141,7 +150,7 @@ class Agent:
         try:
             return self.client.beta.messages.create(**params)
         except anthropic.AuthenticationError as e:
-            raise AgentFehler("API-Schlüssel fehlt oder ist ungültig (ANTHROPIC_API_KEY).") from e
+            raise AgentFehler("API-Schlüssel fehlt oder ist ungültig (ANTHROPIC_API_KEY bzw. NGC_CLAUDE_KEY).") from e
         except anthropic.RateLimitError as e:
             raise AgentFehler("Anfragelimit erreicht – bitte später erneut versuchen.") from e
         except anthropic.APIStatusError as e:
@@ -150,7 +159,7 @@ class Agent:
             raise AgentFehler("Keine Verbindung zur Claude-API.") from e
         except TypeError as e:
             if "authentication" in str(e):  # SDK meldet fehlende Zugangsdaten als TypeError
-                raise AgentFehler("Keine Zugangsdaten: ANTHROPIC_API_KEY setzen.") from e
+                raise AgentFehler("Keine Zugangsdaten: ANTHROPIC_API_KEY (in Claude Code: NGC_CLAUDE_KEY) setzen.") from e
             raise
 
     def werkzeug_ausfuehren(self, name: str, eingabe: dict, kanal: str) -> tuple[str, bool, dict]:

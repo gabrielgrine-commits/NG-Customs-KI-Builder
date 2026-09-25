@@ -87,7 +87,8 @@ Transkript nach. Braucht `VAPI_TOKEN`, zum Anlegen außerdem `NGC_BASIS_URL` + `
   `--nummern` listet Nummern. Beide nutzen `runtime/vapi_api.py`.
 Deutsche Nummern gibt es nicht direkt bei Vapi → bei Twilio/Telnyx/Vonage kaufen und in Vapi importieren.
 
-Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmodell `claude-opus-5`.
+Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY` (in der Claude-Code-Cloud-Umgebung
+stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardmodell `claude-opus-5`.
 
 ## Regeln für die Arbeit in diesem Repo
 

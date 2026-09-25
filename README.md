@@ -19,7 +19,8 @@ Neue Kunden gehen automatisch online: Der Autopilot committet, der Server holt d
 **Einmalig einrichten:**
 1. `vorlagen/ng-customs.md` (deine Firmendaten) und `vorlagen/preise.md` (deine Preise) ausfüllen.
 2. Server einrichten mit `deploy/einrichten.sh` (ca. 20 Min., fragt alles ab).
-3. In der Claude-Code-Umgebung als Umgebungsvariablen setzen: `ANTHROPIC_API_KEY`,
+3. In der Claude-Code-Umgebung als Umgebungsvariablen setzen: `NGC_CLAUDE_KEY` (Claude-API-Schlüssel –
+   `ANTHROPIC_API_KEY` ist dort für Claude Code selbst reserviert),
    `NGC_GEHEIMNIS` (zeigt das Einrichtungsskript an), `NGC_BASIS_URL`, optional `VAPI_TOKEN`.
 
 ## Aufbau

@@ -33,7 +33,7 @@ import anthropic
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from runtime import config  # noqa: E402
-from runtime.engine import Agent, AgentFehler  # noqa: E402
+from runtime.engine import Agent, AgentFehler, claude_client  # noqa: E402
 from runtime.store import JsonStore  # noqa: E402
 
 PRUEFER_SCHEMA = {
@@ -90,7 +90,7 @@ def main() -> None:
     tests = json.loads(tests_datei.read_text(encoding="utf-8"))
     if args.nur:
         tests = [t for t in tests if args.nur.lower() in t["name"].lower()]
-    client = anthropic.Anthropic()
+    client = claude_client()
     wissen = "\n\n".join(k.text_datei(d) for d in k.daten.get("wissen", []))
 
     bericht = [f"# Testergebnis – {k.firma['name']}", f"Stand: {datetime.now():%d.%m.%Y %H:%M}", ""]
