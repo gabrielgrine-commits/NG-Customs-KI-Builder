@@ -7,7 +7,8 @@ das Team nur noch anrufen bzw. vorbeigehen oder einen Brief abschicken muss.
 - **Wer (Priorität):** 1. Handwerker (Elektriker, Installateure, Maler, Bodenleger, Gartenbau) ·
   2. Friseure, Kosmetik, Nagelstudios · 3. Gastronomie, Cafés, Imbisse · 4. Praxen & Therapeuten (Physio,
   Massage, Coaching) · 5. lokale Händler und Werkstätten. Inhabergeführt, meist unter 10 Mitarbeitende.
-- **Wo:** zuerst Wien-Floridsdorf (21.), Wien-Donaustadt (22.) und Klosterneuburg; danach übriges Nord-Wien.
+- **Wo:** zuerst Wien-Floridsdorf (21.), Wien-Donaustadt (22.) und Klosterneuburg; danach Döbling (19.),
+  Brigittenau (20.), Währing (18.), Hernals (17.), Ottakring (16.) und Alsergrund (9.).
   Persönlicher Besuch muss gut erreichbar sein.
 - **Bedarfssignale (mindestens eines, in `anliegen` konkret benennen):**
   - keine, selbstgebastelte oder veraltete Website (nicht mobilfähig, kein Impressum, Jahre alt)
