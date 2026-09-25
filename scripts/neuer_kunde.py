@@ -60,6 +60,7 @@ def main() -> None:
     konfig = {"land": args.land, **konfig}
     if args.land == "AT":
         konfig["zeitzone"] = "Europe/Vienna"
+        konfig["telefon"]["stimme"]["voiceId"] = "de-AT-IngridNeural"  # österreichische Stimme
     for typ in typen:
         konfig["agenten"][typ] = katalog[typ]
         prompt = fuellen((VORLAGEN / "agenten" / typ / "prompt.md").read_text(encoding="utf-8"))

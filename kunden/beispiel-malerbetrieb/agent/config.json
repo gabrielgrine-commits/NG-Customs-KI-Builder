@@ -108,14 +108,14 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Guten Tag, hier ist der KI-Assistent vom Malerbetrieb Beispiel. Wie kann ich Ihnen helfen?",
+    "begruessung": "Guten Tag, hier ist die KI-Rezeptionistin vom Malerbetrieb Beispiel. Unser Gespräch wird zur Bearbeitung Ihres Anliegens transkribiert. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
     "nachbearbeitung": true
   },
   "agenten": {
     "rezeption": {
       "typ": "rezeption",
-      "bezeichnung": "Digitale Rezeption",
+      "bezeichnung": "KI-Rezeptionistin",
       "prompt": "rezeption.md",
       "kanaele": [
         "chat",
@@ -135,7 +135,7 @@
     },
     "lead-nachfassen": {
       "typ": "lead-nachfassen",
-      "bezeichnung": "Lead-Nachfassen & Qualifizierung",
+      "bezeichnung": "Anfragen-Nachfassen",
       "prompt": "lead-nachfassen.md",
       "kanaele": [
         "zeitplan",
@@ -167,7 +167,7 @@
     },
     "lead-generierung": {
       "typ": "lead-generierung",
-      "bezeichnung": "Lead-Generierung (B2B-Recherche)",
+      "bezeichnung": "Neukunden-Recherche (B2B)",
       "prompt": "lead-generierung.md",
       "kanaele": [
         "zeitplan"

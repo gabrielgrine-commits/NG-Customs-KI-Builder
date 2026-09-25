@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 import threading
 from typing import Any
 
@@ -24,6 +25,9 @@ from .werkzeuge import SERVER_WERKZEUGE, TOOL_DEFINITIONEN
 # Vapi bietet nur ausgewählte Anthropic-Modelle an (claude-opus-5 z. B. nicht) – deshalb eigener Standard
 # statt konfig.modell. Liste: https://api.vapi.ai/api-json → AnthropicModel.model
 VAPI_MODELL = "claude-sonnet-5"
+VAPI_NAME_MAX = 40  # Vapi lehnt längere Assistenten-Namen ab
+RECHTSFORM = re.compile(r"[\s,]+(GmbH & Co\.? KG|GmbH|UG \(haftungsbeschränkt\)|UG|AG|OHG|KG|OG|GbR|e\.\s?[UK]\.|PartG(?: mbB)?)$")
+TRANSKRIPT_HINWEIS = "Unser Gespräch wird zur Bearbeitung Ihres Anliegens transkribiert."
 
 TELEFON_REGELN = """\
 # Besonderheiten am Telefon
@@ -60,6 +64,16 @@ def telefon_werkzeuge(agent: Agent) -> list[str]:
     return [n for n in agent.tool_namen if n not in SERVER_WERKZEUGE]
 
 
+def _vapi_name(firma: str, bezeichnung: str) -> str:
+    """„Firma – Bezeichnung“ für das Vapi-Dashboard. Zu lang → erst die Rechtsform weglassen, dann den
+    Firmennamen wortweise kürzen; die Bezeichnung bleibt immer ganz."""
+    woerter = (RECHTSFORM.sub("", firma).strip() or firma).split()
+    for f in [firma] + [" ".join(woerter[:i]) for i in range(len(woerter), 0, -1)]:
+        if len(name := f"{f} – {bezeichnung}") <= VAPI_NAME_MAX:
+            return name
+    return bezeichnung[:VAPI_NAME_MAX]
+
+
 def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, token: str) -> dict:
     agent = Agent(konfig, agent_name)
     a = konfig.agent(agent_name)
@@ -85,9 +99,9 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
              for n in telefon_werkzeuge(agent)]
 
     return {
-        "name": f"{firma} – {a.get('bezeichnung', agent_name)}"[:40],
-        "firstMessage": t.get("begruessung",
-                              f"Guten Tag, hier ist der KI-Assistent von {firma}. Wie kann ich Ihnen helfen?"),
+        "name": _vapi_name(firma, a.get("bezeichnung", agent_name)),
+        "firstMessage": t.get("begruessung", f"Guten Tag, hier ist der KI-Assistent von {firma}. "
+                                             f"{TRANSKRIPT_HINWEIS} Wie kann ich Ihnen helfen?"),
         "endCallMessage": t.get("verabschiedung", "Vielen Dank für Ihren Anruf. Auf Wiederhören!"),
         "model": {
             "provider": "anthropic",
@@ -98,6 +112,8 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
         "transcriber": t.get("transkription", {"provider": "deepgram", "model": "nova-2", "language": "de"}),
         "voice": t.get("stimme", {"provider": "azure", "voiceId": "de-DE-KatjaNeural"}),
         "maxDurationSeconds": t.get("max_dauer_s", 900),
+        # Vapi nimmt Anrufe sonst als Audio auf – wir brauchen nur das Transkript (Datensparsamkeit)
+        "artifactPlan": {"recordingEnabled": bool(t.get("aufzeichnung", False))},
         "server": endpunkt,
         "serverMessages": ["tool-calls", "end-of-call-report"],
     }

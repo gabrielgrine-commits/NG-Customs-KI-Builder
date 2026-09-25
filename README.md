@@ -110,8 +110,11 @@ Bestätigung verschickt?
 Hinweise: Stimme, Transkription und Modell sind Vorschläge. Vapi bietet nur ausgewählte
 Anthropic-Modelle an – `claude-opus-5` gehört nicht dazu, deshalb steht `telefon.modell` auf
 `claude-sonnet-5` (Liste: `AnthropicModel` in https://api.vapi.ai/api-json). Ein schnelleres Modell
-(z. B. `claude-haiku-4-5-20251001`) verkürzt die Antwortpausen am Telefon. Aufzeichnung und Transkription von Anrufen braucht einen Hinweis zu
-Beginn des Gesprächs und in der Datenschutzerklärung (siehe `compliance-pruefer`).
+(z. B. `claude-haiku-4-5-20251001`) verkürzt die Antwortpausen am Telefon. Die Audioaufnahme bei Vapi ist ausgeschaltet (`telefon.aufzeichnung`,
+Standard `false`) – für die Nachbearbeitung reicht das Transkript. Die Transkription braucht einen
+Hinweis zu Beginn des Gesprächs (steht in der Standard-Begrüßung) und in der Datenschutzerklärung
+(siehe `compliance-pruefer`). Österreichische Kunden (`--land AT`) bekommen die Stimme
+`de-AT-IngridNeural`.
 
 ## Werkzeuge der Agenten
 

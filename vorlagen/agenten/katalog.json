@@ -1,7 +1,7 @@
 {
   "rezeption": {
     "typ": "rezeption",
-    "bezeichnung": "Digitale Rezeption",
+    "bezeichnung": "KI-Rezeptionistin",
     "prompt": "rezeption.md",
     "kanaele": [
       "chat",
@@ -21,7 +21,7 @@
   },
   "lead-generierung": {
     "typ": "lead-generierung",
-    "bezeichnung": "Lead-Generierung (B2B-Recherche)",
+    "bezeichnung": "Neukunden-Recherche (B2B)",
     "prompt": "lead-generierung.md",
     "kanaele": [
       "zeitplan"
@@ -45,7 +45,7 @@
   },
   "lead-nachfassen": {
     "typ": "lead-nachfassen",
-    "bezeichnung": "Lead-Nachfassen & Qualifizierung",
+    "bezeichnung": "Anfragen-Nachfassen",
     "prompt": "lead-nachfassen.md",
     "kanaele": [
       "zeitplan",
