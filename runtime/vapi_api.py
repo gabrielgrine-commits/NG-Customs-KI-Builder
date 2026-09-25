@@ -68,9 +68,11 @@ def maskieren(obj: Any) -> Any:
     return obj
 
 
-def assistent_bauen(kunde: str | Path, agent: str, platzhalter: bool = False) -> tuple[config.KundenKonfig, dict]:
+def assistent_bauen(kunde: str | Path, agent: str, platzhalter: bool = False,
+                    ohne_plattform: bool = False) -> tuple[config.KundenKonfig, dict]:
     """Assistenten-Konfiguration aus kunden/<slug>. platzhalter=True erlaubt eine Vorschau ohne
-    NGC_BASIS_URL/NGC_GEHEIMNIS (Adresse und Token sind dann Platzhalter)."""
+    NGC_BASIS_URL/NGC_GEHEIMNIS (Adresse und Token sind dann Platzhalter). ohne_plattform=True: Übergang,
+    solange der Server nicht läuft – keine Werkzeuge, Gespräche nur in den Anrufprotokollen bei Vapi."""
     try:
         k = config.laden(kunde)
         a = k.agent(agent)
@@ -78,11 +80,14 @@ def assistent_bauen(kunde: str | Path, agent: str, platzhalter: bool = False) ->
         raise VapiFehler(str(e)) from None
     if "telefon" not in a.get("kanaele", []):
         raise VapiFehler(f"Agent '{agent}' hat den Kanal 'telefon' nicht in config.json.")
+    if ohne_plattform:
+        return k, assistent_konfig(k, agent, "", "")
     server_url, api_token = kunden_url(k), token(k, "api")
     if not server_url.startswith("https://") or len(api_token) < 16:
         if not platzhalter:
             raise VapiFehler("NGC_BASIS_URL (https://…) und NGC_GEHEIMNIS müssen gesetzt sein – Vapi braucht die "
-                             "öffentliche Plattform-Adresse, um Termine zu buchen und Leads zu speichern.")
+                             "öffentliche Plattform-Adresse, um Termine zu buchen und Leads zu speichern. "
+                             "Übergangsweise ohne Server: --ohne-plattform (MCP: ohne_plattform).")
         server_url, api_token = f"{PLATZHALTER_URL}/k/{k.kunden_dir.name}", "x" * 40
     return k, assistent_konfig(k, agent, server_url, api_token)
 
@@ -109,10 +114,10 @@ def _config_schreiben(pfad: Path, roh: dict) -> None:
     pfad.write_text(json.dumps(roh, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def einrichten(kunde: str | Path, agent: str, nummer: str | None = None) -> list[str]:
+def einrichten(kunde: str | Path, agent: str, nummer: str | None = None, ohne_plattform: bool = False) -> list[str]:
     """Legt den Assistenten an oder aktualisiert ihn (ID aus telefon.vapi_assistent_id) und verknüpft
     optional eine Nummer. Die ID wird sofort in config.json gespeichert – auch wenn danach etwas scheitert."""
-    k, assistent = assistent_bauen(kunde, agent)
+    k, assistent = assistent_bauen(kunde, agent, ohne_plattform=ohne_plattform)
     cfg_pfad = k.agent_dir / "config.json"
     roh = json.loads(cfg_pfad.read_text(encoding="utf-8"))
     tel = roh.setdefault("telefon", {})
@@ -135,4 +140,7 @@ def einrichten(kunde: str | Path, agent: str, nummer: str | None = None) -> list
 
     _config_schreiben(cfg_pfad, roh)
     meldungen.append(f"Gespeichert in {cfg_pfad} (telefon.vapi_assistent_id{', nummer' if nummer else ''}).")
+    if ohne_plattform:
+        meldungen.append("⚠️ Übergangsbetrieb ohne Werkzeuge: Gespräche nur im Vapi-Dashboard (Call Logs) nachlesen. "
+                         "Sobald die Plattform läuft, ohne --ohne-plattform erneut ausführen.")
     return meldungen

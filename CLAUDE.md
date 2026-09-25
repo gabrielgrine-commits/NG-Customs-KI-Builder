@@ -85,7 +85,23 @@ Transkript nach. Braucht `VAPI_TOKEN`, zum Anlegen außerdem `NGC_BASIS_URL` + `
   `vapi_vorschau`; schreibend `vapi_assistent_einrichten`, `vapi_nummer_verknuepfen`, `vapi_assistent_loeschen`.
 - **Kommandozeile:** `python scripts/vapi_einrichten.py kunden/<slug> <agent> [--nummer <id>] [--trocken]`,
   `--nummern` listet Nummern. Beide nutzen `runtime/vapi_api.py`.
+- **Solange der Server noch nicht läuft:** `--ohne-plattform` (MCP: `ohne_plattform`; nur `VAPI_TOKEN`, keine
+  Werkzeuge, Gespräche nur in den Vapi-Anrufprotokollen). Sobald `NGC_BASIS_URL`/`NGC_GEHEIMNIS` gesetzt sind, ohne
+  Schalter erneut ausführen → derselbe Assistent (`telefon.vapi_assistent_id`) bekommt Werkzeuge.
+- Tonaufnahme und Vapis Rauschfilter sind aus (`telefon.aufnahme`, `telefon.rauschfilter` – der Filter verschluckte
+  im Test den Anrufer). Firmennamen, die anders gesprochen werden als geschrieben: `telefon.aussprache`, z. B.
+  `{"NG Customs": "Enn-Dschi Kastems"}` („KI“ → „Ka-I“ ist Standard).
 Deutsche Nummern gibt es nicht direkt bei Vapi → bei Twilio/Telnyx/Vonage kaufen und in Vapi importieren.
+
+**Telefon (Synthflow, Alternative zu Vapi):** Connector „Synthflow“ auf claude.ai verbinden (Login, kein Key; EU:
+`https://mcp.eu.synthflow.ai/mcp`, auch in `.mcp.json`). Ablauf, sobald die `mcp__synthflow__*`-Werkzeuge da sind:
+1. `python scripts/synthflow_vorlage.py kunden/<slug> <agent>` → `agent/synthflow.json` (Prompt, Begrüßung,
+   Custom Actions → `POST /k/<slug>/synthflow/<agent>/<werkzeug>`, Post-Call-Webhook → `…/nach-anruf`).
+   Ohne `NGC_BASIS_URL`/`NGC_GEHEIMNIS` nur `--vorschau`.
+2. **Nach Zustimmung des Nutzers** per Synthflow-MCP: Agent anlegen (Sprache Deutsch, Prompt + Begrüßung aus dem
+   Bauplan), je Werkzeug eine Custom Action, Post-Call-Webhook setzen. Agent-ID in config.json unter
+   `telefon.synthflow_agent_id` speichern (beim nächsten Mal aktualisieren statt neu anlegen).
+3. Nummer: AT/DE nicht direkt bei Synthflow kaufbar → Twilio-Nummer per SIP importieren.
 
 Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY` (in der Claude-Code-Cloud-Umgebung
 stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardmodell `claude-opus-5`.
@@ -105,6 +121,8 @@ stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardm
    erst nach bestandenen Tests und Testphase erhöht.
 6. Neue Werkzeuge/Integrationen gehören in `runtime/werkzeuge.py` + `runtime/config.py`
    (`WERKZEUG_GRUPPEN`) – dann stehen sie allen Kunden zur Verfügung.
-7. **Vapi-Konto:** Assistenten/Nummern (MCP-Server `vapi` oder `vapi_einrichten.py`) nur nach ausdrücklicher Zustimmung des Nutzers
+7. **Telefonie-Konten (Vapi, Synthflow):** Assistenten/Agenten/Nummern (MCP-Server `vapi`/`synthflow` oder
+   `vapi_einrichten.py`) nur nach ausdrücklicher Zustimmung des Nutzers
    anlegen, ändern oder löschen – das kostet Geld und betrifft echte Telefonnummern.
+   **Pull Requests nie selbst mergen** – PR erstellen, der Nutzer merged nach Durchsicht.
 8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).

@@ -100,22 +100,24 @@ Bestätigung verschickt?
    eingetragen, sodass Claude Code Assistenten, Nummern und Anrufe (inkl. Transkript) direkt verwalten
    kann. **Den Key nie in `.mcp.json` schreiben.**
 2. In `config.json` beim Agenten den Kanal `telefon` eintragen und den Abschnitt `telefon` pflegen
-   (Begrüßung mit KI-Hinweis, Stimme, Transkription, Modell).
+   (Begrüßung mit KI-Hinweis, Stimme, Transkription, Modell). Als Modell nur IDs, die Vapi kennt
+   (Standard `claude-haiku-4-5-20251001`, am schnellsten; `claude-opus-5` lehnt Vapi ab) – `validate_config.py` warnt sonst.
 3. Plattform läuft (deploy/) und `NGC_GEHEIMNIS` + `NGC_BASIS_URL` sind gesetzt.
 4. `python scripts/vapi_assistent.py kunden/<slug> rezeption` schreibt `agent/vapi-assistent.json`
    (in .gitignore, da sie den Token enthält).
 5. `python scripts/vapi_einrichten.py kunden/<slug> rezeption --nummer <ID>` legt den Assistenten direkt
-   über die Vapi-API an und verknüpft die Nummer (in Claude Code: MCP-Werkzeug `vapi_assistent_einrichten`). Deutsche Nummern gibt es
+   über die Vapi-API an und verknüpft die Nummer (in Claude Code: MCP-Werkzeug `vapi_assistent_einrichten`). Läuft die
+   Plattform noch nicht, geht es übergangsweise mit `--ohne-plattform` (ohne Werkzeuge, Gespräche nur im Vapi-Dashboard). Deutsche Nummern gibt es
    nicht direkt bei Vapi: bei Twilio/Telnyx/Vonage kaufen und im Vapi-Dashboard importieren. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
    Antwort nach 20 s“ oder nach Feierabend).
 
 Hinweise: Stimme, Transkription und Modell sind Vorschläge. Vapi bietet nur ausgewählte
 Anthropic-Modelle an – `claude-opus-5` gehört nicht dazu, deshalb steht `telefon.modell` auf
-`claude-sonnet-5` (Liste: `AnthropicModel` in https://api.vapi.ai/api-json). Ein schnelleres Modell
-(z. B. `claude-haiku-4-5-20251001`) verkürzt die Antwortpausen am Telefon. Die Audioaufnahme bei Vapi ist ausgeschaltet (`telefon.aufzeichnung`,
+`claude-haiku-4-5-20251001` (am schnellsten am Telefon; Liste: `AnthropicModel` in https://api.vapi.ai/api-json).
+Stimme ist Deepgram Aura-2 „lara“ mit einer Azure-Stimme als Rückfall. Die Audioaufnahme bei Vapi ist ausgeschaltet (`telefon.aufnahme`,
 Standard `false`) – für die Nachbearbeitung reicht das Transkript. Die Transkription braucht einen
 Hinweis zu Beginn des Gesprächs (steht in der Standard-Begrüßung) und in der Datenschutzerklärung
-(siehe `compliance-pruefer`). Österreichische Kunden (`--land AT`) bekommen die Stimme
+(siehe `compliance-pruefer`). Österreichische Kunden (`--land AT`) bekommen als Azure-Rückfallstimme
 `de-AT-IngridNeural`.
 
 ## Werkzeuge der Agenten
