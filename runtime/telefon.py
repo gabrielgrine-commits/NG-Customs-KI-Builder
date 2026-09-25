@@ -17,7 +17,7 @@ import json
 import threading
 from typing import Any
 
-from .config import KundenKonfig
+from .config import VAPI_STANDARD_MODELL, KundenKonfig
 from .engine import PLATTFORM_REGELN, Agent, _firma_block, _rechtsrahmen
 from .werkzeuge import SERVER_WERKZEUGE, TOOL_DEFINITIONEN
 
@@ -80,14 +80,19 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
               "server": endpunkt}
              for n in telefon_werkzeuge(agent)]
 
+    bezeichnung = a.get("bezeichnung", agent_name)
+    name = bezeichnung if firma in bezeichnung else f"{firma} – {bezeichnung}"
+    if len(name) > 40:  # Vapi-Grenze; an einer Wortgrenze kürzen statt mitten im Wort
+        name = name[:39].rsplit(" ", 1)[0].rstrip(" –") + "…"
+
     return {
-        "name": f"{firma} – {a.get('bezeichnung', agent_name)}"[:40],
+        "name": name,
         "firstMessage": t.get("begruessung",
                               f"Guten Tag, hier ist der KI-Assistent von {firma}. Wie kann ich Ihnen helfen?"),
         "endCallMessage": t.get("verabschiedung", "Vielen Dank für Ihren Anruf. Auf Wiederhören!"),
         "model": {
             "provider": "anthropic",
-            "model": t.get("modell", konfig.modell),
+            "model": t.get("modell", VAPI_STANDARD_MODELL),
             "messages": [{"role": "system", "content": "\n\n---\n\n".join(system_teile)}],
             "tools": tools,
         },

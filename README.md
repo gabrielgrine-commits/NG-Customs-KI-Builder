@@ -98,7 +98,8 @@ Bestätigung verschickt?
    in `.mcp.json` eingetragen (`npx mcp-remote https://mcp.vapi.ai/mcp`, braucht Node.js), sodass
    Claude Code Assistenten und Nummern direkt verwalten kann. **Den Key nie in `.mcp.json` schreiben.**
 2. In `config.json` beim Agenten den Kanal `telefon` eintragen und den Abschnitt `telefon` pflegen
-   (Begrüßung mit KI-Hinweis, Stimme, Transkription, Modell).
+   (Begrüßung mit KI-Hinweis, Stimme, Transkription, Modell). Als Modell nur IDs, die Vapi kennt
+   (Standard `claude-sonnet-5`; `claude-opus-5` lehnt Vapi ab) – `validate_config.py` warnt sonst.
 3. Plattform läuft (deploy/) und `NGC_GEHEIMNIS` + `NGC_BASIS_URL` sind gesetzt.
 4. `python scripts/vapi_assistent.py kunden/<slug> rezeption` schreibt `agent/vapi-assistent.json`
    (in .gitignore, da sie den Token enthält).
