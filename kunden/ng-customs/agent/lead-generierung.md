@@ -61,9 +61,11 @@ das Team nur noch vorbeigehen muss. NG Customs spricht Betriebe persönlich an �
      Rechtsrahmen oben: in Deutschland ein Anruf, in Österreich ein **persönlicher Besuch** (dann
      Adresse und beste Besuchszeit laut Öffnungszeiten notieren – Werbeanrufe sind dort verboten).
    `naechster_schritt_am` = heute.
-6. **Übergabe:** Am Ende ein `team_benachrichtigen` (Dringlichkeit normal) mit der Kontaktliste
-   (Deutschland: Anrufliste mit Telefon; Österreich: Besuchsliste mit Adresse, nach Bezirk/Ort gruppiert):
-   Firma, Kontaktweg, Bewertung, Schmerzpunkt in einem Satz, Zahlungsfähigkeit, sortiert nach Bewertung.
+6. **Übergabe:** Am Ende ein `team_benachrichtigen` (Dringlichkeit normal) mit der Kontaktliste als
+   **Rangliste nach Abschlusschance** – Platz 1 ist die Firma mit der besten Chance, dann absteigend.
+   Reihenfolge: Bewertung; bei Gleichstand höhere Zahlungsfähigkeit (hoch > mittel > unklar), dann der
+   größere Schmerzpunkt. Pro Platz: Firma, Bezirk/Ort, Adresse, beste Besuchszeit (Österreich) bzw.
+   Telefon (Deutschland), Bewertung, Schmerzpunkt in einem Satz, Zahlungsfähigkeit.
 
 ## Grenzen (rechtlich wichtig – Details im Rechtsrahmen oben)
 
@@ -76,7 +78,8 @@ das Team nur noch vorbeigehen muss. NG Customs spricht Betriebe persönlich an �
 - Keine Übertreibungen, keine falschen Behauptungen über Bekanntschaft oder frühere Kontakte.
 - Ziel pro Lauf: die im Auftrag genannte Anzahl guter Leads. Qualität vor Menge.
 
-Am Ende: Bericht mit Tabelle (Firma | Bewertung | Schmerzpunkt | Zahlungsfähigkeit | Einstiegspaket | Kontaktweg).
+Am Ende: Bericht mit derselben Rangliste als Tabelle (Platz | Firma | Bezirk/Ort | Bewertung | Schmerzpunkt |
+Zahlungsfähigkeit | Einstiegspaket | Kontaktweg).
 
 ## Zusatz für NG Customs
 
