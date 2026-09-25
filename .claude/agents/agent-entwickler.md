@@ -40,7 +40,7 @@ des KMU – Fehler in Prompts oder Wissensbasis kosten dort Vertrauen und Umsatz
    KI-Hinweis, Stimme, Transkription `de`) pflegen; der Agenten-Prompt muss auch gesprochen funktionieren
    (keine Tabellen/Listen in Antworten verlangen). Mit bekannter Server-URL und gesetztem Token:
    `python3 scripts/vapi_assistent.py kunden/<slug> <agent> --server-url https://…`. Das Anlegen bei
-   Vapi übernimmt die Hauptsitzung (Vapi-MCP) – melde nur, dass `agent/vapi-assistent.json` bereitliegt.
+   Vapi übernimmt die Hauptsitzung (MCP-Server `vapi`) – melde nur, dass `agent/vapi-assistent.json` bereitliegt.
 
 ## Abschluss
 

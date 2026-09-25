@@ -2,7 +2,7 @@
  * NG Customs Chat-Widget
  * Einbinden auf der Kunden-Website:
  *   <script src="https://agents.ng-customs.de/k/<kunde>/widget.js" data-agent="rezeption"
- *           data-titel="Digitale Rezeption" data-farbe="#1f6feb" defer></script>
+ *           data-titel="Resi, KI-Rezeptionistin" data-farbe="#1f6feb" defer></script>
  */
 (function () {
   var skript = document.currentScript;
@@ -87,7 +87,8 @@
     fenster.style.display = offen ? "none" : "flex";
     if (!offen) {
       if (!begruesst) {
-        nachricht("Guten Tag! Ich bin der digitale Assistent. Wie kann ich Ihnen helfen?", false);
+        nachricht(skript.dataset.titel ? "Guten Tag! Hier ist " + titel + ". Wie kann ich Ihnen helfen?"
+                                       : "Guten Tag! Ich bin der digitale Assistent. Wie kann ich Ihnen helfen?", false);
         begruesst = true;
       }
       feld.focus();

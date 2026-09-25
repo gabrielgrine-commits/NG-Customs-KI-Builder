@@ -40,24 +40,24 @@
     "token_env": "NG_CUSTOMS_AGENT_TOKEN"
   },
   "telefon": {
-    "modell": "claude-opus-5",
+    "modell": "claude-sonnet-5",
     "stimme": {
       "provider": "azure",
-      "voiceId": "de-DE-KatjaNeural"
+      "voiceId": "de-AT-IngridNeural"
     },
     "transkription": {
       "provider": "deepgram",
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Grüß Gott, hier ist die KI-Rezeptionistin von NG Customs. Übrigens: Genau so könnte ich auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
+    "begruessung": "Grüß Gott, hier ist Resi, die KI-Rezeptionistin von NG Customs. Unser Gespräch wird zur Bearbeitung Ihres Anliegens transkribiert. Übrigens: Genau so könnte ich auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
     "nachbearbeitung": true
   },
   "agenten": {
     "rezeption": {
       "typ": "rezeption",
-      "bezeichnung": "KI-Rezeptionistin von NG Customs",
+      "bezeichnung": "Resi, KI-Rezeptionistin",
       "prompt": "rezeption.md",
       "kanaele": [
         "chat",
@@ -76,7 +76,7 @@
     },
     "lead-generierung": {
       "typ": "lead-generierung",
-      "bezeichnung": "Lead-Generierung (B2B-Recherche)",
+      "bezeichnung": "Finn, Neukunden-Rechercheur",
       "prompt": "lead-generierung.md",
       "kanaele": [
         "zeitplan"

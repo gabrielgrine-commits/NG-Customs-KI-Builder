@@ -89,7 +89,7 @@
     "token_env": "{{ENV}}_AGENT_TOKEN"
   },
   "telefon": {
-    "modell": "claude-opus-5",
+    "modell": "claude-sonnet-5",
     "stimme": {
       "provider": "azure",
       "voiceId": "de-DE-KatjaNeural"
@@ -99,7 +99,7 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Guten Tag, hier ist der KI-Assistent von {{FIRMA}}. Wie kann ich Ihnen helfen?",
+    "begruessung": "Guten Tag, hier ist Resi, die KI-Rezeptionistin von {{FIRMA}}. Unser Gespräch wird zur Bearbeitung Ihres Anliegens transkribiert. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
     "nachbearbeitung": true
   },

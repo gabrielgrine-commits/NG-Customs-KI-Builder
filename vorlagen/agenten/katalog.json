@@ -1,7 +1,7 @@
 {
   "rezeption": {
     "typ": "rezeption",
-    "bezeichnung": "Digitale Rezeption",
+    "bezeichnung": "Resi, KI-Rezeptionistin",
     "prompt": "rezeption.md",
     "kanaele": [
       "chat",
@@ -21,7 +21,7 @@
   },
   "lead-generierung": {
     "typ": "lead-generierung",
-    "bezeichnung": "Lead-Generierung (B2B-Recherche)",
+    "bezeichnung": "Finn, Neukunden-Rechercheur",
     "prompt": "lead-generierung.md",
     "kanaele": [
       "zeitplan"
@@ -45,7 +45,7 @@
   },
   "lead-nachfassen": {
     "typ": "lead-nachfassen",
-    "bezeichnung": "Lead-Nachfassen & Qualifizierung",
+    "bezeichnung": "Erin, Nachfass-Assistentin",
     "prompt": "lead-nachfassen.md",
     "kanaele": [
       "zeitplan",
@@ -77,7 +77,7 @@
   },
   "posteingang": {
     "typ": "posteingang",
-    "bezeichnung": "Posteingangs-Assistenz",
+    "bezeichnung": "Emil, Posteingangs-Assistent",
     "prompt": "posteingang.md",
     "kanaele": [
       "email"
@@ -96,7 +96,7 @@
   },
   "angebots-assistent": {
     "typ": "angebots-assistent",
-    "bezeichnung": "Angebots-Assistent",
+    "bezeichnung": "Angela, Angebots-Assistentin",
     "prompt": "angebots-assistent.md",
     "kanaele": [
       "webhook",

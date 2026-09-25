@@ -18,7 +18,7 @@ Website ist nicht erreichbar und es gibt keine Notizen.
      laut Website; Kanal `telefon` entfernen, falls kein Telefon-Demo gewünscht.
    - `00-intake.md` – was du herausgefunden hast.
 4. `python3 scripts/validate_config.py kunden/<slug>`, Fehler beheben.
-5. Falls `ANTHROPIC_API_KEY` gesetzt: kurzer Test mit
+5. Falls `ANTHROPIC_API_KEY` oder `NGC_CLAUDE_KEY` gesetzt: kurzer Test mit
    `python3 -m runtime nachricht kunden/<slug> rezeption "Was bieten Sie an und wann haben Sie Zeit?"`
    – Antwort prüfen (nichts erfunden?), ggf. nachbessern.
 6. `python3 -m runtime zugang kunden/<slug>` → Demo-Link. Schreibe `kunden/<slug>/07-kundenmail.md`:

@@ -22,12 +22,12 @@ außer der Nutzer wünscht es oder die Eingaben haben sich geändert.
 6. Gibt es 🔴-Befunde oder fehlgeschlagene Tests, deren Ursache Prompt/Wissen/Konfiguration ist:
    `agent-entwickler` mit den konkreten Befunden beauftragen, danach `qa-tester` erneut laufen
    lassen. Höchstens zwei Korrekturrunden, danach verbleibende Punkte an den Nutzer melden.
-7. **Telefon (nur wenn ein Agent den Kanal `telefon` hat):** Liegt `agent/vapi-assistent.json` vor
-   und sind die Vapi-MCP-Werkzeuge (`mcp__vapi-mcp__…`) verfügbar, frag den Nutzer, ob der Assistent
-   bei Vapi angelegt bzw. aktualisiert werden soll (kostet Geld, echte Nummern). Erst nach dem Ja:
-   anlegen/aktualisieren (bestehende `telefon.vapi_assistent_id` → aktualisieren statt neu anlegen),
-   die ID in config.json unter `telefon.vapi_assistent_id` speichern und nach Wunsch eine Nummer
-   zuweisen. Fehlt das MCP oder `VAPI_TOKEN`, erkläre die Einrichtung (README, Abschnitt Telefon).
+7. **Telefon (nur wenn ein Agent den Kanal `telefon` hat):** Mit `mcp__vapi__vapi_vorschau` die
+   Konfiguration zeigen und den Nutzer fragen, ob der Assistent bei Vapi angelegt bzw. aktualisiert
+   werden soll (kostet Geld, echte Nummern). Erst nach dem Ja: `mcp__vapi__vapi_assistent_einrichten`
+   (aktualisiert eine bestehende `telefon.vapi_assistent_id` statt neu anzulegen, speichert die ID) –
+   mit `nummer`, wenn der Nutzer eine Nummer zuweisen will. Fehlt der MCP-Server oder `VAPI_TOKEN`
+   (`mcp__vapi__vapi_status`), erkläre die Einrichtung (README, Abschnitt Telefon).
 8. **Abschlussbericht** an den Nutzer:
    - Agenten + Autonomiestufen, Testergebnis x/y, Compliance-Ampel
    - Offene Punkte, die der Kunde liefern muss
