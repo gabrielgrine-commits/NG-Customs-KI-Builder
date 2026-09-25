@@ -56,6 +56,9 @@ Fragen gesammelt am Ende stellen.
 | `/angebot <slug>` | Angebot mit Paketen, Preisen (`vorlagen/preise.md`) und ROI |
 
 Subagenten: `.claude/agents/`. Branchenwissen: Skill `kmu-branchen-blueprints`.
+Beim Schreiben, Prüfen oder Umbauen von Code (`runtime/`, `scripts/`): Skill `karpathy-guidelines`
+(einfach, gezielte Änderungen, prüfbare Ziele). Für die Kunden-Pipeline gilt weiter: sichere Standards
+selbst wählen, Fragen gesammelt am Ende.
 Ein Hook prüft jede Änderung an `kunden/*/agent/` automatisch (`scripts/validate_config.py`).
 
 ## Plattform & Betrieb
@@ -124,5 +127,6 @@ stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardm
 7. **Telefonie-Konten (Vapi, Synthflow):** Assistenten/Agenten/Nummern (MCP-Server `vapi`/`synthflow` oder
    `vapi_einrichten.py`) nur nach ausdrücklicher Zustimmung des Nutzers
    anlegen, ändern oder löschen – das kostet Geld und betrifft echte Telefonnummern.
-   **Pull Requests nie selbst mergen** – PR erstellen, der Nutzer merged nach Durchsicht.
+   **Pull Requests:** Vor jedem Merge den Nutzer fragen, ob Claude selbst mergen darf – auch wenn er vorher
+   schon einmal zugestimmt hat. Ohne ausdrückliches Ja nur den PR erstellen; der Nutzer merged selbst.
 8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).
