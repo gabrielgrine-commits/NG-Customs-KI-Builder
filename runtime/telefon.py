@@ -22,8 +22,12 @@ from .engine import PLATTFORM_REGELN, Agent, _firma_block, _rechtsrahmen
 from .werkzeuge import SERVER_WERKZEUGE, TOOL_DEFINITIONEN
 
 TELEFON_REGELN = """\
-# Besonderheiten am Telefon
-- Du sprichst, du schreibst nicht: kurze Sätze, keine Aufzählungszeichen, keine Emojis, kein Markdown.
+# Besonderheiten am Telefon (gehen allen Längen- und Stilangaben oben vor)
+- Du sprichst, du schreibst nicht: keine Aufzählungszeichen, keine Emojis, kein Markdown.
+- Antworte kurz wie ein Mensch am Telefon: meist ein bis zwei kurze Sätze, höchstens etwa 30 Wörter, dann eine
+  Rückfrage. Zähle nie mehrere Pakete, Preise oder Möglichkeiten hintereinander auf – nenne das Passende oder den
+  Einstieg und frag, was die Person braucht.
+- Klinge natürlich und locker-höflich („Gerne.“, „Verstehe.“), ohne Floskeln und ohne die Frage zu wiederholen.
 - Uhrzeiten und Daten natürlich aussprechen („Dienstag, den vierzehnten Oktober, um neun Uhr“).
 - Namen, Telefonnummern und E-Mail-Adressen immer wiederholen und bestätigen lassen; E-Mail-Adressen
   buchstabieren lassen, wenn sie ungewöhnlich sind. Die Nummer des Anrufers kennst du oft schon –
@@ -34,6 +38,11 @@ TELEFON_REGELN = """\
   mit team_benachrichtigen (Dringlichkeit hoch, Rückrufnummer, Anliegen) weitergeben.
 - Verabschiede dich knapp und fasse zusammen, was vereinbart wurde.
 """
+
+# Deepgram Aura-2: deutsche Stimme für Sprachagenten, schnell (Azure brauchte im Test 0,7 s bis zum ersten Ton).
+# Fällt Deepgram aus, spricht Vapi mit der Azure-Stimme weiter statt zu schweigen.
+STANDARD_STIMME = {"provider": "deepgram", "model": "aura-2", "voiceId": "viktoria",
+                   "fallbackPlan": {"voices": [{"provider": "azure", "voiceId": "de-DE-KatjaNeural"}]}}
 
 OHNE_PLATTFORM_REGELN = """\
 # Übergangsbetrieb: keine Werkzeuge
@@ -74,13 +83,14 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
     t = {**konfig.daten.get("telefon", {}), **a.get("telefon", {})}
     firma = konfig.firma["name"]
 
-    system_teile = [PLATTFORM_REGELN, _rechtsrahmen(konfig), _firma_block(konfig), TELEFON_REGELN,
+    system_teile = [PLATTFORM_REGELN, _rechtsrahmen(konfig), _firma_block(konfig),
                     f"# Deine Rolle: {a.get('bezeichnung', agent_name)}\n\n" + konfig.text_datei(a["prompt"])]
     if server_url and agent.freigabe:
         system_teile.append("Diese Werkzeuge brauchen die Freigabe eines Menschen, bevor sie wirklich ausgeführt "
                             f"werden: {', '.join(sorted(agent.freigabe))}.")
     for datei in a.get("wissen", konfig.daten.get("wissen", [])):
         system_teile.append(f"# Wissensbasis ({datei})\n\n" + konfig.text_datei(datei))
+    system_teile.append(TELEFON_REGELN)  # zuletzt, damit die Kürze am Telefon Vorrang hat
     if not server_url:
         system_teile.append(OHNE_PLATTFORM_REGELN)
     system_teile.append("Heutiges Datum und Uhrzeit: {{\"now\" | date: \"%A, %d.%m.%Y %H:%M\", \""
@@ -102,7 +112,7 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
             "messages": [{"role": "system", "content": "\n\n---\n\n".join(system_teile)}],
         },
         "transcriber": t.get("transkription", {"provider": "deepgram", "model": "nova-2", "language": "de"}),
-        "voice": t.get("stimme", {"provider": "azure", "voiceId": "de-DE-KatjaNeural"}),
+        "voice": t.get("stimme", STANDARD_STIMME),
         "maxDurationSeconds": t.get("max_dauer_s", 900),
         # Tonaufnahme nur auf Wunsch (Datensparsamkeit); das Transkript entsteht trotzdem.
         "artifactPlan": {"recordingEnabled": bool(t.get("aufnahme", False))},

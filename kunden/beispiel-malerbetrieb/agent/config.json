@@ -98,10 +98,19 @@
     "token_env": "BEISPIEL_MALERBETRIEB_AGENT_TOKEN"
   },
   "telefon": {
-    "modell": "claude-sonnet-5",
+    "modell": "claude-haiku-4-5-20251001",
     "stimme": {
-      "provider": "azure",
-      "voiceId": "de-DE-KatjaNeural"
+      "provider": "deepgram",
+      "model": "aura-2",
+      "voiceId": "viktoria",
+      "fallbackPlan": {
+        "voices": [
+          {
+            "provider": "azure",
+            "voiceId": "de-DE-KatjaNeural"
+          }
+        ]
+      }
     },
     "transkription": {
       "provider": "deepgram",

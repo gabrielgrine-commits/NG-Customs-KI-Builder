@@ -31,7 +31,8 @@ VAPI_MODELLE = {
     "claude-sonnet-5", "claude-opus-4-6", "claude-sonnet-4-6", "claude-opus-4-5-20251101",
     "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001",
 }
-VAPI_STANDARD_MODELL = "claude-sonnet-5"  # schnell genug für Gespräche ohne spürbare Pausen
+# Am Telefon zählt jede Zehntelsekunde: Haiku antwortet deutlich schneller als Sonnet (Testanruf: 1,3 s Denkzeit).
+VAPI_STANDARD_MODELL = "claude-haiku-4-5-20251001"
 
 
 class KonfigFehler(Exception):
