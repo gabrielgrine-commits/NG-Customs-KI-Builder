@@ -33,6 +33,13 @@ def main() -> None:
         for nr, zeile in enumerate(datei.read_text(encoding="utf-8").splitlines(), 1):
             if re.search(r"\[OFFEN", zeile) or "{{" in zeile:
                 offen.append(f"agent/{datei.name}:{nr}: {zeile.strip()[:100]}")
+    for name, a in k.daten["agenten"].items():
+        if "telefon" not in a.get("kanaele", []):
+            continue
+        modell = {**k.daten.get("telefon", {}), **a.get("telefon", {})}.get("modell", config.VAPI_STANDARD_MODELL)
+        if modell not in config.VAPI_MODELLE:
+            offen.append(f"telefon.modell '{modell}' ({name}) kennt Vapi nicht – Vapi lehnt den Assistenten ab. "
+                         f"Standard: {config.VAPI_STANDARD_MODELL}")
     print(f"✅ {k.firma['name']}: Konfiguration gültig ({len(k.daten['agenten'])} Agenten).")
     if offen:
         print(f"⚠️  {len(offen)} offene Punkte (vor Livegang klären):")

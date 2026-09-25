@@ -128,15 +128,17 @@ def vapi_anruf(args: dict) -> Any:
 
 
 def vapi_vorschau(args: dict) -> Any:
-    _, assistent = vapi_api.assistent_bauen(_kunde(args["kunde"]), args["agent"], platzhalter=True)
+    _, assistent = vapi_api.assistent_bauen(_kunde(args["kunde"]), args["agent"], platzhalter=True,
+                                            ohne_plattform=bool(args.get("ohne_plattform")))
     v = vapi_api.vorschau(assistent, prompt_zeichen=args.get("prompt_zeichen") or 300)
-    if vapi_api.PLATZHALTER_URL in v["server"]["url"]:
+    if vapi_api.PLATZHALTER_URL in v.get("server", {}).get("url", ""):
         v["hinweis"] = "NGC_BASIS_URL/NGC_GEHEIMNIS fehlen – Adresse ist ein Platzhalter; Anlegen geht so noch nicht."
     return v
 
 
 def vapi_assistent_einrichten(args: dict) -> Any:
-    return vapi_api.einrichten(_kunde(args["kunde"]), args["agent"], args.get("nummer"))
+    return vapi_api.einrichten(_kunde(args["kunde"]), args["agent"], args.get("nummer"),
+                               bool(args.get("ohne_plattform")))
 
 
 def vapi_nummer_verknuepfen(args: dict) -> Any:
@@ -164,7 +166,9 @@ def vapi_assistent_loeschen(args: dict) -> Any:
 
 
 KUNDE_AGENT = {"kunde": {"type": "string", "description": "Kunden-Slug, z. B. 'ng-customs'"},
-               "agent": {"type": "string", "description": "Agent mit Kanal 'telefon', z. B. 'rezeption'"}}
+               "agent": {"type": "string", "description": "Agent mit Kanal 'telefon', z. B. 'rezeption'"},
+               "ohne_plattform": {"type": "boolean", "description": "Übergang, solange der Server nicht läuft: "
+                                  "keine Werkzeuge, Gespräche nur im Vapi-Dashboard"}}
 LESEN = {"readOnlyHint": True, "openWorldHint": True}
 
 WERKZEUGE: dict[str, tuple[Callable[[dict], Any], str, dict, list[str], dict]] = {
