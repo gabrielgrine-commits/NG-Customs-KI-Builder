@@ -40,19 +40,32 @@
     "token_env": "NG_CUSTOMS_AGENT_TOKEN"
   },
   "telefon": {
-    "modell": "claude-sonnet-5",
+    "modell": "claude-haiku-4-5-20251001",
     "stimme": {
-      "provider": "azure",
-      "voiceId": "de-AT-IngridNeural"
+      "provider": "deepgram",
+      "model": "aura-2",
+      "voiceId": "lara",
+      "fallbackPlan": {
+        "voices": [
+          {
+            "provider": "azure",
+            "voiceId": "de-AT-IngridNeural"
+          }
+        ]
+      }
     },
     "transkription": {
       "provider": "deepgram",
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Grüß Gott, hier ist Resi, die KI-Rezeptionistin von NG Customs. Unser Gespräch wird zur Bearbeitung Ihres Anliegens transkribiert. Übrigens: Genau so könnte ich auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
+    "begruessung": "Grüß Gott bei NG Customs! Hier spricht Resi, die KI-Rezeptionistin, unser Gespräch wird mitgeschrieben. Wie kann ich Ihnen helfen?",
+    "aussprache": {
+      "NG Customs": "Enn-Dschi Kastems"
+    },
     "max_dauer_s": 900,
-    "nachbearbeitung": true
+    "nachbearbeitung": true,
+    "vapi_assistent_id": "80fb21fd-4808-4b19-9f1b-79af6d4bfca7"
   },
   "agenten": {
     "rezeption": {

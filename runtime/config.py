@@ -25,6 +25,14 @@ KANAELE = {"chat", "email", "webhook", "zeitplan", "cli", "telefon"}
 WOCHENTAGE = ["mo", "di", "mi", "do", "fr", "sa", "so"]
 EFFORTS = {"low", "medium", "high", "xhigh", "max"}
 LAENDER = {"DE", "AT"}
+# Telefon: Vapi akzeptiert nur Modelle aus seiner eigenen Liste (Stand 09/2026, api.vapi.ai/api-json →
+# AnthropicModel); die Plattform-ID "claude-opus-5" lehnt es mit HTTP 400 ab.
+VAPI_MODELLE = {
+    "claude-sonnet-5", "claude-opus-4-6", "claude-sonnet-4-6", "claude-opus-4-5-20251101",
+    "claude-sonnet-4-5-20250929", "claude-haiku-4-5-20251001",
+}
+# Am Telefon zählt jede Zehntelsekunde: Haiku antwortet deutlich schneller als Sonnet (Testanruf: 1,3 s Denkzeit).
+VAPI_STANDARD_MODELL = "claude-haiku-4-5-20251001"
 
 
 class KonfigFehler(Exception):
