@@ -35,6 +35,16 @@ TELEFON_REGELN = """\
 - Verabschiede dich knapp und fasse zusammen, was vereinbart wurde.
 """
 
+OHNE_PLATTFORM_REGELN = """\
+# Übergangsbetrieb: keine Werkzeuge
+In diesen Gesprächen stehen dir keine Werkzeuge zur Verfügung, auch wenn oben Werkzeuge wie
+crm_lead_speichern oder team_benachrichtigen erwähnt sind. Das Team liest nach jedem Anruf das Gesprächsprotokoll.
+- Frag im Gespräch ab, was ein Werkzeug sonst speichern würde (Name, Firma, E-Mail oder Rückrufnummer,
+  Anliegen, bei Terminwunsch zwei bis drei Wunschzeiten), und lass dir die Angaben bestätigen.
+- Sag ehrlich, dass du das Anliegen an das Team weitergibst und sich jemand meldet. Behaupte nie, etwas
+  sei gespeichert, gebucht oder verschickt, und kündige keine automatische Bestätigung an.
+"""
+
 
 def _fuer_vapi(schema: dict) -> dict:
     """Wandelt das strikte Claude-Schema (nullable per ["typ", "null"]) in ein einfaches JSON-Schema:
@@ -57,6 +67,8 @@ def telefon_werkzeuge(agent: Agent) -> list[str]:
 
 
 def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, token: str) -> dict:
+    """Ohne server_url (Plattform noch nicht in Betrieb): Assistent ohne Werkzeuge und ohne Nachbearbeitung;
+    die Gespräche stehen dann nur in den Anrufprotokollen im Vapi-Dashboard."""
     agent = Agent(konfig, agent_name)
     a = konfig.agent(agent_name)
     t = {**konfig.daten.get("telefon", {}), **a.get("telefon", {})}
@@ -64,28 +76,22 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
 
     system_teile = [PLATTFORM_REGELN, _rechtsrahmen(konfig), _firma_block(konfig), TELEFON_REGELN,
                     f"# Deine Rolle: {a.get('bezeichnung', agent_name)}\n\n" + konfig.text_datei(a["prompt"])]
-    if agent.freigabe:
+    if server_url and agent.freigabe:
         system_teile.append("Diese Werkzeuge brauchen die Freigabe eines Menschen, bevor sie wirklich ausgeführt "
                             f"werden: {', '.join(sorted(agent.freigabe))}.")
     for datei in a.get("wissen", konfig.daten.get("wissen", [])):
         system_teile.append(f"# Wissensbasis ({datei})\n\n" + konfig.text_datei(datei))
+    if not server_url:
+        system_teile.append(OHNE_PLATTFORM_REGELN)
     system_teile.append("Heutiges Datum und Uhrzeit: {{\"now\" | date: \"%A, %d.%m.%Y %H:%M\", \""
                         + konfig.zeitzone + "\"}}")
-
-    endpunkt = {"url": f"{server_url.rstrip('/')}/vapi/{agent_name}",
-                "headers": {"Authorization": f"Bearer {token}"}, "timeoutSeconds": 20}
-    tools = [{"type": "function",
-              "function": {"name": n, "description": TOOL_DEFINITIONEN[n]["description"],
-                           "parameters": _fuer_vapi(TOOL_DEFINITIONEN[n])},
-              "server": endpunkt}
-             for n in telefon_werkzeuge(agent)]
 
     bezeichnung = a.get("bezeichnung", agent_name)
     name = bezeichnung if firma in bezeichnung else f"{firma} – {bezeichnung}"
     if len(name) > 40:  # Vapi-Grenze; an einer Wortgrenze kürzen statt mitten im Wort
         name = name[:39].rsplit(" ", 1)[0].rstrip(" –") + "…"
 
-    return {
+    assistent = {
         "name": name,
         "firstMessage": t.get("begruessung",
                               f"Guten Tag, hier ist der KI-Assistent von {firma}. Wie kann ich Ihnen helfen?"),
@@ -94,14 +100,24 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
             "provider": "anthropic",
             "model": t.get("modell", VAPI_STANDARD_MODELL),
             "messages": [{"role": "system", "content": "\n\n---\n\n".join(system_teile)}],
-            "tools": tools,
         },
         "transcriber": t.get("transkription", {"provider": "deepgram", "model": "nova-2", "language": "de"}),
         "voice": t.get("stimme", {"provider": "azure", "voiceId": "de-DE-KatjaNeural"}),
         "maxDurationSeconds": t.get("max_dauer_s", 900),
-        "server": endpunkt,
-        "serverMessages": ["tool-calls", "end-of-call-report"],
+        # Tonaufnahme nur auf Wunsch (Datensparsamkeit); das Transkript entsteht trotzdem.
+        "artifactPlan": {"recordingEnabled": bool(t.get("aufnahme", False))},
     }
+    if server_url:
+        endpunkt = {"url": f"{server_url.rstrip('/')}/vapi/{agent_name}",
+                    "headers": {"Authorization": f"Bearer {token}"}, "timeoutSeconds": 20}
+        assistent["model"]["tools"] = [{"type": "function",
+                                        "function": {"name": n, "description": TOOL_DEFINITIONEN[n]["description"],
+                                                     "parameters": _fuer_vapi(TOOL_DEFINITIONEN[n])},
+                                        "server": endpunkt}
+                                       for n in telefon_werkzeuge(agent)]
+        assistent["server"] = endpunkt
+        assistent["serverMessages"] = ["tool-calls", "end-of-call-report"]
+    return assistent
 
 
 def _argumente(aufruf: dict) -> dict:

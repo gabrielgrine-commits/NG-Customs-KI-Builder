@@ -5,11 +5,17 @@
   python scripts/vapi_einrichten.py kunden/<slug> rezeption                # Assistent anlegen/aktualisieren
   python scripts/vapi_einrichten.py kunden/<slug> rezeption --nummer <ID>  # … und Nummer verknüpfen
   python scripts/vapi_einrichten.py kunden/<slug> rezeption --trocken      # nur anzeigen, nichts senden
+  python scripts/vapi_einrichten.py kunden/<slug> rezeption --ohne-plattform  # Übergang: ohne Werkzeuge
 
 Braucht in der Umgebung: VAPI_TOKEN (Private Key), NGC_GEHEIMNIS und NGC_BASIS_URL (Plattform-Adresse,
 unter der Vapi die Werkzeuge aufruft). Die Assistenten-ID wird in config.json unter
 telefon.vapi_assistent_id gespeichert – beim nächsten Aufruf wird derselbe Assistent aktualisiert
 statt ein neuer angelegt.
+
+--ohne-plattform (solange der Server noch nicht läuft): Der Assistent beantwortet Fragen und nimmt
+Anliegen im Gespräch auf, speichert aber nichts und benachrichtigt niemanden – die Gespräche stehen nur
+in den Anrufprotokollen im Vapi-Dashboard. Sobald die Plattform läuft, ohne den Schalter erneut
+ausführen: Derselbe Assistent bekommt dann Werkzeuge und Nachbearbeitung.
 
 Hinweis: Kostenlose Vapi-Nummern gibt es nur für die USA. Deutsche Nummern (+49) werden bei Twilio,
 Telnyx oder Vonage gekauft und im Vapi-Dashboard importiert; danach hier per --nummer verknüpfen.
@@ -41,7 +47,9 @@ def vapi(methode: str, pfad: str, daten: dict | None = None) -> dict | list:
     req = urllib.request.Request(
         API + pfad, method=methode,
         data=json.dumps(daten).encode() if daten is not None else None,
-        headers={"Authorization": f"Bearer {schluessel}", "Content-Type": "application/json"})
+        # Eigener User-Agent: Cloudflare vor der Vapi-API sperrt "Python-urllib" (HTTP 403, error code 1010).
+        headers={"Authorization": f"Bearer {schluessel}", "Content-Type": "application/json",
+                 "User-Agent": "ng-customs-ki-builder/1.0"})
     try:
         with urllib.request.urlopen(req, timeout=30) as antwort:
             return json.loads(antwort.read() or b"{}")
@@ -70,6 +78,8 @@ def main() -> None:
     p.add_argument("--nummer", help="Vapi-ID oder Rufnummer (+49…) einer importierten Nummer")
     p.add_argument("--nummern", action="store_true", help="Nummern im Vapi-Konto auflisten")
     p.add_argument("--trocken", action="store_true", help="Konfiguration nur anzeigen")
+    p.add_argument("--ohne-plattform", action="store_true",
+                   help="Übergang ohne Server: keine Werkzeuge, Gespräche nur im Vapi-Dashboard")
     args = p.parse_args()
 
     if args.nummern:
@@ -84,15 +94,16 @@ def main() -> None:
         sys.exit(f"❌ {e}")
     if "telefon" not in k.agent(args.agent).get("kanaele", []):
         sys.exit(f"❌ Agent '{args.agent}' hat den Kanal 'telefon' nicht in config.json.")
-    server_url, api_token = kunden_url(k), token(k, "api")
-    if not server_url.startswith("https://") or len(api_token) < 16:
+    server_url, api_token = ("", "") if args.ohne_plattform else (kunden_url(k), token(k, "api"))
+    if not args.ohne_plattform and (not server_url.startswith("https://") or len(api_token) < 16):
         sys.exit("❌ NGC_BASIS_URL (https://…) und NGC_GEHEIMNIS müssen gesetzt sein – Vapi braucht die "
-                 "öffentliche Plattform-Adresse, um Termine zu buchen und Leads zu speichern.")
+                 "öffentliche Plattform-Adresse, um Termine zu buchen und Leads zu speichern. "
+                 "Übergangsweise ohne Server: --ohne-plattform")
 
     assistent = assistent_konfig(k, args.agent, server_url, api_token)
     if args.trocken:
         vorschau = json.loads(json.dumps(assistent))
-        for t in vorschau["model"]["tools"] + [vorschau]:
+        for t in vorschau["model"].get("tools", []) + [vorschau]:
             t.get("server", {}).get("headers", {}).update(Authorization="Bearer ***")
         vorschau["model"]["messages"][0]["content"] = vorschau["model"]["messages"][0]["content"][:300] + " …"
         print(json.dumps(vorschau, ensure_ascii=False, indent=2))
@@ -123,6 +134,9 @@ def main() -> None:
 
     cfg_pfad.write_text(json.dumps(roh, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"   Gespeichert in {cfg_pfad} (telefon.vapi_assistent_id{', nummer' if args.nummer else ''}).")
+    if args.ohne_plattform:
+        print("   ⚠️  Übergangsbetrieb ohne Werkzeuge: Gespräche nur im Vapi-Dashboard (Call Logs) nachlesen. "
+              "Sobald die Plattform läuft, ohne --ohne-plattform erneut ausführen.")
 
 
 if __name__ == "__main__":

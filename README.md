@@ -104,7 +104,8 @@ Bestätigung verschickt?
 4. `python scripts/vapi_assistent.py kunden/<slug> rezeption` schreibt `agent/vapi-assistent.json`
    (in .gitignore, da sie den Token enthält).
 5. `python scripts/vapi_einrichten.py kunden/<slug> rezeption --nummer <ID>` legt den Assistenten direkt
-   über die Vapi-API an und verknüpft die Nummer (alternativ über das Vapi-MCP). Deutsche Nummern gibt es
+   über die Vapi-API an und verknüpft die Nummer (alternativ über das Vapi-MCP). Läuft die Plattform noch
+   nicht, geht es übergangsweise mit `--ohne-plattform` (ohne Werkzeuge, Gespräche nur im Vapi-Dashboard). Deutsche Nummern gibt es
    nicht direkt bei Vapi: bei Twilio/Telnyx/Vonage kaufen und im Vapi-Dashboard importieren. Beim Kunden eine Rufumleitung auf die Nummer einrichten (z. B. bei „besetzt“, „keine
    Antwort nach 20 s“ oder nach Feierabend).
 

@@ -50,9 +50,10 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Grüß Gott, hier ist die KI-Rezeptionistin von NG Customs. Übrigens: Genau so könnte ich auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
+    "begruessung": "Grüß Gott, hier ist die KI-Rezeptionistin von NG Customs. Das Gespräch wird mitgeschrieben, damit sich unser Team um Ihr Anliegen kümmern kann. Übrigens: Genau so könnte ich auch Ihre Anrufe annehmen. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
-    "nachbearbeitung": true
+    "nachbearbeitung": true,
+    "vapi_assistent_id": "80fb21fd-4808-4b19-9f1b-79af6d4bfca7"
   },
   "agenten": {
     "rezeption": {
