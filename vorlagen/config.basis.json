@@ -99,7 +99,7 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Guten Tag, hier ist die KI-Rezeptionistin von {{FIRMA}}. Unser Gespräch wird zur Bearbeitung Ihres Anliegens transkribiert. Wie kann ich Ihnen helfen?",
+    "begruessung": "Guten Tag, hier ist Resi, die KI-Rezeptionistin von {{FIRMA}}. Unser Gespräch wird zur Bearbeitung Ihres Anliegens transkribiert. Wie kann ich Ihnen helfen?",
     "max_dauer_s": 900,
     "nachbearbeitung": true
   },

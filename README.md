@@ -67,7 +67,7 @@ python scripts/run_tests.py kunden/beispiel-malerbetrieb
 2. **Website-Chat** auf der Kunden-Website einbinden:
    ```html
    <script src="https://agent.kunde.de/widget.js" data-agent="rezeption"
-           data-titel="Digitale Rezeption" data-farbe="#1f6feb"
+           data-titel="Resi, KI-Rezeptionistin" data-farbe="#1f6feb"
            data-datenschutz="https://kunde.de/datenschutz" defer></script>
    ```
    Domain der Website in `server.erlaubte_origins` eintragen.
