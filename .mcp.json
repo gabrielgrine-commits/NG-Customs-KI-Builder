@@ -5,6 +5,10 @@
       "args": [
         "${CLAUDE_PROJECT_DIR:-.}/scripts/vapi_mcp.py"
       ]
+    },
+    "synthflow": {
+      "type": "http",
+      "url": "https://mcp.eu.synthflow.ai/mcp"
     }
   }
 }

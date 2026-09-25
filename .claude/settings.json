@@ -1,6 +1,7 @@
 {
   "enabledMcpjsonServers": [
-    "vapi"
+    "vapi",
+    "synthflow"
   ],
   "permissions": {
     "allow": [

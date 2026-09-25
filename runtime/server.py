@@ -7,6 +7,8 @@ Endpunkte eines Kunden (Einzelbetrieb direkt unter /, auf der Plattform unter /k
   POST chat/<agent>               {"sitzung": "...", "nachricht": "..."} -> {"antwort": "..."}
   POST webhook/<agent>            beliebiges JSON (z. B. Kontaktformular); Header X-Token
   POST vapi/<agent>               Telefon: Werkzeugaufrufe + Anrufberichte von Vapi (Bearer-Token)
+  POST synthflow/<agent>/<werkzeug>  Telefon über Synthflow: Custom Action (Body = Werkzeug-Eingabe)
+  POST synthflow/<agent>/nach-anruf  Synthflow Post-Call-Webhook (Transkript → Nachbearbeitung)
   GET  kalender.ics?token=…       Termin-Feed zum Abonnieren in Google/Outlook
 Global: GET /gesundheit
 
@@ -31,7 +33,7 @@ from .config import KundenKonfig
 from .engine import Agent, AgentFehler
 from .geheimnisse import token
 from .store import JsonStore
-from .telefon import vapi_nachricht
+from .telefon import synthflow_nach_anruf, synthflow_werkzeug, vapi_nachricht
 from .werkzeuge import Werkzeuge
 
 STATIC = Path(__file__).parent / "static"
@@ -165,6 +167,9 @@ class KundenApp:
                 return
             h.antwort(200, aktionen[teile[1]](self.k, body))
             return
+        if teile[0] == "synthflow" and len(teile) == 3:
+            self._synthflow(h, teile[1], teile[2])
+            return
         if len(teile) != 2 or teile[0] not in ("chat", "webhook", "vapi"):
             h.antwort(404, {"fehler": "nicht gefunden"})
             return
@@ -223,6 +228,27 @@ class KundenApp:
                 tel = self.k.firma.get("telefon", "")
                 h.antwort(200, {"antwort": "Entschuldigung, gerade gibt es eine technische Störung. "
                                            + (f"Sie erreichen uns telefonisch unter {tel}." if tel else "")})
+
+    def _synthflow(self, h: "Handler", name: str, aktion: str) -> None:
+        """Synthflow: POST synthflow/<agent>/<werkzeug> (Custom Action) oder synthflow/<agent>/nach-anruf."""
+        auth = h.headers.get("Authorization", "").removeprefix("Bearer ").strip()
+        if not _gleich(auth or h.headers.get("X-Token", ""), token(self.k, "api")):
+            h.antwort(403, {"fehler": "Token ungültig"})
+            return
+        agent = self.agent_fuer(name, "telefon")
+        body = h.json_body()
+        if not agent or body is None:
+            h.antwort(404 if not agent else 400, {"fehler": "Agent nicht für Telefon freigeschaltet"
+                                                   if not agent else "Ungültiges JSON"})
+            return
+        try:
+            if aktion == "nach-anruf":
+                h.antwort(200, synthflow_nach_anruf(agent, body))
+            else:
+                h.antwort(200, synthflow_werkzeug(agent, aktion, body))
+        except Exception as e:
+            print(f"FEHLER (synthflow {self.k.kunden_dir.name}): {type(e).__name__}: {e}", flush=True)
+            h.antwort(500, {"fehler": "interner Fehler"})
 
     def _vapi(self, h: "Handler", name: str) -> None:
         auth = h.headers.get("Authorization", "").removeprefix("Bearer ").strip()

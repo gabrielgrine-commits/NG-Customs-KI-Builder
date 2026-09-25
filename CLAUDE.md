@@ -87,6 +87,16 @@ Transkript nach. Braucht `VAPI_TOKEN`, zum Anlegen außerdem `NGC_BASIS_URL` + `
   `--nummern` listet Nummern. Beide nutzen `runtime/vapi_api.py`.
 Deutsche Nummern gibt es nicht direkt bei Vapi → bei Twilio/Telnyx/Vonage kaufen und in Vapi importieren.
 
+**Telefon (Synthflow, Alternative zu Vapi):** Connector „Synthflow“ auf claude.ai verbinden (Login, kein Key; EU:
+`https://mcp.eu.synthflow.ai/mcp`, auch in `.mcp.json`). Ablauf, sobald die `mcp__synthflow__*`-Werkzeuge da sind:
+1. `python scripts/synthflow_vorlage.py kunden/<slug> <agent>` → `agent/synthflow.json` (Prompt, Begrüßung,
+   Custom Actions → `POST /k/<slug>/synthflow/<agent>/<werkzeug>`, Post-Call-Webhook → `…/nach-anruf`).
+   Ohne `NGC_BASIS_URL`/`NGC_GEHEIMNIS` nur `--vorschau`.
+2. **Nach Zustimmung des Nutzers** per Synthflow-MCP: Agent anlegen (Sprache Deutsch, Prompt + Begrüßung aus dem
+   Bauplan), je Werkzeug eine Custom Action, Post-Call-Webhook setzen. Agent-ID in config.json unter
+   `telefon.synthflow_agent_id` speichern (beim nächsten Mal aktualisieren statt neu anlegen).
+3. Nummer: AT/DE nicht direkt bei Synthflow kaufbar → Twilio-Nummer per SIP importieren.
+
 Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY` (in der Claude-Code-Cloud-Umgebung
 stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardmodell `claude-opus-5`.
 
@@ -105,6 +115,8 @@ stattdessen `NGC_CLAUDE_KEY`, weil `ANTHROPIC_*` dort reserviert ist). Standardm
    erst nach bestandenen Tests und Testphase erhöht.
 6. Neue Werkzeuge/Integrationen gehören in `runtime/werkzeuge.py` + `runtime/config.py`
    (`WERKZEUG_GRUPPEN`) – dann stehen sie allen Kunden zur Verfügung.
-7. **Vapi-Konto:** Assistenten/Nummern (MCP-Server `vapi` oder `vapi_einrichten.py`) nur nach ausdrücklicher Zustimmung des Nutzers
+7. **Telefonie-Konten (Vapi, Synthflow):** Assistenten/Agenten/Nummern (MCP-Server `vapi`/`synthflow` oder
+   `vapi_einrichten.py`) nur nach ausdrücklicher Zustimmung des Nutzers
    anlegen, ändern oder löschen – das kostet Geld und betrifft echte Telefonnummern.
+   **Pull Requests nie selbst mergen** – PR erstellen, der Nutzer merged nach Durchsicht.
 8. **Keine fremden Binärdateien/Installer** ins Repo holen oder ausführen (siehe `SICHERHEITSHINWEIS.md`).
