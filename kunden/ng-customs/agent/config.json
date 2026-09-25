@@ -44,7 +44,7 @@
     "stimme": {
       "provider": "deepgram",
       "model": "aura-2",
-      "voiceId": "viktoria",
+      "voiceId": "lara",
       "fallbackPlan": {
         "voices": [
           {
@@ -59,7 +59,10 @@
       "model": "nova-2",
       "language": "de"
     },
-    "begruessung": "Grüß Gott bei NG Customs, hier spricht die KI-Rezeptionistin. Das Gespräch wird mitgeschrieben. Wie kann ich helfen?",
+    "begruessung": "Grüß Gott bei NG Customs! Hier spricht die KI-Rezeptionistin, unser Gespräch wird mitgeschrieben. Wie kann ich Ihnen helfen?",
+    "aussprache": {
+      "NG Customs": "Enn-Dschi Kastems"
+    },
     "max_dauer_s": 900,
     "nachbearbeitung": true,
     "vapi_assistent_id": "80fb21fd-4808-4b19-9f1b-79af6d4bfca7"

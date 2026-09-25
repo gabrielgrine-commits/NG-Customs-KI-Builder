@@ -93,7 +93,7 @@
     "stimme": {
       "provider": "deepgram",
       "model": "aura-2",
-      "voiceId": "viktoria",
+      "voiceId": "lara",
       "fallbackPlan": {
         "voices": [
           {

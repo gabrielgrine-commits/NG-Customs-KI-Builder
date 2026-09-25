@@ -85,7 +85,9 @@ ausführen) · `freigaben` / `freigeben <id>` / `ablehnen <id>` · `leads` · `t
 Assistenten direkt per Vapi-API an bzw. aktualisiert ihn (braucht `VAPI_TOKEN`, `NGC_BASIS_URL`, `NGC_GEHEIMNIS`).
 Solange der Server noch nicht läuft: `--ohne-plattform` (nur `VAPI_TOKEN`; keine Werkzeuge, Gespräche nur in den
 Vapi-Anrufprotokollen). Sobald `NGC_BASIS_URL`/`NGC_GEHEIMNIS` gesetzt sind, ohne Schalter erneut ausführen →
-derselbe Assistent (`telefon.vapi_assistent_id`) bekommt Werkzeuge. Tonaufnahme ist aus (`telefon.aufnahme`).
+derselbe Assistent (`telefon.vapi_assistent_id`) bekommt Werkzeuge. Tonaufnahme und Vapis Rauschfilter sind aus
+(`telefon.aufnahme`, `telefon.rauschfilter` – der Filter verschluckte im Test den Anrufer). Firmennamen, die anders
+gesprochen werden als geschrieben: `telefon.aussprache`, z. B. `{"NG Customs": "Enn-Dschi Kastems"}` („KI“ → „Ka-I“ ist Standard).
 Deutsche Nummern gibt es nicht direkt bei Vapi → bei Twilio/Telnyx/Vonage kaufen und in Vapi importieren.
 
 Benötigt `pip install -r requirements.txt` und `ANTHROPIC_API_KEY`. Standardmodell `claude-opus-5`.

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import copy
 import json
+import re
 import threading
 from typing import Any
 
@@ -40,9 +41,26 @@ TELEFON_REGELN = """\
 """
 
 # Deepgram Aura-2: deutsche Stimme für Sprachagenten, schnell (Azure brauchte im Test 0,7 s bis zum ersten Ton).
-# Fällt Deepgram aus, spricht Vapi mit der Azure-Stimme weiter statt zu schweigen.
-STANDARD_STIMME = {"provider": "deepgram", "model": "aura-2", "voiceId": "viktoria",
+# „lara“ klingt warm und freundlich („viktoria“ wirkte im Test genervt). Fällt Deepgram aus, spricht Vapi mit
+# der Azure-Stimme weiter statt zu schweigen.
+STANDARD_STIMME = {"provider": "deepgram", "model": "aura-2", "voiceId": "lara",
                    "fallbackPlan": {"voices": [{"provider": "azure", "voiceId": "de-DE-KatjaNeural"}]}}
+
+# Aussprache: Vapi ersetzt diese Wörter vor der Sprachausgabe (auch in der Begrüßung). Ergänzen/überschreiben
+# pro Kunde mit telefon.aussprache, z. B. {"NG Customs": "Enn-Dschi Kastems"}.
+STANDARD_AUSSPRACHE = {"KI": "Ka-I"}
+
+
+def _aussprache_regeln(aussprache: dict[str, str]) -> list[dict]:
+    """Regex-Ersetzungen für Vapis formatPlan. Vapis Akronym-Formatter macht vorher aus „NG“ „N G“,
+    deshalb dürfen zwischen zwei Großbuchstaben Leerzeichen stehen."""
+    regeln = []
+    for wort, gesprochen in aussprache.items():
+        muster = re.escape(wort).replace("\\ ", r"\s+")  # „\ “ ist in JavaScript-Regex (Vapi) ungültig
+        muster = re.sub(r"(?<=[A-ZÄÖÜ])(?=[A-ZÄÖÜ])", r"\\s?", muster)
+        regeln.append({"type": "regex", "regex": rf"\b{muster}\b", "value": gesprochen})
+    return regeln
+
 
 OHNE_PLATTFORM_REGELN = """\
 # Übergangsbetrieb: keine Werkzeuge
@@ -96,6 +114,11 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
     system_teile.append("Heutiges Datum und Uhrzeit: {{\"now\" | date: \"%A, %d.%m.%Y %H:%M\", \""
                         + konfig.zeitzone + "\"}}")
 
+    stimme = copy.deepcopy(t.get("stimme", STANDARD_STIMME))
+    regeln = _aussprache_regeln({**STANDARD_AUSSPRACHE, **t.get("aussprache", {})})
+    for v in [stimme, *stimme.get("fallbackPlan", {}).get("voices", [])]:
+        v.setdefault("chunkPlan", {}).setdefault("formatPlan", {})["replacements"] = regeln
+
     bezeichnung = a.get("bezeichnung", agent_name)
     name = bezeichnung if firma in bezeichnung else f"{firma} – {bezeichnung}"
     if len(name) > 40:  # Vapi-Grenze; an einer Wortgrenze kürzen statt mitten im Wort
@@ -112,10 +135,12 @@ def assistent_konfig(konfig: KundenKonfig, agent_name: str, server_url: str, tok
             "messages": [{"role": "system", "content": "\n\n---\n\n".join(system_teile)}],
         },
         "transcriber": t.get("transkription", {"provider": "deepgram", "model": "nova-2", "language": "de"}),
-        "voice": t.get("stimme", STANDARD_STIMME),
+        "voice": stimme,
         "maxDurationSeconds": t.get("max_dauer_s", 900),
         # Tonaufnahme nur auf Wunsch (Datensparsamkeit); das Transkript entsteht trotzdem.
         "artifactPlan": {"recordingEnabled": bool(t.get("aufnahme", False))},
+        # Vapis Rauschfilter (Krisp, standardmäßig an) hat im Test die Stimme des Anrufers komplett verschluckt.
+        "backgroundSpeechDenoisingPlan": {"smartDenoisingPlan": {"enabled": bool(t.get("rauschfilter", False))}},
     }
     if server_url:
         endpunkt = {"url": f"{server_url.rstrip('/')}/vapi/{agent_name}",
