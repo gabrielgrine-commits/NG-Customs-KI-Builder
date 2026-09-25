@@ -43,7 +43,7 @@
     "modell": "claude-sonnet-5",
     "stimme": {
       "provider": "azure",
-      "voiceId": "de-DE-KatjaNeural"
+      "voiceId": "de-AT-IngridNeural"
     },
     "transkription": {
       "provider": "deepgram",
