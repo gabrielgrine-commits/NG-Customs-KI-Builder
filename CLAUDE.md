@@ -62,6 +62,8 @@ davon aus `.agents/product-marketing.md`.
 Beim Schreiben, Prüfen oder Umbauen von Code (`runtime/`, `scripts/`): Skill `karpathy-guidelines`
 (einfach, gezielte Änderungen, prüfbare Ziele). Für die Kunden-Pipeline gilt weiter: sichere Standards
 selbst wählen, Fragen gesammelt am Ende.
+Plan oder Entwurf auf Herz und Nieren prüfen lassen („grill mich“): Skill `grill-me` (deutsche Fassung von
+`RobMitt/grill-me-skill`) – fragt einzeln per Auswahlfenster, bis jeder Entscheidungszweig geklärt ist.
 Ein Hook prüft jede Änderung an `kunden/*/agent/` automatisch (`scripts/validate_config.py`).
 
 ## Plattform & Betrieb
